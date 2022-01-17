@@ -4,9 +4,15 @@
 
 package frc.robot;
 
+import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.math.geometry.Rotation2d;
+//import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.TimedRobot;
+//import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -18,6 +24,8 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+  //static Gyro gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
+  static AHRS navx = new AHRS(SerialPort.Port.kUSB);
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -25,9 +33,30 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    calibrate();
+    resetGyro();
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+  }
+  
+  public void resetGyro() {
+    //gyro.reset();
+    navx.reset();
+  }
+
+  public void calibrate() {
+    //gyro.calibrate();
+    navx.calibrate();
+  }
+
+  public static Rotation2d getHeading() {
+    //return Rotation2d.fromDegrees(-gyro.getAngle());
+    return Rotation2d.fromDegrees(-navx.getAngle());
+  }
+  public static Rotation2d getRotation2d(){
+    //return gyro.getRotation2d();
+    return navx.getRotation2d();
   }
 
   /**
