@@ -41,4 +41,5 @@ public final class Constants {
     public static final int climbUpButtonID = 0;
     public static final int climbDownButtonID = 0;
     public static final int swingInButtonID = 0;
-    public static final int swingOutButtonID = 0;}
+    public static final int swingOutButtonID = 0;
+    public static final double climbEncoderTop = 0;}
