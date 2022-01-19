@@ -97,7 +97,7 @@ public class RobotContainer {
     shootBall3Button.whileHeld(shootBall3);
   }
 
-  public void initCommands(){
+  /*public void initCommands(){
     RamseteCommand GameDefaultcommand = new RamseteCommand(
       Robot.getGameDefaultTrajectory(), 
         driveTrain::getPose,
@@ -110,7 +110,7 @@ public class RobotContainer {
         driveTrain::tankDriveVolts,
         driveTrain
         );
-  }
+  }*/
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

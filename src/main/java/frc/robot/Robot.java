@@ -30,7 +30,7 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
   //static Gyro gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
-  static AHRS navx = new AHRS(SerialPort.Port.kUSB);
+  //static AHRS navx = new AHRS(SerialPort.Port.kUSB);
   static Trajectory TestTrajectory = new Trajectory();
   static Trajectory GameDefault = new Trajectory();
 
@@ -40,15 +40,15 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    calibrate();
-    resetGyro();
+    //calibrate();
+    //resetGyro();
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     //InitTrajectorys();
   }
   
-  public void resetGyro() {
+  /*public void resetGyro() {
     //gyro.reset();
     navx.reset();
   }
@@ -90,7 +90,7 @@ public class Robot extends TimedRobot {
   }
   public static Trajectory getGameDefaultTrajectory() {
     return GameDefault;
-  }
+  }*/
 
   /**
    * This function is called every robot packet, no matter the mode. Use this for items like

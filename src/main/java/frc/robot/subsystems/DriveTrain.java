@@ -32,7 +32,7 @@ public class DriveTrain extends SubsystemBase {
   MotorControllerGroup rightMotors = new MotorControllerGroup(rightMaster, rightSlave);
 
 
-  DifferentialDriveKinematics Kinematics = new DifferentialDriveKinematics(Constants.WheelBaseWith);
+  /*DifferentialDriveKinematics Kinematics = new DifferentialDriveKinematics(Constants.WheelBaseWith);
   DifferentialDriveOdometry Odometry = new DifferentialDriveOdometry(Robot.getHeading());
 
   SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(Constants.ks, Constants.kv, Constants.ka);
@@ -40,7 +40,7 @@ public class DriveTrain extends SubsystemBase {
   PIDController leftPidController = new PIDController(Constants.kp, Constants.ki, Constants.kd);
   PIDController rightPidController = new PIDController(Constants.kp, Constants.ki, Constants.kd);
 
-    Pose2d pose = new Pose2d();
+    Pose2d pose = new Pose2d();*/
   /** Creates a new DriveTrain. */
   public DriveTrain() {
     
@@ -72,14 +72,10 @@ public class DriveTrain extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    pose = Odometry.update(
-    Robot.getHeading(),
-    GetLeftMasterEncoderPose(),
-    GetRightMasterEncoderPose()
-    );
+    //pose = Odometry.update(Robot.getHeading(),GetLeftMasterEncoderPose(),GetRightMasterEncoderPose());
   }
 
-  public void resetOdometry(Pose2d pose2D) {
+  /*public void resetOdometry(Pose2d pose2D) {
     ClearDriveEncoders();
     Odometry.resetPosition(pose2D, Robot.getRotation2d());
   }
@@ -118,7 +114,7 @@ public class DriveTrain extends SubsystemBase {
   public void tankDriveVolts(double leftVolts, double rightVolts) {
     leftMotors.setVoltage(leftVolts);
     rightMotors.setVoltage(rightVolts);
-  }
+  }*/
 
   
 
