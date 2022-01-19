@@ -4,9 +4,14 @@
 
 package frc.robot;
 
+import java.io.IOException;
+import java.nio.file.Path;
+
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryUtil;
 //import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.TimedRobot;
 //import edu.wpi.first.wpilibj.interfaces.Gyro;
@@ -26,6 +31,8 @@ public class Robot extends TimedRobot {
   private RobotContainer m_robotContainer;
   //static Gyro gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
   static AHRS navx = new AHRS(SerialPort.Port.kUSB);
+  static Trajectory TestTrajectory = new Trajectory();
+  static Trajectory GameDefault = new Trajectory();
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -38,6 +45,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    //InitTrajectorys();
   }
   
   public void resetGyro() {
@@ -57,6 +65,31 @@ public class Robot extends TimedRobot {
   public static Rotation2d getRotation2d(){
     //return gyro.getRotation2d();
     return navx.getRotation2d();
+  }
+
+  public void InitTrajectorys() {
+    try {
+      Path TesttrajectoryPath = Filesystem.getDeployDirectory().toPath().resolve("paths/Test.wpilib.json");
+      TestTrajectory = TrajectoryUtil.fromPathweaverJson(TesttrajectoryPath);
+    } catch (IOException ex) {
+      DriverStation.reportError("Unable to open trajectory: " + "output/Test.wpilib.json", ex.getStackTrace());
+    }
+       String GameDefaultJSON = "output/GameDefault.wpilib.json";
+     try {
+      Path GameDefaultPath = Filesystem.getDeployDirectory().toPath().resolve(GameDefaultJSON);
+      GameDefault = TrajectoryUtil.fromPathweaverJson(GameDefaultPath);
+     } catch (IOException ex) {
+      DriverStation.reportError("Unable to open trajectory: " + GameDefaultJSON, ex.getStackTrace());
+     }
+  }
+
+  
+
+  public static Trajectory getTestTrajectory() {
+    return TestTrajectory;
+  }
+  public static Trajectory getGameDefaultTrajectory() {
+    return GameDefault;
   }
 
   /**

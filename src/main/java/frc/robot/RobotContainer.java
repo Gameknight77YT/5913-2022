@@ -4,18 +4,24 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ClimbDown;
 import frc.robot.commands.ClimbUp;
 import frc.robot.commands.DriveWithJoysticks;
+import frc.robot.commands.Shootball1;
+import frc.robot.commands.Shootball2;
+import frc.robot.commands.Shootball3;
 import frc.robot.commands.SwingIn;
 import frc.robot.commands.SwingOut;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Shooter;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -27,12 +33,16 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private DriveTrain driveTrain;
   private Climber climber;
+  private Shooter shooter;
 
   private DriveWithJoysticks driveWithJoysticks; 
   private ClimbUp climbUp;
   private ClimbDown climbDown;
   private SwingIn swingIn;
   private SwingOut swingOut;
+  private Shootball1 shootBall1;
+  private Shootball2 shootBall2;
+  private Shootball3 shootBall3;
 
   private Joystick driverJoystick;
   private Joystick manitulatorJoystick;
@@ -49,6 +59,9 @@ public class RobotContainer {
     driveTrain.setDefaultCommand(driveWithJoysticks);
     climbUp = new ClimbUp(climber);
     climbDown = new ClimbDown(climber);
+    shootBall1 = new Shootball1(shooter);
+    shootBall2 = new Shootball2(shooter);
+    shootBall3 = new Shootball3(shooter);
 
 
     // Configure the button bindings
@@ -73,6 +86,30 @@ public class RobotContainer {
 
     JoystickButton swingOutButton = new JoystickButton(manitulatorJoystick, Constants.swingOutButtonID);
     swingOutButton.whileHeld(swingOut);
+
+    JoystickButton shootBall1Button = new JoystickButton(manitulatorJoystick, Constants.shootBall1ButtonID);
+    shootBall1Button.whileHeld(shootBall1);
+
+    JoystickButton shootBall2Button = new JoystickButton(manitulatorJoystick, Constants.shootBall2ButtonID);
+    shootBall2Button.whileHeld(shootBall2);
+
+    JoystickButton shootBall3Button = new JoystickButton(manitulatorJoystick, Constants.shootBall3ButtonID);
+    shootBall3Button.whileHeld(shootBall3);
+  }
+
+  public void initCommands(){
+    RamseteCommand GameDefaultcommand = new RamseteCommand(
+      Robot.getGameDefaultTrajectory(), 
+        driveTrain::getPose,
+        new RamseteController(Constants.kRamseteB,Constants.kRamseteZeta),
+        driveTrain.getFeedForward(),
+        driveTrain.getKinematics(),
+        driveTrain::getSpeeds,
+        driveTrain.getleftPidController(),
+        driveTrain.getrightPidController(),
+        driveTrain::tankDriveVolts,
+        driveTrain
+        );
   }
 
   /**
