@@ -52,13 +52,16 @@ public class RobotContainer {
     driverJoystick = new Joystick(Constants.driverjoystickID);
     manitulatorJoystick = new Joystick(Constants.manipulatorJoystickID);
 
-
     driveTrain = new DriveTrain();
+    climber = new Climber();
+    shooter = new Shooter();
 
     driveWithJoysticks = new DriveWithJoysticks(driveTrain, driverJoystick);
     driveTrain.setDefaultCommand(driveWithJoysticks);
     climbUp = new ClimbUp(climber);
     climbDown = new ClimbDown(climber);
+    swingIn = new SwingIn(climber);
+    swingOut = new SwingOut(climber);
     shootBall1 = new Shootball1(shooter);
     shootBall2 = new Shootball2(shooter);
     shootBall3 = new Shootball3(shooter);
