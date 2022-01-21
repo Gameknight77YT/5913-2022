@@ -31,37 +31,37 @@ import frc.robot.subsystems.Shooter;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private DriveTrain driveTrain;
-  private Climber climber;
+  //private DriveTrain driveTrain;
+  //private Climber climber;
   private Shooter shooter;
 
-  private DriveWithJoysticks driveWithJoysticks; 
-  private ClimbUp climbUp;
-  private ClimbDown climbDown;
-  private SwingIn swingIn;
-  private SwingOut swingOut;
+  //private DriveWithJoysticks driveWithJoysticks; 
+  //private ClimbUp climbUp;
+  //private ClimbDown climbDown;
+  //private SwingIn swingIn;
+  //private SwingOut swingOut;
   private Shootball1 shootBall1;
   private Shootball2 shootBall2;
   private Shootball3 shootBall3;
 
-  private Joystick driverJoystick;
+  //private Joystick driverJoystick;
   private Joystick manitulatorJoystick;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    driverJoystick = new Joystick(Constants.driverjoystickID);
+    //driverJoystick = new Joystick(Constants.driverjoystickID);
     manitulatorJoystick = new Joystick(Constants.manipulatorJoystickID);
 
-    driveTrain = new DriveTrain();
-    climber = new Climber();
+    //driveTrain = new DriveTrain();
+    //climber = new Climber();
     shooter = new Shooter();
 
-    driveWithJoysticks = new DriveWithJoysticks(driveTrain, driverJoystick);
-    driveTrain.setDefaultCommand(driveWithJoysticks);
-    climbUp = new ClimbUp(climber);
-    climbDown = new ClimbDown(climber);
-    swingIn = new SwingIn(climber);
-    swingOut = new SwingOut(climber);
+    //driveWithJoysticks = new DriveWithJoysticks(driveTrain, driverJoystick);
+    //driveTrain.setDefaultCommand(driveWithJoysticks);
+    //climbUp = new ClimbUp(climber);
+    //climbDown = new ClimbDown(climber);
+    //swingIn = new SwingIn(climber);
+    //swingOut = new SwingOut(climber);
     shootBall1 = new Shootball1(shooter);
     shootBall2 = new Shootball2(shooter);
     shootBall3 = new Shootball3(shooter);
@@ -78,17 +78,17 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    JoystickButton climbUpButton = new JoystickButton(manitulatorJoystick, Constants.climbUpButtonID);
+    /*JoystickButton climbUpButton = new JoystickButton(driverJoystick, Constants.climbUpButtonID);
     climbUpButton.whileHeld(climbUp);
 
-    JoystickButton climbDownButton = new JoystickButton(manitulatorJoystick, Constants.climbDownButtonID);
+    JoystickButton climbDownButton = new JoystickButton(driverJoystick, Constants.climbDownButtonID);
     climbDownButton.whileHeld(climbDown);
 
     JoystickButton swingInButton = new JoystickButton(manitulatorJoystick, Constants.swingInButtonID);
     swingInButton.whileHeld(swingIn);
 
     JoystickButton swingOutButton = new JoystickButton(manitulatorJoystick, Constants.swingOutButtonID);
-    swingOutButton.whileHeld(swingOut);
+    swingOutButton.whileHeld(swingOut);*/
 
     JoystickButton shootBall1Button = new JoystickButton(manitulatorJoystick, Constants.shootBall1ButtonID);
     shootBall1Button.whileHeld(shootBall1);
