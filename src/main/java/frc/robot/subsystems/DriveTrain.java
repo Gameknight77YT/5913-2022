@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
+import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.math.MathUtil;
@@ -52,8 +53,8 @@ public class DriveTrain extends SubsystemBase {
     rightMaster.setInverted(true);
 
     // init encoders
-    leftMaster.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-    rightMaster.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    leftMaster.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 10);
+    rightMaster.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 10);
 
     leftMaster.clearStickyFaults(10);
     rightMaster.clearStickyFaults(10);
@@ -120,9 +121,8 @@ public class DriveTrain extends SubsystemBase {
 
   /** Makes Robot Go Brrrrrrr */
   public void DriveWithJoystick(Joystick driverJoystick) {
-    //robotDrive.arcadeDrive(driverJoystick.getRawAxis(Constants.driverjoystickX)*Constants.speedX,driverJoystick.getRawAxis(Constants.driverjoystickY)*Constants.speedY);
-    double joy_y = driverJoystick.getRawAxis(Constants.driverjoystickX)*Constants.speedX;
-    double joy_x = -driverJoystick.getRawAxis(Constants.driverjoystickY)*Constants.speedY;
+    double joy_y = driverJoystick.getRawAxis(Constants.joystickX)*Constants.speedX;
+    double joy_x = -driverJoystick.getRawAxis(Constants.joystickY)*Constants.speedY;
     double threshold = .2;
     double leftMotorOutput;
     double rightMotorOutput;
