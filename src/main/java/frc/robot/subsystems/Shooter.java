@@ -8,23 +8,19 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Shooter extends SubsystemBase {
-  private TalonSRX intake = new TalonSRX(Constants.intakeMotorID);
-  private TalonSRX feeder = new TalonSRX(Constants.feederMotorID);
-  private DoubleSolenoid intakeArms = new DoubleSolenoid(Constants.pcmID, PneumaticsModuleType.CTREPCM, Constants.intakeArmsForwardID, Constants.intakeArmsBackwardID);
-  WPI_TalonFX shooter = new WPI_TalonFX(Constants.shooterID);
+  //private WPI_TalonSRX intake = new WPI_TalonSRX(Constants.intakeMotorID);
+  //private WPI_TalonSRX feeder = new WPI_TalonSRX(Constants.feederMotorID);
+  //private DoubleSolenoid intakeArms = new DoubleSolenoid(Constants.pcmID, PneumaticsModuleType.CTREPCM, Constants.intakeArmsForwardID, Constants.intakeArmsBackwardID);
+  private WPI_TalonFX mainShooter = new WPI_TalonFX(Constants.mainShooterID);
+  private WPI_TalonFX topShooter = new WPI_TalonFX(Constants.topShooterID);
   /** Creates a new Shooter. */
   public Shooter() {
-    intake.setInverted(false);
+    /*intake.setInverted(false);
     feeder.setInverted(false);
 
     intake.configOpenloopRamp(1);
@@ -33,32 +29,46 @@ public class Shooter extends SubsystemBase {
     intake.clearStickyFaults(10);
     feeder.clearStickyFaults(10);
 
-    intakeArms.set(Value.kReverse);
+    intakeArms.set(Value.kReverse);*/
     
     /* Factory Default all hardware to prevent unexpected behaviour */
-		shooter.configFactoryDefault();
-		
+		mainShooter.configFactoryDefault();
+		topShooter.configFactoryDefault();
 		/* Config neutral deadband to be the smallest possible */
-		shooter.configNeutralDeadband(0.001);
-
+		mainShooter.configNeutralDeadband(0.001);
+    topShooter.configNeutralDeadband(0.001);
 		/* Config sensor used for Primary PID [Velocity] */
-        shooter.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor,0,10);
-
+        mainShooter.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor,0,10);
+        topShooter.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor,0,10);
     /* Config the peak and nominal outputs */
-		shooter.configNominalOutputForward(0, 10);
-		shooter.configNominalOutputReverse(0, 10);
-		shooter.configPeakOutputForward(1, 10);
-		shooter.configPeakOutputReverse(-1, 10);
+		mainShooter.configNominalOutputForward(0, 10);
+		mainShooter.configNominalOutputReverse(0, 10);
+		mainShooter.configPeakOutputForward(1, 10);
+		mainShooter.configPeakOutputReverse(-1, 10);
 
+    topShooter.configNominalOutputForward(0, 10);
+		topShooter.configNominalOutputReverse(0, 10);
+		topShooter.configPeakOutputForward(1, 10);
+		topShooter.configPeakOutputReverse(-1, 10);
 		/* Config the Velocity closed loop gains */
-		shooter.config_kF(0, 1023.0/20660.0, 10);
-		shooter.config_kP(0, 0.1, 10);
-		shooter.config_kI(0, 0.001, 10);
-		shooter.config_kD(0, 5, 10);
-    
-    shooter.setSelectedSensorPosition(0, 0, 10);
+		mainShooter.config_kF(0, 1023.0/20660.0, 10);
+		mainShooter.config_kP(0, 0.1, 10);
+		mainShooter.config_kI(0, 0.001, 10);
+		mainShooter.config_kD(0, 5, 10);
 
-    shooter.setNeutralMode(NeutralMode.Coast);
+    topShooter.config_kF(0, 1023.0/20660.0, 10);
+		topShooter.config_kP(0, 0.1, 10);
+		topShooter.config_kI(0, 0.001, 10);
+		topShooter.config_kD(0, 5, 10);
+    
+    mainShooter.setSelectedSensorPosition(0, 0, 10);
+    topShooter.setSelectedSensorPosition(0, 0, 10);
+
+    mainShooter.setNeutralMode(NeutralMode.Coast);
+    topShooter.setNeutralMode(NeutralMode.Coast);
+
+    mainShooter.setInverted(true);
+    topShooter.setInverted(true);
   }
 
   @Override
@@ -80,30 +90,35 @@ public class Shooter extends SubsystemBase {
   public void shootBall(int speedPreset, double otherValue){
     switch (speedPreset) {
       case 1:
-        shooter.set(TalonFXControlMode.Velocity, Constants.ShooterSpeed1);
+        mainShooter.set(TalonFXControlMode.Velocity, Constants.ShooterSpeed1);
+        topShooter.set(TalonFXControlMode.Velocity, -(Constants.TopShooterSpeed1));
         break;
       case 2:
-        shooter.set(TalonFXControlMode.Velocity, Constants.ShooterSpeed2);
+        mainShooter.set(TalonFXControlMode.Velocity, Constants.ShooterSpeed2);
+        topShooter.set(TalonFXControlMode.Velocity, -(Constants.TopShooterSpeed2));
         break;
       case 3:
-        shooter.set(TalonFXControlMode.Velocity, Constants.ShooterSpeed3);
+        mainShooter.set(TalonFXControlMode.Velocity, Constants.ShooterSpeed3);
+        topShooter.set(TalonFXControlMode.Velocity, -(Constants.TopShooterSpeed3));
         break;
     
       default:
-        shooter.set(TalonFXControlMode.Velocity, otherValue);
+        mainShooter.set(TalonFXControlMode.Velocity, otherValue);
+        topShooter.set(TalonFXControlMode.Velocity, otherValue);
         break;
     }
   }
 
   public void stopShooter(){
-    shooter.set(ControlMode.PercentOutput, 0);
+    mainShooter.set(ControlMode.PercentOutput, 0);
+    topShooter.set(ControlMode.PercentOutput, 0);
   }
   public void toggleIntakeArms(){
-    intakeArms.toggle();
+    //intakeArms.toggle();
   }
 
-  public void controlIntake(double intakeSpeed, double feederSpeed){
-    intake.set(ControlMode.PercentOutput, intakeSpeed);
-    feeder.set(ControlMode.PercentOutput, feederSpeed);
+  public void controlIntake(double intakeSpeedPercent, double feederSpeedPercent){
+    //intake.set(ControlMode.PercentOutput, intakeSpeedPercent);
+    //feeder.set(ControlMode.PercentOutput, feederSpeedPercent);
   }
 }

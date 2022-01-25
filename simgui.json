@@ -1,4 +1,18 @@
 {
+  "HALProvider": {
+    "Other Devices": {
+      "Talon FX[6]/Fwd Limit": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX[6]/Rev Limit": {
+        "header": {
+          "open": true
+        }
+      }
+    }
+  },
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",

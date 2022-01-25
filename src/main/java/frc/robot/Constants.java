@@ -21,11 +21,13 @@ public final class Constants {
     public static final int RightMasterID = 2;
     public static final int LeftSlaveID = 3;
     public static final int RightSlaveID = 4;
-    public static final int shooterID = 5;
-    public static final int climberMotorID = 6;
-    public static final int intakeMotorID = 7;
-    public static final int feederMotorID = 8;
-    public static final int pcmID = 10;
+    public static final int mainShooterID = 5;
+    public static final int topShooterID = 6;
+    public static final int climberMotorID = 7;
+    public static final int climberSlaveID = 8;
+    public static final int intakeMotorID = 9;
+    public static final int feederMotorID = 10;
+    public static final int pcmID = 11;
 
     //solinoid ids 
     public static final int swingForwardID = 0;
@@ -42,17 +44,22 @@ public final class Constants {
     //speed  constants
     public static final double speedX = .5;
     public static final double speedY = .5;
-    public static final double climberSpeed = .95;
-    public static final double ShooterSpeed1 = 20900;// 7 20900
-    public static final double ShooterSpeed2 = 22000;// 9 2200
-    public static final double ShooterSpeed3 = 23500;// 11 23500
-    public static final double climbEncoderTop = 0;
+    public static final double climberSpeed = .90;
+    public static final double ShooterSpeed1 = 4000;// 7 
+    public static final double TopShooterSpeed1 = 20000;// 7 
+    public static final double ShooterSpeed2 = 4000;// 9 
+    public static final double TopShooterSpeed2 = 15000;// 9 
+    public static final double ShooterSpeed3 = 15000;// 11 
+    public static final double TopShooterSpeed3 = 9000;// 11 
+    public static final double climbEncoderTop = 10000;
+    public static final double intakeSpeed = .65;
+    public static final double feederSpeed = .55;
 
     //buttons
-    public static final int climbUpButtonID = 10;
-    public static final int climbDownButtonID = 12;
-    public static final int swingInButtonID = 10;
-    public static final int swingOutButtonID = 12;
+    public static final int climbUpButtonID = 5;
+    public static final int climbDownButtonID = 3;
+    public static final int swingInButtonID = 6;
+    public static final int swingOutButtonID = 4;
     public static final int shootBall3ButtonID = 11;
     public static final int shootBall2ButtonID = 9;
     public static final int shootBall1ButtonID = 7;
@@ -67,8 +74,9 @@ public final class Constants {
 
   public static final double WheelBaseWith = Units.inchesToMeters(25);
 
-  public static final double kMaxSpeedMetersPerSecond = 1;
-  public static final double kMaxAccelerationMetersPerSecondSquared = 3;
+  public static final double MaxSpeedMetersPerSecond = 1;
+  public static final double MaxAccelerationMetersPerSecondSquared = 3;
+  public static final double kMaxAngularSpeed = Math.PI; // 1/2 rotation per second
 
   // Reasonable baseline values for a RAMSETE follower in units of meters and
   // seconds
@@ -83,7 +91,5 @@ public final class Constants {
   // other constants
   public static final double WheelRadiusInches = 3;
   public static final double GearRatio = 14.014;
-public static final double intakeSpeed = 0;
-public static final double feederSpeed = 0;
     
 }

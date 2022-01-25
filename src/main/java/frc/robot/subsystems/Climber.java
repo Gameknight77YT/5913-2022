@@ -5,8 +5,8 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -15,11 +15,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Climber extends SubsystemBase {
-   WPI_TalonFX climber = new WPI_TalonFX(Constants.climberMotorID);
+   private WPI_TalonSRX climber = new WPI_TalonSRX(Constants.climberMotorID);
+   private WPI_VictorSPX climerSlave = new WPI_VictorSPX(Constants.climberSlaveID);
    DoubleSolenoid swingSolenoid = new DoubleSolenoid(Constants.pcmID, PneumaticsModuleType.CTREPCM, Constants.swingForwardID, Constants.swingReverseID);
   /** Creates a new Climber. */
   public Climber() {
-    climber.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    climber.setInverted(false);
+    climerSlave.setInverted(true);
+    climerSlave.follow(climber);
     swingSolenoid.set(Value.kForward);
   }
 
