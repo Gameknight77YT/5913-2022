@@ -9,13 +9,17 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Shooter extends SubsystemBase {
   //private WPI_TalonSRX intake = new WPI_TalonSRX(Constants.intakeMotorID);
   //private WPI_TalonSRX feeder = new WPI_TalonSRX(Constants.feederMotorID);
-  //private DoubleSolenoid intakeArms = new DoubleSolenoid(Constants.pcmID, PneumaticsModuleType.CTREPCM, Constants.intakeArmsForwardID, Constants.intakeArmsBackwardID);
+  private DoubleSolenoid intakeArms = new DoubleSolenoid(Constants.pcmID, PneumaticsModuleType.CTREPCM, Constants.intakeArmsForwardID, Constants.intakeArmsBackwardID);
   private WPI_TalonFX mainShooter = new WPI_TalonFX(Constants.mainShooterID);
   private WPI_TalonFX topShooter = new WPI_TalonFX(Constants.topShooterID);
   /** Creates a new Shooter. */
@@ -27,9 +31,9 @@ public class Shooter extends SubsystemBase {
     feeder.configOpenloopRamp(1);
 
     intake.clearStickyFaults(10);
-    feeder.clearStickyFaults(10);
+    feeder.clearStickyFaults(10);*/
 
-    intakeArms.set(Value.kReverse);*/
+    intakeArms.set(Value.kReverse);
     
     /* Factory Default all hardware to prevent unexpected behaviour */
 		mainShooter.configFactoryDefault();
@@ -114,7 +118,7 @@ public class Shooter extends SubsystemBase {
     topShooter.set(ControlMode.PercentOutput, 0);
   }
   public void toggleIntakeArms(){
-    //intakeArms.toggle();
+    intakeArms.toggle();
   }
 
   public void controlIntake(double intakeSpeedPercent, double feederSpeedPercent){

@@ -32,8 +32,8 @@ public final class Constants {
     //solinoid ids 
     public static final int swingForwardID = 0;
     public static final int swingReverseID = 1;
-    public static final int intakeArmsBackwardID = 2;
-    public static final int intakeArmsForwardID = 3;
+    public static final int intakeArmsBackwardID = 1;
+    public static final int intakeArmsForwardID = 0;
 
     //joystick ids
     public static final int driverjoystickID = 0;
@@ -45,12 +45,12 @@ public final class Constants {
     public static final double speedX = .5;
     public static final double speedY = .5;
     public static final double climberSpeed = .90;
-    public static final double ShooterSpeed1 = 4000;// 7 
-    public static final double TopShooterSpeed1 = 20000;// 7 
-    public static final double ShooterSpeed2 = 4000;// 9 
-    public static final double TopShooterSpeed2 = 15000;// 9 
-    public static final double ShooterSpeed3 = 15000;// 11 
-    public static final double TopShooterSpeed3 = 9000;// 11 
+    public static final double ShooterSpeed1 = 1500;// 7 
+    public static final double TopShooterSpeed1 = 7500;// 7 
+    public static final double ShooterSpeed2 = 7250;// 9 7250 10 7000
+    public static final double TopShooterSpeed2 = 7000;// 9 7500 10 20000
+    public static final double ShooterSpeed3 = 8000;// 11 
+    public static final double TopShooterSpeed3 = 14000;// 11 
     public static final double climbEncoderTop = 10000;
     public static final double intakeSpeed = .65;
     public static final double feederSpeed = .55;
@@ -63,6 +63,7 @@ public final class Constants {
     public static final int shootBall3ButtonID = 11;
     public static final int shootBall2ButtonID = 9;
     public static final int shootBall1ButtonID = 7;
+    public static final int toggleIntakeArmsButtonID = 1;
 
   // These are example values only - DO NOT USE THESE FOR YOUR OWN ROBOT!
   // These characterization values MUST be determined either experimentally or

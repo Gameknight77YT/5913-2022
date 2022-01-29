@@ -11,8 +11,8 @@ public class ToggleIntakeArms extends CommandBase {
   private Shooter shooter;
   private boolean finished = false;
   /** Creates a new ToggleIntakeArms. */
-  public ToggleIntakeArms(Shooter i) {
-    shooter = i;
+  public ToggleIntakeArms(Shooter s) {
+    shooter = s;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooter);
   }
