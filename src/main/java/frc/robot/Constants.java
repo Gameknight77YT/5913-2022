@@ -56,9 +56,9 @@ public final class Constants {
     public static final double feederSpeed = .55;
 
     //buttons
-    public static final int climbUpButtonID = 5;
-    public static final int climbDownButtonID = 3;
-    public static final int swingInButtonID = 6;
+    public static final int climbUpButtonID = 3;
+    public static final int climbDownButtonID = 4;
+    public static final int swingInButtonID = 3;
     public static final int swingOutButtonID = 4;
     public static final int shootBall3ButtonID = 11;
     public static final int shootBall2ButtonID = 9;

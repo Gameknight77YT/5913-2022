@@ -4,9 +4,9 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -15,8 +15,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Climber extends SubsystemBase {
-   private WPI_TalonSRX climber = new WPI_TalonSRX(Constants.climberMotorID);
-   private WPI_VictorSPX climerSlave = new WPI_VictorSPX(Constants.climberSlaveID);
+   private WPI_TalonFX climber = new WPI_TalonFX(Constants.climberMotorID);
+   private WPI_TalonFX climerSlave = new WPI_TalonFX(Constants.climberSlaveID);
    DoubleSolenoid swingSolenoid = new DoubleSolenoid(Constants.pcmID, PneumaticsModuleType.CTREPCM, Constants.swingForwardID, Constants.swingReverseID);
   /** Creates a new Climber. */
   public Climber() {
@@ -24,6 +24,8 @@ public class Climber extends SubsystemBase {
     climerSlave.setInverted(true);
     climerSlave.follow(climber);
     swingSolenoid.set(Value.kForward);
+    climber.setNeutralMode(NeutralMode.Brake);
+    climerSlave.setNeutralMode(NeutralMode.Brake);
   }
 
   @Override
@@ -48,6 +50,6 @@ public class Climber extends SubsystemBase {
   }
 
   public void setClimberMotor(double speed){
-    climber.set(ControlMode.PercentOutput, speed);
+    climber.set(TalonFXControlMode.PercentOutput, speed);
   }
 }
