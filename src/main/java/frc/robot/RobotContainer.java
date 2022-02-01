@@ -33,7 +33,10 @@ public class RobotContainer {
   /*private Shootball1 shootBall1;
   private Shootball2 shootBall2;
   private Shootball3 shootBall3;
-  private ToggleIntakeArms toggleIntakeArms;*/
+  private ToggleIntakeArms toggleIntakeArms;
+  private IntakeBall intakeBall;
+  private OutTakeBall outTakeBall;
+  private FeedBall feedBall;*/
 
   private Joystick driverJoystick;
   private Joystick manitulatorJoystick;
@@ -56,7 +59,10 @@ public class RobotContainer {
     /*shootBall1 = new Shootball1(shooter);
     shootBall2 = new Shootball2(shooter);
     shootBall3 = new Shootball3(shooter);
-    toggleIntakeArms = new ToggleIntakeArms(shooter);*/
+    toggleIntakeArms = new ToggleIntakeArms(shooter);
+    intakeBall = new IntakeBall(shooter);
+    outTakeBall = new OutTakeBall(shooter);
+    feedBall = new FeedBall(shooter);*/
 
 
     // Configure the button bindings
@@ -92,7 +98,16 @@ public class RobotContainer {
     shootBall3Button.whileHeld(shootBall3);
 
     JoystickButton toggleIntakeArmsButton = new JoystickButton(manitulatorJoystick, Constants.toggleIntakeArmsButtonID);
-    toggleIntakeArmsButton.whenPressed(toggleIntakeArms);*/
+    toggleIntakeArmsButton.whenPressed(toggleIntakeArms);
+
+    JoystickButton intakeBallButton = new JoystickButton(manitulatorJoystick, Constants.intakeBallButtonID);
+    intakeBallButton.whenPressed(intakeBall);
+
+    JoystickButton outTakeBallButton = new JoystickButton(manitulatorJoystick, Constants.outTakeBallButtonID);
+    outTakeBallButton.whenPressed(outTakeBall);
+
+    JoystickButton feedBallButton = new JoystickButton(manitulatorJoystick, Constants.feedBallButtonID);
+    feedBallButton.whenPressed(feedBall);*/
   }
 
   /*

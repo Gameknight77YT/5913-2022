@@ -24,12 +24,14 @@ public class OutTakeBall extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooter.controlIntake(-Constants.intakeSpeed, -Constants.feederSpeed);
+    shooter.controlIntake(-Constants.intakeSpeed,Constants.intakeSystemSpeed, -Constants.feederSpeed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    shooter.stopIntake();
+  }
 
   // Returns true when the command should end.
   @Override

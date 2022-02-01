@@ -27,7 +27,8 @@ public final class Constants {
     public static final int climberSlaveID = 8;
     public static final int intakeMotorID = 9;
     public static final int feederMotorID = 10;
-    public static final int pcmID = 11;
+    public static final int intakeSystemMotorID = 11;
+    public static final int pcmID = 12;
 
     //solinoid ids 
     public static final int swingForwardID = 0;
@@ -44,16 +45,19 @@ public final class Constants {
     //speed  constants
     public static final double speedX = .5;
     public static final double speedY = .5;
-    public static final double climberSpeed = .90;
+    public static final double climberSpeed = 1;
     public static final double ShooterSpeed1 = 1500;// 7 
     public static final double TopShooterSpeed1 = 7500;// 7 
-    public static final double ShooterSpeed2 = 7250;// 9 7250 10 7000
-    public static final double TopShooterSpeed2 = 7000;// 9 7500 10 20000
+    public static final double ShooterSpeed2 = 7250;// 9 7250 
+    public static final double TopShooterSpeed2 = 7000;// 9 7500 
+    public static final double ShooterSpeed4 = 7000;// 10 
+    public static final double TopShooterSpeed4 = 20000;// 10
     public static final double ShooterSpeed3 = 8000;// 11 
     public static final double TopShooterSpeed3 = 14000;// 11 
-    public static final double climbEncoderTop = 10000;
-    public static final double intakeSpeed = .65;
-    public static final double feederSpeed = .55;
+    public static final double climbEncoderTop = 207631;
+    public static final double intakeSpeed = 1;
+    public static final double feederSpeed = 1;
+    public static final double intakeSystemSpeed = 1;
 
     //buttons
     public static final int climbUpButtonID = 3;
@@ -63,7 +67,10 @@ public final class Constants {
     public static final int shootBall3ButtonID = 11;
     public static final int shootBall2ButtonID = 9;
     public static final int shootBall1ButtonID = 7;
-    public static final int toggleIntakeArmsButtonID = 1;
+    public static final int toggleIntakeArmsButtonID = 2; 
+    public static final int intakeBallButtonID = 1;
+    public static final int outTakeBallButtonID = 8;
+    public static final int feedBallButtonID = 4;
 
   // These are example values only - DO NOT USE THESE FOR YOUR OWN ROBOT!
   // These characterization values MUST be determined either experimentally or
