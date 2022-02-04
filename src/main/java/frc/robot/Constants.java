@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.cscore.VideoSource;
 import edu.wpi.first.math.util.Units;
 
 /**
@@ -28,11 +29,12 @@ public final class Constants {
     public static final int intakeMotorID = 9;
     public static final int feederMotorID = 10;
     public static final int intakeSystemMotorID = 11;
-    public static final int pcmID = 12;
+    public static final int TurretControlID = 12;
+    public static final int pcmID = 13;
 
     //solinoid ids 
-    public static final int swingForwardID = 0;
-    public static final int swingReverseID = 1;
+    public static final int swingForwardID = 2;
+    public static final int swingReverseID = 3;
     public static final int intakeArmsBackwardID = 1;
     public static final int intakeArmsForwardID = 0;
 
@@ -41,6 +43,7 @@ public final class Constants {
     public static final int manipulatorJoystickID = 1;
     public static final int joystickX = 0;
     public static final int joystickY = 1;
+    public static final int JoystickZAxisID = 2;
 
     //speed  constants
     public static final double speedX = .5;
@@ -54,10 +57,15 @@ public final class Constants {
     public static final double TopShooterSpeed4 = 20000;// 10
     public static final double ShooterSpeed3 = 8000;// 11 
     public static final double TopShooterSpeed3 = 14000;// 11 
+    public static final double intakeSpeed = .95;
+    public static final double feederSpeed = .95;
+    public static final double intakeSystemSpeed = .95;
+    public static final double autoSpeed = .95;
+
+    //times / encoder counts
+    public static final double stopAndShootTime = 2;
+    public static final double backUpDistance = 20000;
     public static final double climbEncoderTop = 207631;
-    public static final double intakeSpeed = 1;
-    public static final double feederSpeed = 1;
-    public static final double intakeSystemSpeed = 1;
 
     //buttons
     public static final int climbUpButtonID = 3;
@@ -70,7 +78,9 @@ public final class Constants {
     public static final int toggleIntakeArmsButtonID = 2; 
     public static final int intakeBallButtonID = 1;
     public static final int outTakeBallButtonID = 8;
-    public static final int feedBallButtonID = 4;
+    public static final int feedBallButtonID = 5;
+    public static final int ActivateTurnTurret = 4;
+    public static final int TrackTargetButtonID = 0;
 
   // These are example values only - DO NOT USE THESE FOR YOUR OWN ROBOT!
   // These characterization values MUST be determined either experimentally or
@@ -97,7 +107,7 @@ public final class Constants {
   public static final double kd = 0;
 
   // other constants
-  public static final double WheelRadiusInches = 3;
-  public static final double GearRatio = 14.014;
+  public static final double WheelRadiusInches = 2.125;
+  public static final double GearRatio = 7;
     
 }

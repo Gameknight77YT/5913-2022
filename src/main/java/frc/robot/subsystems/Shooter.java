@@ -14,29 +14,30 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Shooter extends SubsystemBase {
   private WPI_TalonSRX intake = new WPI_TalonSRX(Constants.intakeMotorID);
-  //private WPI_TalonSRX intakeSystem = new WPI_TalonSRX(Constants.intakeSystemMotorID);
-  //private WPI_TalonSRX feeder = new WPI_TalonSRX(Constants.feederMotorID);
+  private WPI_TalonSRX intakeSystem = new WPI_TalonSRX(Constants.intakeSystemMotorID);
+  private WPI_TalonSRX feeder = new WPI_TalonSRX(Constants.feederMotorID);
   private DoubleSolenoid intakeArms = new DoubleSolenoid(Constants.pcmID, PneumaticsModuleType.CTREPCM, Constants.intakeArmsForwardID, Constants.intakeArmsBackwardID);
   private WPI_TalonFX mainShooter = new WPI_TalonFX(Constants.mainShooterID);
   private WPI_TalonFX topShooter = new WPI_TalonFX(Constants.topShooterID);
   /** Creates a new Shooter. */
   public Shooter() {
     intake.setInverted(false);
-    //intakeSystem.setInverted(false);
-    //feeder.setInverted(false);
+    intakeSystem.setInverted(false);
+    feeder.setInverted(false);
 
     intake.configOpenloopRamp(1);
-    //intakeSystem.configOpenloopRamp(1);
-    //feeder.configOpenloopRamp(1);
+    intakeSystem.configOpenloopRamp(1);
+    feeder.configOpenloopRamp(1);
 
     intake.clearStickyFaults(10);
-    //intakeSystem.clearStickyFaults(10);
-    //feeder.clearStickyFaults(10);
+    intakeSystem.clearStickyFaults(10);
+    feeder.clearStickyFaults(10);
 
     intakeArms.set(Value.kReverse);
     
@@ -83,6 +84,8 @@ public class Shooter extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("mainShooter speed", mainShooter.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("topShooter speed", topShooter.getSelectedSensorVelocity());
   }
   /**
    * 
@@ -126,14 +129,32 @@ public class Shooter extends SubsystemBase {
     mainShooter.set(ControlMode.PercentOutput, 0);
     topShooter.set(ControlMode.PercentOutput, 0);
   }
+
   public void toggleIntakeArms(){
     intakeArms.toggle();
+  }
+  /**
+   * 
+   * @param i 1 = forward, 2 = reverse
+   */
+  public void toggleIntakeArms(int i){
+    switch (i) {
+      case 1:
+        intakeArms.set(Value.kForward);
+        break;
+      case 2:
+        intakeArms.set(Value.kReverse);
+        break;
+      default:
+        intakeArms.toggle();
+        break;
+    }
   }
 
   public void controlIntake(double intakeSpeedPercent, double intakeSystemSpeed, double feederSpeedPercent){
     intake.set(ControlMode.PercentOutput, intakeSpeedPercent);
-    //intakeSystem.set(ControlMode.PercentOutput, intakeSpeedPercent);
-    //feeder.set(ControlMode.PercentOutput, feederSpeedPercent);
+    intakeSystem.set(ControlMode.PercentOutput, intakeSpeedPercent);
+    feeder.set(ControlMode.PercentOutput, feederSpeedPercent);
   }
   
   public void stopIntake(){

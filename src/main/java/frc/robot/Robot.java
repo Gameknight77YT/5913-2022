@@ -4,8 +4,16 @@
 
 package frc.robot;
 
+import java.io.IOException;
+import java.nio.file.Path;
+
 import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryUtil;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 //import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.TimedRobot;
 //import edu.wpi.first.wpilibj.interfaces.Gyro;
@@ -25,7 +33,8 @@ public class Robot extends TimedRobot {
   //static Gyro gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
   public static AHRS navx = null;//new AHRS();
   static Trajectory TestTrajectory = new Trajectory();
-  static Trajectory GameDefault = new Trajectory();
+  static Trajectory AutoPart1 = new Trajectory();
+  static Trajectory AutoPart2 = new Trajectory();
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -41,7 +50,7 @@ public class Robot extends TimedRobot {
     //InitTrajectorys();
   }
   
-  /*public void resetGyro() {
+  public void resetGyro() {
     //gyro.reset();
     navx.reset();
   }
@@ -62,17 +71,24 @@ public class Robot extends TimedRobot {
 
   public void InitTrajectorys() {
     try {
-      Path TesttrajectoryPath = Filesystem.getDeployDirectory().toPath().resolve("paths/Test.wpilib.json");
+      Path TesttrajectoryPath = Filesystem.getDeployDirectory().toPath().resolve("output/Test.wpilib.json");
       TestTrajectory = TrajectoryUtil.fromPathweaverJson(TesttrajectoryPath);
     } catch (IOException ex) {
       DriverStation.reportError("Unable to open trajectory: " + "output/Test.wpilib.json", ex.getStackTrace());
     }
-       String GameDefaultJSON = "output/GameDefault.wpilib.json";
+       String AutoPart1JSON = "output/AutoPart1.wpilib.json";
      try {
-      Path GameDefaultPath = Filesystem.getDeployDirectory().toPath().resolve(GameDefaultJSON);
-      GameDefault = TrajectoryUtil.fromPathweaverJson(GameDefaultPath);
+      Path AutoPart1Path = Filesystem.getDeployDirectory().toPath().resolve(AutoPart1JSON);
+      AutoPart1 = TrajectoryUtil.fromPathweaverJson(AutoPart1Path);
      } catch (IOException ex) {
-      DriverStation.reportError("Unable to open trajectory: " + GameDefaultJSON, ex.getStackTrace());
+      DriverStation.reportError("Unable to open trajectory: " + AutoPart1JSON, ex.getStackTrace());
+     }
+     String AutoPart2JSON = "output/AutoPart2.wpilib.json";
+     try {
+      Path AutoPart2Path = Filesystem.getDeployDirectory().toPath().resolve(AutoPart2JSON);
+      AutoPart2 = TrajectoryUtil.fromPathweaverJson(AutoPart2Path);
+     } catch (IOException ex) {
+      DriverStation.reportError("Unable to open trajectory: " + AutoPart2JSON, ex.getStackTrace());
      }
   }
 
@@ -81,9 +97,14 @@ public class Robot extends TimedRobot {
   public static Trajectory getTestTrajectory() {
     return TestTrajectory;
   }
-  public static Trajectory getGameDefaultTrajectory() {
-    return GameDefault;
-  }*/
+
+  public static Trajectory getAutoPart1Trajectory() {
+    return AutoPart1;
+  }
+
+  public static Trajectory getAutoPart2Trajectory() {
+    return AutoPart2;
+  }
 
   /**
    * This function is called every robot packet, no matter the mode. Use this for items like

@@ -10,11 +10,18 @@ import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
 
 public class DriveTrain extends SubsystemBase {
   WPI_TalonFX leftMaster = new WPI_TalonFX(Constants.LeftMasterID);
@@ -25,7 +32,7 @@ public class DriveTrain extends SubsystemBase {
   MotorControllerGroup rightMotors = new MotorControllerGroup(rightMaster, rightSlave);
 
 
-  /*DifferentialDriveKinematics Kinematics = new DifferentialDriveKinematics(Constants.WheelBaseWith);
+  DifferentialDriveKinematics Kinematics = new DifferentialDriveKinematics(Constants.WheelBaseWith);
   DifferentialDriveOdometry Odometry = new DifferentialDriveOdometry(Robot.getHeading());
 
   SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(Constants.ks, Constants.kv, Constants.ka);
@@ -33,7 +40,7 @@ public class DriveTrain extends SubsystemBase {
   PIDController leftPidController = new PIDController(Constants.kp, Constants.ki, Constants.kd);
   PIDController rightPidController = new PIDController(Constants.kp, Constants.ki, Constants.kd);
 
-    Pose2d pose = new Pose2d();*/
+    Pose2d pose = new Pose2d();
   /** Creates a new DriveTrain. */
   public DriveTrain() {
     
@@ -65,10 +72,10 @@ public class DriveTrain extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    //pose = Odometry.update(Robot.getHeading(),GetLeftMasterEncoderPose(),GetRightMasterEncoderPose());
+    pose = Odometry.update(Robot.getHeading(),GetLeftMasterEncoderPose(),GetRightMasterEncoderPose());
   }
 
-  /*public void resetOdometry(Pose2d pose2D) {
+  public void resetOdometry(Pose2d pose2D) {
     ClearDriveEncoders();
     Odometry.resetPosition(pose2D, Robot.getRotation2d());
   }
@@ -107,7 +114,7 @@ public class DriveTrain extends SubsystemBase {
   public void tankDriveVolts(double leftVolts, double rightVolts) {
     leftMotors.setVoltage(leftVolts);
     rightMotors.setVoltage(rightVolts);
-  }*/
+  }
 
   
 
