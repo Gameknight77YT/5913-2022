@@ -8,6 +8,7 @@ import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -39,17 +40,23 @@ public class RobotContainer {
   private Shootball1 shootBall1;
   private Shootball2 shootBall2;
   private Shootball3 shootBall3;
+  private Shootball4 shootBall4;
   private ToggleIntakeArms toggleIntakeArms;
   private IntakeBall intakeBall;
   private OutTakeBall outTakeBall;
   private FeedBall feedBall;
   private TrackTarget trackTarget;
-  private RamseteCommand AutoPart1command;
-  private RamseteCommand AutoPart2command;
-  SequentialCommandGroup auto;
+  private RamseteCommand Auto1Part1command;
+  private RamseteCommand Auto1Part2command;
+  private SequentialCommandGroup auto1;
+  private RamseteCommand Auto2Part1command;
+  private RamseteCommand Auto2Part2command;
+  private SequentialCommandGroup auto2;
   private AutoIntake autoIntake;
   private StopAndShoot stopAndShoot;
   private BackUp backUp;
+
+  private SendableChooser<Integer> autoChooser;
 
   private Joystick driverJoystick;
   private Joystick manipulatorJoystick;
@@ -73,6 +80,7 @@ public class RobotContainer {
     shootBall1 = new Shootball1(shooter);
     shootBall2 = new Shootball2(shooter);
     shootBall3 = new Shootball3(shooter);
+    shootBall4 = new Shootball4(shooter);
     toggleIntakeArms = new ToggleIntakeArms(shooter);
     intakeBall = new IntakeBall(shooter);
     outTakeBall = new OutTakeBall(shooter);
@@ -81,6 +89,78 @@ public class RobotContainer {
     autoIntake = new AutoIntake(camera, shooter);
     stopAndShoot = new StopAndShoot(shooter, camera);
     backUp = new BackUp(driveTrain);
+
+    autoChooser = new SendableChooser<Integer>();
+    autoChooser.setDefaultOption("auto1", 1);
+    autoChooser.addOption("auto2", 2);
+
+    Auto1Part1command = new RamseteCommand(
+      Robot.getAuto1Part1Trajectory(), 
+      driveTrain::getPose,
+      new RamseteController(Constants.kRamseteB,Constants.kRamseteZeta),
+      driveTrain.getFeedForward(),
+      driveTrain.getKinematics(),
+      driveTrain::getSpeeds,
+      driveTrain.getleftPidController(),
+      driveTrain.getrightPidController(),
+      driveTrain::tankDriveVolts,
+      driveTrain
+      );
+    
+    Auto1Part2command = new RamseteCommand(
+      Robot.getAuto1Part2Trajectory(), 
+      driveTrain::getPose,
+      new RamseteController(Constants.kRamseteB,Constants.kRamseteZeta),
+      driveTrain.getFeedForward(),
+      driveTrain.getKinematics(),
+      driveTrain::getSpeeds,
+      driveTrain.getleftPidController(),
+      driveTrain.getrightPidController(),
+      driveTrain::tankDriveVolts,
+      driveTrain
+      );
+
+    auto1 = new SequentialCommandGroup((Auto1Part1command.raceWith(autoIntake))
+      .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
+      .andThen(stopAndShoot)
+      .andThen(Auto1Part2command.raceWith(autoIntake))
+      .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
+      .andThen(backUp.raceWith(autoIntake))
+      .andThen(stopAndShoot)
+      );
+      Auto2Part1command = new RamseteCommand(
+        Robot.getAuto2Part1Trajectory(), 
+        driveTrain::getPose,
+        new RamseteController(Constants.kRamseteB,Constants.kRamseteZeta),
+        driveTrain.getFeedForward(),
+        driveTrain.getKinematics(),
+        driveTrain::getSpeeds,
+        driveTrain.getleftPidController(),
+        driveTrain.getrightPidController(),
+        driveTrain::tankDriveVolts,
+        driveTrain
+        );
+      
+      Auto2Part2command = new RamseteCommand(
+        Robot.getAuto2Part2Trajectory(), 
+        driveTrain::getPose,
+        new RamseteController(Constants.kRamseteB,Constants.kRamseteZeta),
+        driveTrain.getFeedForward(),
+        driveTrain.getKinematics(),
+        driveTrain::getSpeeds,
+        driveTrain.getleftPidController(),
+        driveTrain.getrightPidController(),
+        driveTrain::tankDriveVolts,
+        driveTrain
+        );
+  
+      auto2 = new SequentialCommandGroup((Auto2Part1command.raceWith(autoIntake))
+        .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
+        .andThen(stopAndShoot)
+        .andThen(Auto2Part2command.raceWith(autoIntake))
+        .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
+        .andThen(stopAndShoot)
+        );
 
 
     // Configure the button bindings
@@ -115,6 +195,9 @@ public class RobotContainer {
     JoystickButton shootBall3Button = new JoystickButton(manipulatorJoystick, Constants.shootBall3ButtonID);
     shootBall3Button.whileHeld(shootBall3);
 
+    JoystickButton shootBall4Button = new JoystickButton(manipulatorJoystick, Constants.shootBall4ButtonID);
+    shootBall4Button.whileHeld(shootBall4);
+
     JoystickButton toggleIntakeArmsButton = new JoystickButton(manipulatorJoystick, Constants.toggleIntakeArmsButtonID);
     toggleIntakeArmsButton.whenPressed(toggleIntakeArms);
 
@@ -138,49 +221,9 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    if(AutoPart1command == null){
-     AutoPart1command = new RamseteCommand(
-      Robot.getAutoPart1Trajectory(), 
-      driveTrain::getPose,
-      new RamseteController(Constants.kRamseteB,Constants.kRamseteZeta),
-      driveTrain.getFeedForward(),
-      driveTrain.getKinematics(),
-      driveTrain::getSpeeds,
-      driveTrain.getleftPidController(),
-      driveTrain.getrightPidController(),
-      driveTrain::tankDriveVolts,
-      driveTrain
-      );
-    }
-
-    if(AutoPart2command == null){
-       AutoPart2command = new RamseteCommand(
-        Robot.getAutoPart2Trajectory(), 
-        driveTrain::getPose,
-        new RamseteController(Constants.kRamseteB,Constants.kRamseteZeta),
-        driveTrain.getFeedForward(),
-        driveTrain.getKinematics(),
-        driveTrain::getSpeeds,
-        driveTrain.getleftPidController(),
-        driveTrain.getrightPidController(),
-        driveTrain::tankDriveVolts,
-        driveTrain
-        );
-
-    }
-    if (auto == null) {
-      auto = new SequentialCommandGroup((AutoPart1command.raceWith(autoIntake))
-    .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
-    .andThen(stopAndShoot)
-    .andThen(AutoPart2command.raceWith(autoIntake))
-    .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
-    .andThen(backUp.raceWith(autoIntake))
-    .andThen(stopAndShoot));
-    }
     
+    driveTrain.resetOdometry(Robot.getAuto1Part1Trajectory().getInitialPose());
 
-    driveTrain.resetOdometry(Robot.getAutoPart1Trajectory().getInitialPose());
-
-    return auto;
+    return auto1;
   }
 }

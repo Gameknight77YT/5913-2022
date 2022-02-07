@@ -19,6 +19,8 @@ import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
@@ -31,16 +33,16 @@ public class DriveTrain extends SubsystemBase {
   MotorControllerGroup leftMotors = new MotorControllerGroup(leftMaster, leftSlave);
   MotorControllerGroup rightMotors = new MotorControllerGroup(rightMaster, rightSlave);
 
-
   DifferentialDriveKinematics Kinematics = new DifferentialDriveKinematics(Constants.WheelBaseWith);
-  DifferentialDriveOdometry Odometry = new DifferentialDriveOdometry(Robot.getHeading());
+  DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(Robot.getHeading());
 
   SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(Constants.ks, Constants.kv, Constants.ka);
 
   PIDController leftPidController = new PIDController(Constants.kp, Constants.ki, Constants.kd);
   PIDController rightPidController = new PIDController(Constants.kp, Constants.ki, Constants.kd);
 
-    Pose2d pose = new Pose2d();
+  Pose2d pose = new Pose2d();
+  Field2d field = new Field2d();
   /** Creates a new DriveTrain. */
   public DriveTrain() {
     
@@ -72,12 +74,15 @@ public class DriveTrain extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    pose = Odometry.update(Robot.getHeading(),GetLeftMasterEncoderPose(),GetRightMasterEncoderPose());
+    pose = odometry.update(Robot.getHeading(),GetLeftMasterEncoderPose(),GetRightMasterEncoderPose());
+    field.setRobotPose(odometry.getPoseMeters());
+    field.getObject("traj").setTrajectory(Robot.getAuto1Part1Trajectory().concatenate(Robot.getAuto1Part2Trajectory()));
+    SmartDashboard.putData("Field", field);
   }
 
   public void resetOdometry(Pose2d pose2D) {
     ClearDriveEncoders();
-    Odometry.resetPosition(pose2D, Robot.getRotation2d());
+    odometry.resetPosition(pose2D, Robot.getRotation2d());
   }
   
   public DifferentialDriveWheelSpeeds getSpeeds() {
@@ -104,11 +109,11 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public Pose2d getPose() {
-     return Odometry.getPoseMeters();
+     return odometry.getPoseMeters();
   }
 
   public void reset() {
-    Odometry.resetPosition(new Pose2d(), Robot.getHeading());
+    odometry.resetPosition(new Pose2d(), Robot.getHeading());
   }
 
   public void tankDriveVolts(double leftVolts, double rightVolts) {

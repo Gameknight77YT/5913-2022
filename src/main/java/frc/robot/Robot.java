@@ -30,11 +30,11 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
-  //static Gyro gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
-  public static AHRS navx = null;//new AHRS();
-  static Trajectory TestTrajectory = new Trajectory();
-  static Trajectory AutoPart1 = new Trajectory();
-  static Trajectory AutoPart2 = new Trajectory();
+  public static AHRS navx = new AHRS();
+  static Trajectory Auto1Part1 = new Trajectory();
+  static Trajectory Auto1Part2 = new Trajectory();
+  static Trajectory Auto2Part1 = new Trajectory();
+  static Trajectory Auto2Part2 = new Trajectory();
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -42,68 +42,77 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    //calibrate();
-    //resetGyro();
+    calibrate();
+    resetGyro();
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
-    //InitTrajectorys();
+    InitTrajectorys();
   }
   
   public void resetGyro() {
-    //gyro.reset();
     navx.reset();
   }
 
   public void calibrate() {
-    //gyro.calibrate();
     navx.calibrate();
   }
 
   public static Rotation2d getHeading() {
-    //return Rotation2d.fromDegrees(-gyro.getAngle());
     return Rotation2d.fromDegrees(-navx.getAngle());
   }
   public static Rotation2d getRotation2d(){
-    //return gyro.getRotation2d();
     return navx.getRotation2d();
   }
 
   public void InitTrajectorys() {
+    String Auto1Part1JSON = "output/Auto1Part1.wpilib.json";
+    String Auto1Part2JSON = "output/Auto1Part2.wpilib.json";
+    String Auto2Part1JSON = "output/Auto2Part1.wpilib.json";
+    String Auto2Part2JSON = "output/Auto2Part2.wpilib.json";
     try {
-      Path TesttrajectoryPath = Filesystem.getDeployDirectory().toPath().resolve("output/Test.wpilib.json");
-      TestTrajectory = TrajectoryUtil.fromPathweaverJson(TesttrajectoryPath);
+      Path Auto1Part1Path = Filesystem.getDeployDirectory().toPath().resolve(Auto1Part1JSON);
+      Auto1Part1 = TrajectoryUtil.fromPathweaverJson(Auto1Part1Path);
     } catch (IOException ex) {
-      DriverStation.reportError("Unable to open trajectory: " + "output/Test.wpilib.json", ex.getStackTrace());
+      DriverStation.reportError("Unable to open trajectory: " + Auto1Part1JSON, ex.getStackTrace());
     }
-       String AutoPart1JSON = "output/AutoPart1.wpilib.json";
-     try {
-      Path AutoPart1Path = Filesystem.getDeployDirectory().toPath().resolve(AutoPart1JSON);
-      AutoPart1 = TrajectoryUtil.fromPathweaverJson(AutoPart1Path);
-     } catch (IOException ex) {
-      DriverStation.reportError("Unable to open trajectory: " + AutoPart1JSON, ex.getStackTrace());
-     }
-     String AutoPart2JSON = "output/AutoPart2.wpilib.json";
-     try {
-      Path AutoPart2Path = Filesystem.getDeployDirectory().toPath().resolve(AutoPart2JSON);
-      AutoPart2 = TrajectoryUtil.fromPathweaverJson(AutoPart2Path);
-     } catch (IOException ex) {
-      DriverStation.reportError("Unable to open trajectory: " + AutoPart2JSON, ex.getStackTrace());
-     }
+     
+    try {
+      Path Auto1Part2Path = Filesystem.getDeployDirectory().toPath().resolve(Auto1Part2JSON);
+      Auto1Part2 = TrajectoryUtil.fromPathweaverJson(Auto1Part2Path);
+    } catch (IOException ex) {
+      DriverStation.reportError("Unable to open trajectory: " + Auto1Part2JSON, ex.getStackTrace());
+    }
+
+    try {
+      Path Auto2Part1Path = Filesystem.getDeployDirectory().toPath().resolve(Auto2Part1JSON);
+      Auto2Part1 = TrajectoryUtil.fromPathweaverJson(Auto2Part1Path);
+    } catch (IOException ex) {
+      DriverStation.reportError("Unable to open trajectory: " + Auto2Part1JSON, ex.getStackTrace());
+    }
+     
+    try {
+      Path Auto2Part2Path = Filesystem.getDeployDirectory().toPath().resolve(Auto2Part2JSON);
+      Auto2Part2 = TrajectoryUtil.fromPathweaverJson(Auto2Part2Path);
+    } catch (IOException ex) {
+      DriverStation.reportError("Unable to open trajectory: " + Auto2Part2JSON, ex.getStackTrace());
+    }
   }
 
-  
-
-  public static Trajectory getTestTrajectory() {
-    return TestTrajectory;
+  public static Trajectory getAuto1Part1Trajectory() {
+    return Auto1Part1;
   }
 
-  public static Trajectory getAutoPart1Trajectory() {
-    return AutoPart1;
+  public static Trajectory getAuto1Part2Trajectory() {
+    return Auto1Part2;
   }
 
-  public static Trajectory getAutoPart2Trajectory() {
-    return AutoPart2;
+  public static Trajectory getAuto2Part1Trajectory() {
+    return Auto2Part1;
+  }
+
+  public static Trajectory getAuto2Part2Trajectory() {
+    return Auto2Part2;
   }
 
   /**
