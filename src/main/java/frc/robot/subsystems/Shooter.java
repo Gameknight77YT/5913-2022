@@ -9,7 +9,6 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -17,14 +16,17 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.subsystems.Interpolating.*;
 
 public class Shooter extends SubsystemBase {
-  private WPI_TalonSRX intake = new WPI_TalonSRX(Constants.intakeMotorID);
-  private WPI_TalonSRX intakeSystem = new WPI_TalonSRX(Constants.intakeSystemMotorID);
-  private WPI_TalonSRX feeder = new WPI_TalonSRX(Constants.feederMotorID);
+  private WPI_TalonFX intake = new WPI_TalonFX(Constants.intakeMotorID);
+  private WPI_TalonFX intakeSystem = new WPI_TalonFX(Constants.intakeSystemMotorID);
+  private WPI_TalonFX feeder = new WPI_TalonFX(Constants.feederMotorID);
   private DoubleSolenoid intakeArms = new DoubleSolenoid(Constants.pcmID, PneumaticsModuleType.CTREPCM, Constants.intakeArmsForwardID, Constants.intakeArmsBackwardID);
   private WPI_TalonFX mainShooter = new WPI_TalonFX(Constants.mainShooterID);
   private WPI_TalonFX topShooter = new WPI_TalonFX(Constants.topShooterID);
+  private InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> mainSpeedMap = new InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble>();
+  private InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> topSpeedMap = new InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble>();
   /** Creates a new Shooter. */
   public Shooter() {
     intake.setInverted(false);
@@ -79,6 +81,10 @@ public class Shooter extends SubsystemBase {
 
     mainShooter.setInverted(true);
     topShooter.setInverted(true);
+
+    //key = distance, value = speed
+    //mainSpeedMap.put(key, value);  TODO
+    //topSpeedMap.put(key, value);   TODO
   }
 
   @Override
@@ -94,6 +100,8 @@ public class Shooter extends SubsystemBase {
    * 1 = speed 1,
    * 2 = speed 2,
    * 3 = speed 3,
+   * 4 = speed 4,
+   * 5 = Interpolated Speed,
    * other = other value
    * @param otherValue
    * if you want to use a different speed,
@@ -116,6 +124,10 @@ public class Shooter extends SubsystemBase {
       case 4:
         mainShooter.set(TalonFXControlMode.Velocity, Constants.ShooterSpeed4);
         topShooter.set(TalonFXControlMode.Velocity, -(Constants.TopShooterSpeed4));
+        break;
+      case 5:
+        mainShooter.set(TalonFXControlMode.Velocity, mainSpeedMap.getInterpolated(Camera.getDistance()).value);
+        topShooter.set(TalonFXControlMode.Velocity, -topSpeedMap.getInterpolated(Camera.getDistance()).value);
         break;
     
       default:

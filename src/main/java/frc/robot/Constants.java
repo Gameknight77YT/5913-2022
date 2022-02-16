@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.cscore.VideoSource;
 import edu.wpi.first.math.util.Units;
 
 /**
@@ -24,13 +23,14 @@ public final class Constants {
     public static final int RightSlaveID = 4;
     public static final int mainShooterID = 5;
     public static final int topShooterID = 6;
-    public static final int climberMotorID = 7;
+    public static final int climberMasterID = 7;
     public static final int climberSlaveID = 8;
     public static final int intakeMotorID = 9;
     public static final int feederMotorID = 10;
     public static final int intakeSystemMotorID = 11;
     public static final int TurretControlID = 12;
     public static final int pcmID = 13;
+    public static final int pdpID = 14;
 
     //solinoid ids 
     public static final int swingForwardID = 2;
@@ -46,8 +46,9 @@ public final class Constants {
     public static final int JoystickZAxisID = 2;
 
     //speed  constants
-    public static final double speedX = .5;
-    public static final double speedY = .5;
+    public static final double speedX = .95;
+    public static final double speedY = .95;
+    public static final double TurnTurretSpeed = .95;
     public static final double climberSpeed = 1;
     public static final double ShooterSpeed1 = 1500;// 7 
     public static final double TopShooterSpeed1 = 7500;// 7 
@@ -72,6 +73,7 @@ public final class Constants {
     public static final int climbDownButtonID = 4;
     public static final int swingInButtonID = 3;
     public static final int swingOutButtonID = 4;
+    public static final int shootBallAutoSpeedButtonID = 12;
     public static final int shootBall4ButtonID = 10;
     public static final int shootBall3ButtonID = 11;
     public static final int shootBall2ButtonID = 9;
@@ -80,7 +82,7 @@ public final class Constants {
     public static final int intakeBallButtonID = 3;
     public static final int outTakeBallButtonID = 8;
     public static final int feedBallButtonID = 5;
-    public static final int ActivateTurnTurret = 4;
+    public static final int ActivateTurnTurretButton = 4;
     public static final int TrackTargetButtonID = 1;
 
   // These are example values only - DO NOT USE THESE FOR YOUR OWN ROBOT!
@@ -106,6 +108,11 @@ public final class Constants {
   public static final double kp = 2.81;
   public static final double ki = 0;
   public static final double kd = 0;
+
+  //Limelight TODO:change these
+  public static final double h2 = 0; //height of the target
+  public static final double h1 = 0; //height of your camera above the floor 
+  public static final double a1 = 0; //mounting angle
 
   // other constants
   public static final double WheelRadiusInches = 2.125;

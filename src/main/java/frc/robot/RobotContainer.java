@@ -41,11 +41,13 @@ public class RobotContainer {
   private Shootball2 shootBall2;
   private Shootball3 shootBall3;
   private Shootball4 shootBall4;
+  private ShootBallAutoSpeed shootBallAutoSpeed;
   private ToggleIntakeArms toggleIntakeArms;
   private IntakeBall intakeBall;
   private OutTakeBall outTakeBall;
   private FeedBall feedBall;
   private TrackTarget trackTarget;
+  private ControlTurret controlTurret;
   private RamseteCommand Auto1Part1command;
   private RamseteCommand Auto1Part2command;
   private SequentialCommandGroup auto1;
@@ -81,11 +83,14 @@ public class RobotContainer {
     shootBall2 = new Shootball2(shooter);
     shootBall3 = new Shootball3(shooter);
     shootBall4 = new Shootball4(shooter);
+    shootBallAutoSpeed = new ShootBallAutoSpeed(shooter);
     toggleIntakeArms = new ToggleIntakeArms(shooter);
     intakeBall = new IntakeBall(shooter);
     outTakeBall = new OutTakeBall(shooter);
     feedBall = new FeedBall(shooter);
     trackTarget = new TrackTarget(camera);
+    controlTurret = new ControlTurret(camera, manipulatorJoystick);
+    camera.setDefaultCommand(controlTurret);
     autoIntake = new AutoIntake(camera, shooter);
     stopAndShoot = new StopAndShoot(shooter, camera);
     backUp = new BackUp(driveTrain);
@@ -198,6 +203,9 @@ public class RobotContainer {
     JoystickButton shootBall4Button = new JoystickButton(manipulatorJoystick, Constants.shootBall4ButtonID);
     shootBall4Button.whileHeld(shootBall4);
 
+    JoystickButton shootBallAutoSpeedButton = new JoystickButton(manipulatorJoystick, Constants.shootBallAutoSpeedButtonID);
+    shootBallAutoSpeedButton.whileHeld(shootBallAutoSpeed);
+
     JoystickButton toggleIntakeArmsButton = new JoystickButton(manipulatorJoystick, Constants.toggleIntakeArmsButtonID);
     toggleIntakeArmsButton.whenPressed(toggleIntakeArms);
 
@@ -211,7 +219,7 @@ public class RobotContainer {
     feedBallButton.whenPressed(feedBall);
 
     JoystickButton TrackTargetButton = new JoystickButton(manipulatorJoystick, Constants.TrackTargetButtonID);
-    TrackTargetButton.whileHeld(new TrackTarget(camera));
+    TrackTargetButton.whileHeld(trackTarget);
   }
 
 
@@ -221,9 +229,16 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+    if(autoChooser.getSelected() == 1){
+      driveTrain.resetOdometry(Robot.getAuto1Part1Trajectory().getInitialPose());
+      return auto1;
+    }else if(autoChooser.getSelected() == 2){
+      driveTrain.resetOdometry(Robot.getAuto2Part1Trajectory().getInitialPose());
+      return auto2;
+    }else{
+      driveTrain.resetOdometry(Robot.getAuto1Part1Trajectory().getInitialPose());
+      return auto1;
+    }
     
-    driveTrain.resetOdometry(Robot.getAuto1Part1Trajectory().getInitialPose());
-
-    return auto1;
   }
 }
