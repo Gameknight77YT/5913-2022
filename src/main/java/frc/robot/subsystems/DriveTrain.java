@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
+import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.math.MathUtil;
@@ -18,7 +19,6 @@ import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -30,8 +30,6 @@ public class DriveTrain extends SubsystemBase {
   WPI_TalonFX rightMaster = new WPI_TalonFX(Constants.RightMasterID);
   WPI_TalonFX leftSlave = new WPI_TalonFX(Constants.LeftSlaveID);
   WPI_TalonFX rightSlave = new WPI_TalonFX(Constants.RightSlaveID);
-  MotorControllerGroup leftMotors = new MotorControllerGroup(leftMaster, leftSlave);
-  MotorControllerGroup rightMotors = new MotorControllerGroup(rightMaster, rightSlave);
 
   DifferentialDriveKinematics Kinematics = new DifferentialDriveKinematics(Constants.WheelBaseWith);
   DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(Robot.getHeading());
@@ -45,13 +43,25 @@ public class DriveTrain extends SubsystemBase {
   Field2d field = new Field2d();
   /** Creates a new DriveTrain. */
   public DriveTrain() {
-    
+    leftMaster.configFactoryDefault();
+    rightMaster.configFactoryDefault();
+    leftSlave.configFactoryDefault();
+    rightSlave.configFactoryDefault();
+
+    leftSlave.follow(leftMaster);
+    rightSlave.follow(rightMaster);
+
+    leftMaster.setNeutralMode(NeutralMode.Coast);
+    rightMaster.setNeutralMode(NeutralMode.Coast);
+    leftSlave.setNeutralMode(NeutralMode.Coast);
+    rightSlave.setNeutralMode(NeutralMode.Coast);
 
     // invert setup
-    leftMaster.setInverted(false);
-    leftSlave.setInverted(false);
-    rightSlave.setInverted(true);
-    rightMaster.setInverted(true);
+    leftMaster.setInverted(true);
+    rightMaster.setInverted(false);
+    leftSlave.setInverted(TalonFXInvertType.FollowMaster);
+    rightSlave.setInverted(TalonFXInvertType.FollowMaster);
+
 
     // init encoders
     leftMaster.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 10);
@@ -117,8 +127,8 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public void tankDriveVolts(double leftVolts, double rightVolts) {
-    leftMotors.setVoltage(leftVolts);
-    rightMotors.setVoltage(rightVolts);
+    leftMaster.setVoltage(leftVolts);
+    rightMaster.setVoltage(rightVolts);
   }
 
   
@@ -155,8 +165,8 @@ public class DriveTrain extends SubsystemBase {
         rightMotorOutput = xSpeed - zRotation;
       }
     }
-    leftMotors.set(MathUtil.clamp(leftMotorOutput, -1.0, 1.0) * 1);
-    rightMotors.set(MathUtil.clamp(rightMotorOutput, -1.0, 1.0) * 1);
+    leftMaster.set(MathUtil.clamp(leftMotorOutput, -1.0, 1.0) * 1);
+    rightMaster.set(MathUtil.clamp(rightMotorOutput, -1.0, 1.0) * 1);
   }
   
   /** Applys a Deadband */
@@ -173,14 +183,14 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public void Drive(double leftMotorOutput, double rightMotorOutput){
-    leftMotors.set(leftMotorOutput);
-    rightMotors.set(rightMotorOutput);
+    leftMaster.set(leftMotorOutput);
+    rightMaster.set(rightMotorOutput);
   }
   
 
   public void stopmotors(){
-    rightMotors.stopMotor();
-    leftMotors.stopMotor();
+    rightMaster.stopMotor();
+    leftMaster.stopMotor();
   }
 
   public double GetLeftMasterEncoderPose() {

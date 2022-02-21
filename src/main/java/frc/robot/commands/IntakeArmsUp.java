@@ -5,26 +5,28 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ClimbArms;
+import frc.robot.subsystems.Intake;
 
-public class SwingIn extends CommandBase {
-  private ClimbArms climberArms;
-  /** Creates a new SwingForward. */
-  public SwingIn(ClimbArms c) {
-    climberArms = c;
+public class IntakeArmsUp extends CommandBase {
+  Intake intake;
+  private boolean finished = false;
+  /** Creates a new IntakeArmsUp. */
+  public IntakeArmsUp(Intake i) {
+    intake = i;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(climberArms);
+    addRequirements(intake);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    intake.toggleIntakeArms(1);
+    finished = false;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    climberArms.swingIn();
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
@@ -33,6 +35,6 @@ public class SwingIn extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return finished;
   }
 }

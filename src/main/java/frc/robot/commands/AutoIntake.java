@@ -7,16 +7,19 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Camera;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
 public class AutoIntake extends CommandBase {
   Camera camera;
   Shooter shooter;
+  Intake intake;
   /** Creates a new AutoIntake. */
-  public AutoIntake(Camera c, Shooter s) {
+  public AutoIntake(Camera c, Shooter s, Intake i) {
     shooter = s;
     camera = c;
-    addRequirements(shooter, camera);
+    intake = i;
+    addRequirements(shooter, camera, intake);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -29,8 +32,8 @@ public class AutoIntake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooter.toggleIntakeArms(1);
-    shooter.controlIntake(Constants.intakeSpeed,Constants.intakeSystemSpeed, 0);
+    intake.toggleIntakeArms(1);
+    intake.controlIntake(Constants.intakeSpeed,Constants.starfishSpeed, 0);
     shooter.shootBall(1, 0);
     camera.AutoTrack();
   }
@@ -38,7 +41,8 @@ public class AutoIntake extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooter.stopIntake();
+    intake.stopIntake();
+    shooter.stopShooter();
     camera.Reset();
   }
 

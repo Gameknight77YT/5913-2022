@@ -5,23 +5,23 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Intake;
 
-public class ToggleIntakeArms extends CommandBase {
-  private Shooter shooter;
+public class IntakeArmsDown extends CommandBase {
+  Intake intake;
   private boolean finished = false;
-  /** Creates a new ToggleIntakeArms. */
-  public ToggleIntakeArms(Shooter s) {
-    shooter = s;
+  /** Creates a new IntakeArmsUp. */
+  public IntakeArmsDown(Intake i) {
+    intake = i;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(shooter);
+    addRequirements(intake);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooter.toggleIntakeArms();
-    finished = true;
+    intake.toggleIntakeArms(2);
+    finished = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.

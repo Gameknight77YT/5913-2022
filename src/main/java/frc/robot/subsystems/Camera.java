@@ -47,6 +47,7 @@ public class Camera extends SubsystemBase {
     turretControl.configMotionAcceleration(450, 10);
     turretControl.configMotionCruiseVelocity(450, 10);
     turretControl.setNeutralMode(NeutralMode.Coast);
+    turretControl.setInverted(true);
   }
 
   @Override
@@ -133,7 +134,7 @@ public class Camera extends SubsystemBase {
         input=0;
        }
       if(manipulatorJoystick.getRawButton(Constants.ActivateTurnTurretButton)==true){
-        turretControl.set(ControlMode.PercentOutput, input*speed );
+        turretControl.set(ControlMode.PercentOutput, input*-speed );
       }else{
         turretControl.stopMotor();
       }

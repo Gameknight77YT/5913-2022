@@ -8,19 +8,22 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Camera;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
 public class StopAndShoot extends CommandBase {
   Camera camera;
   Shooter shooter;
+  Intake intake;
   Timer timer = new Timer();
   boolean finished = false;
   /** Creates a new StopAndShoot. */
-  public StopAndShoot(Shooter s, Camera c) {
+  public StopAndShoot(Shooter s, Camera c, Intake i) {
     shooter = s;
     camera = c;
+    intake = i;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(shooter, camera);
+    addRequirements(shooter, camera, intake);
   }
 
   // Called when the command is initially scheduled.
@@ -30,7 +33,7 @@ public class StopAndShoot extends CommandBase {
     timer.start();
     while(timer.get() <= Constants.stopAndShootTime){
       camera.Track();
-      shooter.controlIntake(Constants.intakeSpeed, Constants.intakeSystemSpeed, Constants.feederSpeed);
+      intake.controlIntake(Constants.intakeSpeed, Constants.starfishSpeed, Constants.feederSpeed);
       shooter.shootBall(1, 0);
     }
     finished = true;
@@ -44,7 +47,7 @@ public class StopAndShoot extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     shooter.stopShooter();
-    shooter.stopIntake();
+    intake.stopIntake();
     camera.Reset();
   }
 

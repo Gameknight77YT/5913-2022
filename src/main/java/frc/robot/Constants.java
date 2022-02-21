@@ -27,16 +27,16 @@ public final class Constants {
     public static final int climberSlaveID = 8;
     public static final int intakeMotorID = 9;
     public static final int feederMotorID = 10;
-    public static final int intakeSystemMotorID = 11;
+    public static final int starfishWheelsMotorID = 11;
     public static final int TurretControlID = 12;
     public static final int pcmID = 13;
     public static final int pdpID = 14;
 
     //solinoid ids 
-    public static final int swingForwardID = 2;
-    public static final int swingReverseID = 3;
-    public static final int intakeArmsBackwardID = 1;
-    public static final int intakeArmsForwardID = 0;
+    public static final int swingForwardID = 1;
+    public static final int swingReverseID = 0;
+    public static final int intakeArmsBackwardID = 2;
+    public static final int intakeArmsForwardID = 3;
 
     //joystick ids
     public static final int driverjoystickID = 0;
@@ -50,39 +50,42 @@ public final class Constants {
     public static final double speedY = .95;
     public static final double TurnTurretSpeed = .95;
     public static final double climberSpeed = 1;
-    public static final double ShooterSpeed1 = 1500;// 7 
-    public static final double TopShooterSpeed1 = 7500;// 7 
+    public static final double ShooterSpeed1 = 8750;// 7 
+    public static final double TopShooterSpeed1 = 5000;// 7 
     public static final double ShooterSpeed2 = 7250;// 9 
     public static final double TopShooterSpeed2 = 7000;// 9 
     public static final double ShooterSpeed3 = 8000;// 11 
     public static final double TopShooterSpeed3 = 14000;// 11 
-    public static final double ShooterSpeed4 = 7000;// 10 
-    public static final double TopShooterSpeed4 = 20000;// 10
+    public static final double ShooterSpeed4 = 7000;// 8 
+    public static final double TopShooterSpeed4 = 20000;// 8
     public static final double intakeSpeed = .95;
     public static final double feederSpeed = .95;
-    public static final double intakeSystemSpeed = .95;
+    public static final double starfishSpeed = .35;
     public static final double autoSpeed = .95;
 
     //times / encoder counts
     public static final double stopAndShootTime = 2;
     public static final double backUpDistance = 20000;
-    public static final double climbEncoderTop = 207631;
+    public static final double climbEncoderTop = 333160;
+    public static final double climbEncoderBottom = -7000;
 
     //buttons
     public static final int climbUpButtonID = 3;
     public static final int climbDownButtonID = 4;
-    public static final int swingInButtonID = 3;
-    public static final int swingOutButtonID = 4;
+    public static final int intakeArmsUpButtonID = 1; 
+    public static final int intakeArmsDownButtonID = 2;
+
+    public static final int swingInButtonID = 4;
+    public static final int swingOutButtonID = 3;
     public static final int shootBallAutoSpeedButtonID = 12;
-    public static final int shootBall4ButtonID = 10;
+    public static final int shootBall4ButtonID = 8;
     public static final int shootBall3ButtonID = 11;
     public static final int shootBall2ButtonID = 9;
     public static final int shootBall1ButtonID = 7;
-    public static final int toggleIntakeArmsButtonID = 2; 
-    public static final int intakeBallButtonID = 3;
+    public static final int intakeBallButtonID = 5;
     public static final int outTakeBallButtonID = 8;
-    public static final int feedBallButtonID = 5;
-    public static final int ActivateTurnTurretButton = 4;
+    public static final int feedBallButtonID = 2;
+    public static final int ActivateTurnTurretButton = 6;
     public static final int TrackTargetButtonID = 1;
 
   // These are example values only - DO NOT USE THESE FOR YOUR OWN ROBOT!

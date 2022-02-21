@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -19,29 +20,12 @@ import frc.robot.Constants;
 import frc.robot.subsystems.Interpolating.*;
 
 public class Shooter extends SubsystemBase {
-  private WPI_TalonFX intake = new WPI_TalonFX(Constants.intakeMotorID);
-  private WPI_TalonFX intakeSystem = new WPI_TalonFX(Constants.intakeSystemMotorID);
-  private WPI_TalonFX feeder = new WPI_TalonFX(Constants.feederMotorID);
-  private DoubleSolenoid intakeArms = new DoubleSolenoid(Constants.pcmID, PneumaticsModuleType.CTREPCM, Constants.intakeArmsForwardID, Constants.intakeArmsBackwardID);
   private WPI_TalonFX mainShooter = new WPI_TalonFX(Constants.mainShooterID);
   private WPI_TalonFX topShooter = new WPI_TalonFX(Constants.topShooterID);
   private InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> mainSpeedMap = new InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble>();
   private InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> topSpeedMap = new InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble>();
   /** Creates a new Shooter. */
   public Shooter() {
-    intake.setInverted(false);
-    intakeSystem.setInverted(false);
-    feeder.setInverted(false);
-
-    intake.configOpenloopRamp(1);
-    intakeSystem.configOpenloopRamp(1);
-    feeder.configOpenloopRamp(1);
-
-    intake.clearStickyFaults(10);
-    intakeSystem.clearStickyFaults(10);
-    feeder.clearStickyFaults(10);
-
-    intakeArms.set(Value.kReverse);
     
     /* Factory Default all hardware to prevent unexpected behaviour */
 		mainShooter.configFactoryDefault();
@@ -76,10 +60,13 @@ public class Shooter extends SubsystemBase {
     mainShooter.setSelectedSensorPosition(0, 0, 10);
     topShooter.setSelectedSensorPosition(0, 0, 10);
 
+    mainShooter.configOpenloopRamp(.5);
+    topShooter.configOpenloopRamp(.5);
+
     mainShooter.setNeutralMode(NeutralMode.Coast);
     topShooter.setNeutralMode(NeutralMode.Coast);
 
-    mainShooter.setInverted(true);
+    mainShooter.setInverted(false);
     topShooter.setInverted(true);
 
     //key = distance, value = speed
@@ -142,34 +129,5 @@ public class Shooter extends SubsystemBase {
     topShooter.set(ControlMode.PercentOutput, 0);
   }
 
-  public void toggleIntakeArms(){
-    intakeArms.toggle();
-  }
-  /**
-   * 
-   * @param i 1 = forward, 2 = reverse
-   */
-  public void toggleIntakeArms(int i){
-    switch (i) {
-      case 1:
-        intakeArms.set(Value.kForward);
-        break;
-      case 2:
-        intakeArms.set(Value.kReverse);
-        break;
-      default:
-        intakeArms.toggle();
-        break;
-    }
-  }
-
-  public void controlIntake(double intakeSpeedPercent, double intakeSystemSpeed, double feederSpeedPercent){
-    intake.set(ControlMode.PercentOutput, intakeSpeedPercent);
-    intakeSystem.set(ControlMode.PercentOutput, intakeSpeedPercent);
-    feeder.set(ControlMode.PercentOutput, feederSpeedPercent);
-  }
   
-  public void stopIntake(){
-    intake.set(ControlMode.PercentOutput, 0);
-  }
 }

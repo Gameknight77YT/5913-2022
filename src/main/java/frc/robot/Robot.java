@@ -14,9 +14,7 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
-//import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.TimedRobot;
-//import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -66,10 +64,10 @@ public class Robot extends TimedRobot {
   }
 
   public void InitTrajectorys() {
-    String Auto1Part1JSON = "output/Auto1Part1.wpilib.json";
-    String Auto1Part2JSON = "output/Auto1Part2.wpilib.json";
-    String Auto2Part1JSON = "output/Auto2Part1.wpilib.json";
-    String Auto2Part2JSON = "output/Auto2Part2.wpilib.json";
+    String Auto1Part1JSON = "paths/Auto1Part1.wpilib.json";
+    String Auto1Part2JSON = "paths/Auto1Part2.wpilib.json";
+    String Auto2Part1JSON = "paths/Auto2Part1.wpilib.json";
+    String Auto2Part2JSON = "paths/Auto2Part2.wpilib.json";
     try {
       Path Auto1Part1Path = Filesystem.getDeployDirectory().toPath().resolve(Auto1Part1JSON);
       Auto1Part1 = TrajectoryUtil.fromPathweaverJson(Auto1Part1Path);

@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -18,16 +19,16 @@ import frc.robot.Constants;
 public class Climber extends SubsystemBase {
    private WPI_TalonFX climber = new WPI_TalonFX(Constants.climberMasterID);
    private WPI_TalonFX climerSlave = new WPI_TalonFX(Constants.climberSlaveID);
-   DoubleSolenoid swingSolenoid = new DoubleSolenoid(Constants.pcmID, PneumaticsModuleType.CTREPCM, Constants.swingForwardID, Constants.swingReverseID);
    private String climberStatus = "normal";
   /** Creates a new Climber. */
   public Climber() {
-    climber.setInverted(false);
-    climerSlave.setInverted(true);
     climerSlave.follow(climber);
-    swingSolenoid.set(Value.kForward);
+    climber.setInverted(false);
+    climerSlave.setInverted(TalonFXInvertType.OpposeMaster);
+    
     climber.setNeutralMode(NeutralMode.Brake);
     climerSlave.setNeutralMode(NeutralMode.Brake);
+    //climber.setSelectedSensorPosition(0);
   }
 
   @Override
@@ -39,13 +40,7 @@ public class Climber extends SubsystemBase {
     
   }
 
-  public void swingOut() {
-    swingSolenoid.set(Value.kReverse);
-  }
-
-  public void swingIn() {
-    swingSolenoid.set(Value.kForward);
-  }
+  
 
   public void clearClimbEncoder() {
     climber.setSelectedSensorPosition(0);
@@ -56,15 +51,15 @@ public class Climber extends SubsystemBase {
   }
 
   public void setClimberMotor(double speed){
-    /*if(climber.getSelectedSensorPosition() <= 0 && speed < 0){
+    /*if(climber.getSelectedSensorPosition() <= Constants.climbEncoderBottom && speed < 0){
       speed = 0;
       climberStatus = "stoped at bottom";
-    }else if(climber.getSelectedSensorPosition() >= Constants.climbEncoderTop && speed > 0){
+    }else */if(climber.getSelectedSensorPosition() >= Constants.climbEncoderTop && speed > 0){
       speed = 0;
       climberStatus = "stoped at top";
     }else{
       climberStatus = "normal";
-    }*/
+    }
     climber.set(TalonFXControlMode.PercentOutput, speed);
   }
 }

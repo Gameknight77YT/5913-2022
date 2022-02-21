@@ -5,15 +5,15 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.ClimbArms;
 
 public class SwingOut extends CommandBase {
-  private Climber climber;
+  private ClimbArms climberArms;
   /** Creates a new SwingForward. */
-  public SwingOut(Climber c) {
-    climber = c;
+  public SwingOut(ClimbArms c) {
+    climberArms = c;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(climber);
+    addRequirements(climberArms);
   }
 
   // Called when the command is initially scheduled.
@@ -23,7 +23,7 @@ public class SwingOut extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    climber.swingOut();
+    climberArms.swingOut();
   }
 
   // Called once the command ends or is interrupted.
