@@ -20,16 +20,6 @@
         "header": {
           "open": true
         }
-      },
-      "Talon FX[6]/Fwd Limit": {
-        "header": {
-          "open": true
-        }
-      },
-      "Talon FX[6]/Rev Limit": {
-        "header": {
-          "open": true
-        }
       }
     }
   },
@@ -37,8 +27,10 @@
     "types": {
       "/FMSInfo": "FMSInfo",
       "/LiveWindow/Camera": "Subsystem",
+      "/LiveWindow/ClimbArms": "Subsystem",
       "/LiveWindow/Climber": "Subsystem",
       "/LiveWindow/DriveTrain": "Subsystem",
+      "/LiveWindow/Intake": "Subsystem",
       "/LiveWindow/Shooter": "Subsystem",
       "/LiveWindow/Ungrouped/PIDController[1]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[2]": "PIDController",
@@ -55,8 +47,26 @@
       "/LiveWindow/Ungrouped/Talon FX [7]": "Motor Controller",
       "/LiveWindow/Ungrouped/Talon FX [8]": "Motor Controller",
       "/LiveWindow/Ungrouped/Talon FX [9]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon SRX [10]": "Motor Controller",
       "/SmartDashboard/Field": "Field2d",
       "/SmartDashboard/SendableChooser[0]": "String Chooser"
+    },
+    "windows": {
+      "/SmartDashboard/Field": {
+        "Robot": {
+          "arrowWeight": 1.0,
+          "weight": 1.0
+        },
+        "traj": {
+          "arrowSize": 13,
+          "style": "Track",
+          "weight": 1.0,
+          "width": 0.6859999895095825
+        },
+        "window": {
+          "visible": true
+        }
+      }
     }
   }
 }

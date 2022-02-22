@@ -15,6 +15,7 @@ import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -31,8 +32,25 @@ public class Robot extends TimedRobot {
   public static AHRS navx = new AHRS();
   static Trajectory Auto1Part1 = new Trajectory();
   static Trajectory Auto1Part2 = new Trajectory();
+  static Trajectory Auto1Part3 = new Trajectory();
+  static Trajectory Auto1Part4 = new Trajectory();
   static Trajectory Auto2Part1 = new Trajectory();
   static Trajectory Auto2Part2 = new Trajectory();
+  static Trajectory Auto3Part1 = new Trajectory();
+  static Trajectory Auto3Part2 = new Trajectory();
+  static Trajectory Auto4Part1 = new Trajectory();
+  static Trajectory Auto4Part2 = new Trajectory();
+  
+  String Auto1Part1JSON = "paths/Auto1Part1.wpilib.json";
+  String Auto1Part2JSON = "paths/Auto1Part2.wpilib.json";
+  String Auto1Part3JSON = "paths/Auto1Part3.wpilib.json";
+  String Auto1Part4JSON = "paths/Auto1Part4.wpilib.json";
+  String Auto2Part1JSON = "paths/Auto2Part1.wpilib.json";
+  String Auto2Part2JSON = "paths/Auto2Part2.wpilib.json";
+  String Auto3Part1JSON = "paths/Auto2Part1.wpilib.json";
+  String Auto3Part2JSON = "paths/Auto2Part2.wpilib.json";
+  String Auto4Part1JSON = "paths/Auto2Part1.wpilib.json";
+  String Auto4Part2JSON = "paths/Auto2Part2.wpilib.json";
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -42,10 +60,10 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     calibrate();
     resetGyro();
+    InitTrajectorys();
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     robotContainer = new RobotContainer();
-    InitTrajectorys();
   }
   
   public void resetGyro() {
@@ -64,10 +82,6 @@ public class Robot extends TimedRobot {
   }
 
   public void InitTrajectorys() {
-    String Auto1Part1JSON = "paths/Auto1Part1.wpilib.json";
-    String Auto1Part2JSON = "paths/Auto1Part2.wpilib.json";
-    String Auto2Part1JSON = "paths/Auto2Part1.wpilib.json";
-    String Auto2Part2JSON = "paths/Auto2Part2.wpilib.json";
     try {
       Path Auto1Part1Path = Filesystem.getDeployDirectory().toPath().resolve(Auto1Part1JSON);
       Auto1Part1 = TrajectoryUtil.fromPathweaverJson(Auto1Part1Path);
@@ -83,6 +97,20 @@ public class Robot extends TimedRobot {
     }
 
     try {
+      Path Auto1Part3Path = Filesystem.getDeployDirectory().toPath().resolve(Auto1Part3JSON);
+      Auto1Part3 = TrajectoryUtil.fromPathweaverJson(Auto1Part3Path);
+    } catch (IOException ex) {
+      DriverStation.reportError("Unable to open trajectory: " + Auto1Part3JSON, ex.getStackTrace());
+    }
+     
+    try {
+      Path Auto1Part4Path = Filesystem.getDeployDirectory().toPath().resolve(Auto1Part4JSON);
+      Auto1Part4 = TrajectoryUtil.fromPathweaverJson(Auto1Part4Path);
+    } catch (IOException ex) {
+      DriverStation.reportError("Unable to open trajectory: " + Auto1Part4JSON, ex.getStackTrace());
+    }
+
+    try {
       Path Auto2Part1Path = Filesystem.getDeployDirectory().toPath().resolve(Auto2Part1JSON);
       Auto2Part1 = TrajectoryUtil.fromPathweaverJson(Auto2Part1Path);
     } catch (IOException ex) {
@@ -95,6 +123,34 @@ public class Robot extends TimedRobot {
     } catch (IOException ex) {
       DriverStation.reportError("Unable to open trajectory: " + Auto2Part2JSON, ex.getStackTrace());
     }
+
+    try {
+      Path Auto3Part1Path = Filesystem.getDeployDirectory().toPath().resolve(Auto3Part1JSON);
+      Auto3Part1 = TrajectoryUtil.fromPathweaverJson(Auto3Part1Path);
+    } catch (IOException ex) {
+      DriverStation.reportError("Unable to open trajectory: " + Auto3Part1JSON, ex.getStackTrace());
+    }
+     
+    try {
+      Path Auto3Part2Path = Filesystem.getDeployDirectory().toPath().resolve(Auto3Part2JSON);
+      Auto3Part2 = TrajectoryUtil.fromPathweaverJson(Auto3Part2Path);
+    } catch (IOException ex) {
+      DriverStation.reportError("Unable to open trajectory: " + Auto3Part2JSON, ex.getStackTrace());
+    }
+
+    try {
+      Path Auto4Part1Path = Filesystem.getDeployDirectory().toPath().resolve(Auto4Part1JSON);
+      Auto4Part1 = TrajectoryUtil.fromPathweaverJson(Auto4Part1Path);
+    } catch (IOException ex) {
+      DriverStation.reportError("Unable to open trajectory: " + Auto4Part1JSON, ex.getStackTrace());
+    }
+     
+    try {
+      Path Auto4Part2Path = Filesystem.getDeployDirectory().toPath().resolve(Auto4Part2JSON);
+      Auto4Part2 = TrajectoryUtil.fromPathweaverJson(Auto4Part2Path);
+    } catch (IOException ex) {
+      DriverStation.reportError("Unable to open trajectory: " + Auto4Part2JSON, ex.getStackTrace());
+    }
   }
 
   public static Trajectory getAuto1Part1Trajectory() {
@@ -105,6 +161,14 @@ public class Robot extends TimedRobot {
     return Auto1Part2;
   }
 
+  public static Trajectory getAuto1Part3Trajectory() {
+    return Auto1Part3;
+  }
+
+  public static Trajectory getAuto1Part4Trajectory() {
+    return Auto1Part4;
+  }
+
   public static Trajectory getAuto2Part1Trajectory() {
     return Auto2Part1;
   }
@@ -112,6 +176,24 @@ public class Robot extends TimedRobot {
   public static Trajectory getAuto2Part2Trajectory() {
     return Auto2Part2;
   }
+
+  public static Trajectory getAuto3Part1Trajectory() {
+    return Auto3Part1;
+  }
+
+  public static Trajectory getAuto3Part2Trajectory() {
+    return Auto3Part2;
+  }
+
+  public static Trajectory getAuto4Part1Trajectory() {
+    return Auto4Part1;
+  }
+
+  public static Trajectory getAuto4Part2Trajectory() {
+    return Auto4Part2;
+  }
+
+  
 
   /**
    * This function is called every robot packet, no matter the mode. Use this for items like
@@ -127,6 +209,7 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+    SmartDashboard.putNumber("acceleration ", navx.getAccelFullScaleRangeG());
   }
 
   /** This function is called once each time the robot enters Disabled mode. */

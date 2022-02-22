@@ -96,9 +96,9 @@ public final class Constants {
   public static final double kv = 2.1;// VoltSecondsPerMeter
   public static final double ka = 0.372; // VoltSecondsSquaredPerMeter
 
-  public static final double WheelBaseWith = Units.inchesToMeters(25);
+  public static final double WheelBaseWith = Units.inchesToMeters(27);
 
-  public static final double MaxSpeedMetersPerSecond = 1;
+  public static final double MaxSpeedMetersPerSecond = Units.feetToMeters(10);
   public static final double MaxAccelerationMetersPerSecondSquared = 3;
   public static final double kMaxAngularSpeed = Math.PI; // 1/2 rotation per second
 
@@ -113,12 +113,12 @@ public final class Constants {
   public static final double kd = 0;
 
   //Limelight TODO:change these
-  public static final double h2 = 0; //height of the target
+  public static final double h2 = 8.5521; //height of the target
   public static final double h1 = 0; //height of your camera above the floor 
   public static final double a1 = 0; //mounting angle
 
   // other constants
   public static final double WheelRadiusInches = 2.125;
-  public static final double GearRatio = 7;
+  public static final double GearRatio = 10/1;
     
 }
