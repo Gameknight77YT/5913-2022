@@ -4,15 +4,18 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Climber;
 
-public class ClimbDown extends CommandBase {
+public class ControlClimber extends CommandBase {
   private Climber climber;
+  private Joystick driverJoystick;
   /** Creates a new ClimbUp. */
-  public ClimbDown(Climber c) {
+  public ControlClimber(Climber c, Joystick j) {
     climber = c;
+    driverJoystick = j;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(climber);
   }
@@ -24,13 +27,13 @@ public class ClimbDown extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    climber.setClimberMotor(-Constants.climberSpeed);
+    climber.setClimberMotor(Constants.climberSpeed, driverJoystick);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    climber.setClimberMotor(0);
+    
   }
 
   // Returns true when the command should end.

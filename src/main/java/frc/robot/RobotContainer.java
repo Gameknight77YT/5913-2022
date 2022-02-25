@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
@@ -33,8 +32,7 @@ public class RobotContainer {
   private ClimbArms climbArms;
 
   private DriveWithJoysticks driveWithJoysticks; 
-  private ClimbUp climbUp;
-  private ClimbDown climbDown;
+  private ControlClimber controlClimber;
   private SwingIn swingIn;
   private SwingOut swingOut;
   private Shootball1 shootBall1;
@@ -71,10 +69,10 @@ public class RobotContainer {
 
     driveWithJoysticks = new DriveWithJoysticks(driveTrain, driverJoystick);
     driveTrain.setDefaultCommand(driveWithJoysticks);
-    climbUp = new ClimbUp(climber);
-    climbDown = new ClimbDown(climber);
     swingIn = new SwingIn(climbArms);
     swingOut = new SwingOut(climbArms);
+    controlClimber = new ControlClimber(climber, driverJoystick);
+    climber.setDefaultCommand(controlClimber);
     shootBall1 = new Shootball1(shooter);
     shootBall2 = new Shootball2(shooter);
     shootBall3 = new Shootball3(shooter);
@@ -94,8 +92,9 @@ public class RobotContainer {
     autoChooser = new SendableChooser<Integer>();
     autoChooser.setDefaultOption("auto1", 1);
     autoChooser.addOption("auto2", 2);
-    autoChooser.addOption("auto2", 3);
-    autoChooser.addOption("auto2", 4);
+    autoChooser.addOption("auto3", 3);
+    autoChooser.addOption("auto4", 4);
+    autoChooser.addOption("Test", 5);
     SmartDashboard.putData(autoChooser);
 
     // Configure the button bindings
@@ -109,11 +108,6 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    JoystickButton climbUpButton = new JoystickButton(driverJoystick, Constants.climbUpButtonID);
-    climbUpButton.whileHeld(climbUp);
-
-    JoystickButton climbDownButton = new JoystickButton(driverJoystick, Constants.climbDownButtonID);
-    climbDownButton.whileHeld(climbDown);
 
     JoystickButton swingInButton = new JoystickButton(manipulatorJoystick, Constants.swingInButtonID);
     swingInButton.whileHeld(swingIn);
@@ -328,15 +322,47 @@ public class RobotContainer {
         driveTrain
         );
 
+        RamseteCommand Auto4Part3command = new RamseteCommand(
+          Robot.getAuto4Part3Trajectory(), 
+          driveTrain::getPose,
+          new RamseteController(Constants.kRamseteB,Constants.kRamseteZeta),
+          driveTrain.getFeedForward(),
+          driveTrain.getKinematics(),
+          driveTrain::getSpeeds,
+          driveTrain.getleftPidController(),
+          driveTrain.getrightPidController(),
+          driveTrain::tankDriveVolts,
+          driveTrain
+          );
+
       driveTrain.resetOdometry(Robot.getAuto2Part1Trajectory().getInitialPose());
 
-      return ((Auto4Part1command.raceWith(new AutoIntake(camera, shooter, intake)))
+      return (Auto4Part1command.raceWith(new AutoIntake(camera, shooter, intake)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
       .andThen(new StopAndShoot(shooter, camera, intake))
       .andThen(Auto4Part2command.raceWith(new AutoIntake(camera, shooter, intake)))
+      .andThen(Auto4Part3command.raceWith(new AutoIntake(camera, shooter, intake)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
       .andThen(new StopAndShoot(shooter, camera, intake))
-      );
+      ;
+
+    }else if(autoChooser.getSelected() == 5){
+      RamseteCommand Test1command = new RamseteCommand(
+        Robot.getTestTrajectory(), 
+        driveTrain::getPose,
+        new RamseteController(Constants.kRamseteB,Constants.kRamseteZeta),
+        driveTrain.getFeedForward(),
+        driveTrain.getKinematics(),
+        driveTrain::getSpeeds,
+        driveTrain.getleftPidController(),
+        driveTrain.getrightPidController(),
+        driveTrain::tankDriveVolts,
+        driveTrain
+        );
+        
+      return Test1command
+      .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
+      ;
     }else{
       return null;
     }

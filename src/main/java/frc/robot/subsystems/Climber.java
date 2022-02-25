@@ -9,9 +9,7 @@ import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -50,16 +48,25 @@ public class Climber extends SubsystemBase {
     return climber.getSelectedSensorPosition();
   }
 
-  public void setClimberMotor(double speed){
+  public void setClimberMotor(double speed, Joystick driverJoystick){
     /*if(climber.getSelectedSensorPosition() <= Constants.climbEncoderBottom && speed < 0){
       speed = 0;
       climberStatus = "stoped at bottom";
-    }else */if(climber.getSelectedSensorPosition() >= Constants.climbEncoderTop && speed > 0){
+    }else if(climber.getSelectedSensorPosition() >= Constants.climbEncoderTop && speed > 0){
       speed = 0;
       climberStatus = "stoped at top";
     }else{
       climberStatus = "normal";
+    }*/
+    if(driverJoystick.getRawButton(Constants.climbUpButtonID)){
+      climber.set(TalonFXControlMode.PercentOutput, speed);
+    }else if(driverJoystick.getRawButton(Constants.climbDownButtonID)){
+      climber.set(TalonFXControlMode.PercentOutput, -speed);
+    }else if(driverJoystick.getRawButton(Constants.climbUpSlowButtonID)){
+      climber.set(TalonFXControlMode.PercentOutput, speed/2);
+    }else{
+      climber.set(TalonFXControlMode.PercentOutput, 0);
     }
-    climber.set(TalonFXControlMode.PercentOutput, speed);
+    
   }
 }

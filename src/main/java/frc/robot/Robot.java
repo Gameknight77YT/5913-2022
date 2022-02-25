@@ -15,6 +15,7 @@ import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -29,7 +30,7 @@ public class Robot extends TimedRobot {
   private Command autonomousCommand;
 
   private RobotContainer robotContainer;
-  public static AHRS navx = new AHRS();
+  public static AHRS navx;
   static Trajectory Auto1Part1 = new Trajectory();
   static Trajectory Auto1Part2 = new Trajectory();
   static Trajectory Auto1Part3 = new Trajectory();
@@ -40,6 +41,8 @@ public class Robot extends TimedRobot {
   static Trajectory Auto3Part2 = new Trajectory();
   static Trajectory Auto4Part1 = new Trajectory();
   static Trajectory Auto4Part2 = new Trajectory();
+  static Trajectory Auto4Part3 = new Trajectory();
+  static Trajectory Test = new Trajectory();
   
   String Auto1Part1JSON = "paths/Auto1Part1.wpilib.json";
   String Auto1Part2JSON = "paths/Auto1Part2.wpilib.json";
@@ -47,10 +50,12 @@ public class Robot extends TimedRobot {
   String Auto1Part4JSON = "paths/Auto1Part4.wpilib.json";
   String Auto2Part1JSON = "paths/Auto2Part1.wpilib.json";
   String Auto2Part2JSON = "paths/Auto2Part2.wpilib.json";
-  String Auto3Part1JSON = "paths/Auto2Part1.wpilib.json";
-  String Auto3Part2JSON = "paths/Auto2Part2.wpilib.json";
-  String Auto4Part1JSON = "paths/Auto2Part1.wpilib.json";
-  String Auto4Part2JSON = "paths/Auto2Part2.wpilib.json";
+  String Auto3Part1JSON = "paths/Auto3Part1.wpilib.json";
+  String Auto3Part2JSON = "paths/Auto3Part2.wpilib.json";
+  String Auto4Part1JSON = "paths/Auto4Part1.wpilib.json";
+  String Auto4Part2JSON = "paths/Auto4Part2.wpilib.json";
+  String Auto4Part3JSON = "paths/Auto4Part3.wpilib.json";
+  String TestJSON = "paths/Test.wpilib.json";
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -58,15 +63,21 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    calibrate();
-    resetGyro();
+    //navx = new AHRS();  what I had 
+    navx = new AHRS(Port.kUSB1); //what I thing might work
+
+    navx.enableLogging(true);
+    //calibrate();
+    
     InitTrajectorys();
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     robotContainer = new RobotContainer();
+    resetGyro();
   }
   
   public void resetGyro() {
+    
     navx.reset();
   }
 
@@ -151,6 +162,21 @@ public class Robot extends TimedRobot {
     } catch (IOException ex) {
       DriverStation.reportError("Unable to open trajectory: " + Auto4Part2JSON, ex.getStackTrace());
     }
+
+    try {
+      Path Auto4Part3Path = Filesystem.getDeployDirectory().toPath().resolve(Auto4Part3JSON);
+      Auto4Part3 = TrajectoryUtil.fromPathweaverJson(Auto4Part3Path);
+    } catch (IOException ex) {
+      DriverStation.reportError("Unable to open trajectory: " + Auto4Part3JSON, ex.getStackTrace());
+    }
+
+    try {
+      Path TestPath = Filesystem.getDeployDirectory().toPath().resolve(TestJSON);
+      Test = TrajectoryUtil.fromPathweaverJson(TestPath);
+    } catch (IOException ex) {
+      DriverStation.reportError("Unable to open trajectory: " + TestJSON, ex.getStackTrace());
+    }
+
   }
 
   public static Trajectory getAuto1Part1Trajectory() {
@@ -193,6 +219,14 @@ public class Robot extends TimedRobot {
     return Auto4Part2;
   }
 
+  public static Trajectory getAuto4Part3Trajectory() {
+    return Auto4Part3;
+  }
+
+  public static Trajectory getTestTrajectory() {
+    return Test;
+  }
+
   
 
   /**
@@ -210,6 +244,8 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
     SmartDashboard.putNumber("acceleration ", navx.getAccelFullScaleRangeG());
+    SmartDashboard.putNumber("angle ", navx.getAngle());
+    SmartDashboard.putBoolean("cal", navx.isCalibrating());
   }
 
   /** This function is called once each time the robot enters Disabled mode. */

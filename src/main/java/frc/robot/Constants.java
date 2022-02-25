@@ -65,16 +65,16 @@ public final class Constants {
 
     //times / encoder counts
     public static final double stopAndShootTime = 2;
-    public static final double backUpDistance = 20000;
     public static final double climbEncoderTop = 333160;
     public static final double climbEncoderBottom = -7000;
 
-    //buttons
+    //buttons driver
     public static final int climbUpButtonID = 3;
     public static final int climbDownButtonID = 4;
     public static final int intakeArmsUpButtonID = 1; 
     public static final int intakeArmsDownButtonID = 2;
-
+    public static final int climbUpSlowButtonID = 7;
+    //manipulator 
     public static final int swingInButtonID = 4;
     public static final int swingOutButtonID = 3;
     public static final int shootBallAutoSpeedButtonID = 12;
@@ -88,13 +88,13 @@ public final class Constants {
     public static final int ActivateTurnTurretButton = 6;
     public static final int TrackTargetButtonID = 1;
 
-  // These are example values only - DO NOT USE THESE FOR YOUR OWN ROBOT!
-  // These characterization values MUST be determined either experimentally or
-  // theoretically
-  // for *your* robot's drive.
-  public static final double ks = 0.706;// Volts
-  public static final double kv = 2.1;// VoltSecondsPerMeter
-  public static final double ka = 0.372; // VoltSecondsSquaredPerMeter
+  /* These are example values only - DO NOT USE THESE FOR YOUR OWN ROBOT!
+     These characterization values MUST be determined either experimentally or
+     theoretically
+     for *your* robot's drive.*/
+  public static final double ks = 0.59354;// Volts
+  public static final double kv = 3.1807;// VoltSecondsPerMeter
+  public static final double ka = 0.32155; // VoltSecondsSquaredPerMeter
 
   public static final double WheelBaseWith = Units.inchesToMeters(27);
 
@@ -108,17 +108,18 @@ public final class Constants {
   public static final double kRamseteZeta = 0.7;
 
   // PID controller values
-  public static final double kp = 2.81;
+  public static final double kp = 3.998;
   public static final double ki = 0;
   public static final double kd = 0;
 
-  //Limelight TODO:change these
+  //Limelight TODO: change these
   public static final double h2 = 8.5521; //height of the target
-  public static final double h1 = 0; //height of your camera above the floor 
-  public static final double a1 = 0; //mounting angle
+  public static final double h1 = 23*12; //height of your camera above the floor 
+  public static final double a1 = 33; //mounting angle
 
   // other constants
   public static final double WheelRadiusInches = 2.125;
   public static final double GearRatio = 10/1;
+  
     
 }

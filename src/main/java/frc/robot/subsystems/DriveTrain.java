@@ -19,8 +19,6 @@ import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
@@ -40,7 +38,6 @@ public class DriveTrain extends SubsystemBase {
   PIDController rightPidController = new PIDController(Constants.kp, Constants.ki, Constants.kd);
 
   Pose2d pose = new Pose2d();
-  Field2d field = new Field2d();
   /** Creates a new DriveTrain. */
   public DriveTrain() {
     leftMaster.configFactoryDefault();
@@ -85,9 +82,7 @@ public class DriveTrain extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     pose = odometry.update(Robot.getHeading(),GetLeftMasterEncoderPose(),GetRightMasterEncoderPose());
-    field.setRobotPose(odometry.getPoseMeters());
-    field.getObject("traj").setTrajectory(Robot.getAuto1Part1Trajectory().concatenate(Robot.getAuto1Part2Trajectory()));
-    SmartDashboard.putData("Field", field);
+    
   }
 
   public void resetOdometry(Pose2d pose2D) {
@@ -97,8 +92,8 @@ public class DriveTrain extends SubsystemBase {
   
   public DifferentialDriveWheelSpeeds getSpeeds() {
    return new DifferentialDriveWheelSpeeds(
-    leftMaster.getSelectedSensorVelocity() / Constants.GearRatio * 2 * Math.PI * Units.inchesToMeters(Constants.WheelRadiusInches) / 60,
-    rightMaster.getSelectedSensorVelocity() / Constants.GearRatio * 2 * Math.PI * Units.inchesToMeters(Constants.WheelRadiusInches) / 60
+    leftMaster.getSelectedSensorVelocity() / Constants.GearRatio * (2 * Math.PI * Units.inchesToMeters(Constants.WheelRadiusInches)) / 60,//*10?
+    rightMaster.getSelectedSensorVelocity() / Constants.GearRatio * (2 * Math.PI * Units.inchesToMeters(Constants.WheelRadiusInches)) / 60
    );
   }
 
