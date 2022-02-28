@@ -49,24 +49,25 @@ public class Climber extends SubsystemBase {
   }
 
   public void setClimberMotor(double speed, Joystick driverJoystick){
+    if(driverJoystick.getRawButton(Constants.climbUpButtonID)){
+      // do nothing
+    }else if(driverJoystick.getRawButton(Constants.climbDownButtonID)){
+      speed = -speed;
+    }else if(driverJoystick.getRawButton(Constants.climbUpSlowButtonID)){
+      speed = speed/2;
+    }else{
+      speed = 0;
+    }
     /*if(climber.getSelectedSensorPosition() <= Constants.climbEncoderBottom && speed < 0){
       speed = 0;
       climberStatus = "stoped at bottom";
-    }else if(climber.getSelectedSensorPosition() >= Constants.climbEncoderTop && speed > 0){
+    }else*/ if(climber.getSelectedSensorPosition() >= Constants.climbEncoderTop && speed > 0){
       speed = 0;
       climberStatus = "stoped at top";
     }else{
       climberStatus = "normal";
-    }*/
-    if(driverJoystick.getRawButton(Constants.climbUpButtonID)){
-      climber.set(TalonFXControlMode.PercentOutput, speed);
-    }else if(driverJoystick.getRawButton(Constants.climbDownButtonID)){
-      climber.set(TalonFXControlMode.PercentOutput, -speed);
-    }else if(driverJoystick.getRawButton(Constants.climbUpSlowButtonID)){
-      climber.set(TalonFXControlMode.PercentOutput, speed/2);
-    }else{
-      climber.set(TalonFXControlMode.PercentOutput, 0);
     }
     
+    climber.set(TalonFXControlMode.PercentOutput, speed);
   }
 }

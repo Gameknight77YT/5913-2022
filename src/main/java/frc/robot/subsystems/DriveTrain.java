@@ -94,7 +94,7 @@ public class DriveTrain extends SubsystemBase {
    return new DifferentialDriveWheelSpeeds(
     leftMaster.getSelectedSensorVelocity() / Constants.GearRatio * (2 * Math.PI * Units.inchesToMeters(Constants.WheelRadiusInches)) / 60,//*10?
     rightMaster.getSelectedSensorVelocity() / Constants.GearRatio * (2 * Math.PI * Units.inchesToMeters(Constants.WheelRadiusInches)) / 60
-   );
+   );//nativeUnitsToDistanceMeters(leftMaster.getSelectedSensorVelocity()*10)
   }
 
   public SimpleMotorFeedforward getFeedForward(){
@@ -232,7 +232,7 @@ public class DriveTrain extends SubsystemBase {
 
   private double nativeUnitsToDistanceMeters(double sensorCounts){
     double motorRotations = (double)sensorCounts / 2048;
-    double wheelRotations = motorRotations / Constants.GearRatio;
+    double wheelRotations = motorRotations / Constants.GearRatio;// *  TODO
     double positionMeters = wheelRotations * (2 * Math.PI * Units.inchesToMeters(Constants.WheelRadiusInches));
     return positionMeters;
   }
