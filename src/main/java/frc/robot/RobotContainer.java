@@ -39,6 +39,7 @@ public class RobotContainer {
   private Shootball2 shootBall2;
   private Shootball3 shootBall3;
   private Shootball4 shootBall4;
+  private Shootball6 shootBall6;
   private ShootBallAutoSpeed shootBallAutoSpeed;
   private IntakeArmsUp intakeArmsUp;
   private IntakeArmsDown intakeArmsDown;
@@ -77,6 +78,7 @@ public class RobotContainer {
     shootBall2 = new Shootball2(shooter);
     shootBall3 = new Shootball3(shooter);
     shootBall4 = new Shootball4(shooter);
+    shootBall6 = new Shootball6(shooter);
     shootBallAutoSpeed = new ShootBallAutoSpeed(shooter);
     intakeArmsUp = new IntakeArmsUp(intake);
     intakeArmsDown = new IntakeArmsDown(intake);
@@ -124,11 +126,14 @@ public class RobotContainer {
     JoystickButton shootBall3Button = new JoystickButton(manipulatorJoystick, Constants.shootBall3ButtonID);
     shootBall3Button.whileHeld(shootBall3);
 
-    //JoystickButton shootBall4Button = new JoystickButton(manipulatorJoystick, Constants.shootBall4ButtonID);
-    //shootBall4Button.whileHeld(shootBall4);
+    JoystickButton shootBall4Button = new JoystickButton(manipulatorJoystick, Constants.shootBall4ButtonID);
+    shootBall4Button.whileHeld(shootBall4);
 
-    JoystickButton shootBallAutoSpeedButton = new JoystickButton(manipulatorJoystick, Constants.shootBallAutoSpeedButtonID);
-    shootBallAutoSpeedButton.whileHeld(shootBallAutoSpeed);
+    JoystickButton shootBall6Button = new JoystickButton(manipulatorJoystick, Constants.shootBall6ButtonID);
+    shootBall6Button.whileHeld(shootBall6);
+
+    //JoystickButton shootBallAutoSpeedButton = new JoystickButton(manipulatorJoystick, Constants.shootBallAutoSpeedButtonID);
+    //shootBallAutoSpeedButton.whileHeld(shootBallAutoSpeed);
 
     JoystickButton intakeArmsUpButton = new JoystickButton(driverJoystick, Constants.intakeArmsUpButtonID);
     intakeArmsUpButton.whenPressed(intakeArmsUp);
@@ -272,25 +277,11 @@ public class RobotContainer {
         driveTrain
         );
       
-        RamseteCommand Auto3Part2command = new RamseteCommand(
-        Robot.getAuto3Part2Trajectory(), 
-        driveTrain::getPose,
-        new RamseteController(Constants.kRamseteB,Constants.kRamseteZeta),
-        driveTrain.getFeedForward(),
-        driveTrain.getKinematics(),
-        driveTrain::getSpeeds,
-        driveTrain.getleftPidController(),
-        driveTrain.getrightPidController(),
-        driveTrain::tankDriveVolts,
-        driveTrain
-        );
+        
 
-      driveTrain.resetOdometry(Robot.getAuto2Part1Trajectory().getInitialPose());
+      driveTrain.resetOdometry(Robot.getAuto3Part1Trajectory().getInitialPose());
 
       return ((Auto3Part1command.raceWith(new AutoIntake(camera, shooter, intake)))
-      .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
-      .andThen(new StopAndShoot(shooter, camera, intake))
-      .andThen(Auto3Part2command.raceWith(new AutoIntake(camera, shooter, intake)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
       .andThen(new StopAndShoot(shooter, camera, intake))
       );
@@ -335,7 +326,7 @@ public class RobotContainer {
           driveTrain
           );
 
-      driveTrain.resetOdometry(Robot.getAuto2Part1Trajectory().getInitialPose());
+      driveTrain.resetOdometry(Robot.getAuto4Part1Trajectory().getInitialPose());
 
       return (Auto4Part1command.raceWith(new AutoIntake(camera, shooter, intake)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)

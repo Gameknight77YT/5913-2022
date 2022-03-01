@@ -9,6 +9,7 @@ import java.nio.file.Path;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
@@ -19,6 +20,7 @@ import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.Camera;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -57,6 +59,8 @@ public class Robot extends TimedRobot {
   String Auto4Part3JSON = "paths/Auto4Part3.wpilib.json";
   String TestJSON = "paths/Test.wpilib.json";
 
+  
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -65,7 +69,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     //navx = new AHRS();  what I had 
     navx = new AHRS(Port.kUSB1); //what I thing might work
-
+    
     navx.enableLogging(true);
     //calibrate();
     
@@ -243,9 +247,6 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-    SmartDashboard.putNumber("acceleration ", navx.getAccelFullScaleRangeG());
-    SmartDashboard.putNumber("angle ", navx.getAngle());
-    SmartDashboard.putBoolean("cal", navx.isCalibrating());
   }
 
   /** This function is called once each time the robot enters Disabled mode. */

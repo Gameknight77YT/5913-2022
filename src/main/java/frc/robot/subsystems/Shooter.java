@@ -56,8 +56,8 @@ public class Shooter extends SubsystemBase {
     mainShooter.setSelectedSensorPosition(0, 0, 10);
     topShooter.setSelectedSensorPosition(0, 0, 10);
 
-    mainShooter.configOpenloopRamp(.5);
-    topShooter.configOpenloopRamp(.5);
+    mainShooter.configOpenloopRamp(.1);
+    topShooter.configOpenloopRamp(.1);
 
     mainShooter.setNeutralMode(NeutralMode.Coast);
     topShooter.setNeutralMode(NeutralMode.Coast);
@@ -85,6 +85,7 @@ public class Shooter extends SubsystemBase {
    * 3 = speed 3,
    * 4 = speed 4,
    * 5 = Interpolated Speed,
+   * 6 = speed 6
    * other = other value
    * @param otherValue
    * if you want to use a different speed,
@@ -112,7 +113,10 @@ public class Shooter extends SubsystemBase {
         mainShooter.set(TalonFXControlMode.Velocity, mainSpeedMap.getInterpolated(Camera.getDistance()).value);
         topShooter.set(TalonFXControlMode.Velocity, -topSpeedMap.getInterpolated(Camera.getDistance()).value);
         break;
-    
+      case 6:
+        mainShooter.set(TalonFXControlMode.Velocity, Constants.ShooterSpeed6);
+        topShooter.set(TalonFXControlMode.Velocity, -(Constants.TopShooterSpeed6));
+        break;
       default:
         mainShooter.set(TalonFXControlMode.Velocity, otherValue);
         topShooter.set(TalonFXControlMode.Velocity, otherValue);
