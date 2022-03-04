@@ -92,10 +92,10 @@ public class RobotContainer {
     stopAndShoot = new StopAndShoot(shooter, camera, intake);
 
     autoChooser = new SendableChooser<Integer>();
-    autoChooser.setDefaultOption("auto1", 1);
-    autoChooser.addOption("auto2", 2);
-    autoChooser.addOption("auto3", 3);
-    autoChooser.addOption("auto4", 4);
+    //autoChooser.setDefaultOption("auto1", 1);
+    //autoChooser.addOption("auto2", 2);
+    autoChooser.setDefaultOption("auto2", 3);
+    autoChooser.addOption("auto1", 4);
     autoChooser.addOption("Test", 5);
     SmartDashboard.putData(autoChooser);
 
