@@ -94,8 +94,8 @@ public class RobotContainer {
     autoChooser = new SendableChooser<Integer>();
     //autoChooser.setDefaultOption("auto1", 1);
     //autoChooser.addOption("auto2", 2);
-    autoChooser.setDefaultOption("auto2", 3);
-    autoChooser.addOption("auto1", 4);
+    autoChooser.addOption("auto2", 3);
+    autoChooser.setDefaultOption("auto1", 4);
     autoChooser.addOption("Test", 5);
     SmartDashboard.putData(autoChooser);
 
