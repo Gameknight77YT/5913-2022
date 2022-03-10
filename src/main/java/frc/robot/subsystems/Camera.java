@@ -64,10 +64,9 @@ public class Camera extends SubsystemBase {
     SmartDashboard.putNumber("LimelightArea", area);
 
     
-    Distance = new InterpolatingDouble((Constants.h2-Constants.h1) / Math.tan(Constants.a1+y));
-    SmartDashboard.putNumber("DistanceMeters", Distance.value);
-    SmartDashboard.putNumber("DistanceFeet", Units.metersToFeet(Distance.value));
-
+    Distance = new InterpolatingDouble((double)((int)((Constants.goalHeightInches-Constants.limelightHeightInches) / Math.tan(Units.degreesToRadians(Constants.limelightMountAngleDegrees+y)))));
+    SmartDashboard.putNumber("Distance", Distance.value);
+    
 
     limelightTracking();
   }

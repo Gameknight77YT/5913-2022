@@ -51,17 +51,17 @@ public final class Constants {
     public static final double TurnTurretSpeed = .95;
     public static final double climberSpeed = 1;
     public static final double ShooterSpeed1 = 8800;// 9 
-    public static final double TopShooterSpeed1 = 5500;// 9 
-    public static final double ShooterSpeed2 = 3500;// 7 
-    public static final double TopShooterSpeed2 = 3500;// 7 
+    public static final double TopShooterSpeed1 = 5500;// 9
+    public static final double ShooterSpeed2 = 3500;// no 
+    public static final double TopShooterSpeed2 = 3500;// no 
     public static final double ShooterSpeed3 = 9000;// 11 
     public static final double TopShooterSpeed3 = 10000;// 11 
     public static final double ShooterSpeed4 = 8750;// 10 
     public static final double TopShooterSpeed4 = 7000;// 10
-    public static final double ShooterSpeed6 = 11000; //12 
+    public static final double ShooterSpeed6 = 10000; //12 
     public static final double TopShooterSpeed6 = 14000; //12
     public static final double intakeSpeed = .95;
-    public static final double feederSpeed = .95;
+    public static final double feederSpeed = .50;
     public static final double starfishSpeed = .35;
     public static final double autoSpeed = .95;
 
@@ -79,7 +79,7 @@ public final class Constants {
     //manipulator 
     public static final int swingInButtonID = 4;
     public static final int swingOutButtonID = 3;
-    public static final int shootBallAutoSpeedButtonID = 12;
+    public static final int shootBallAutoSpeedButtonID = 7;
     public static final int shootBall4ButtonID = 10;
     public static final int shootBall3ButtonID = 11;
     public static final int shootBall2ButtonID = 7;
@@ -116,9 +116,9 @@ public final class Constants {
   public static final double kd = 0;
 
   //Limelight TODO: change these
-  public static final double h2 = 8.5521; //height of the target
-  public static final double h1 = 23/12; //height of your camera above the floor 
-  public static final double a1 = 33; //mounting angle
+  public static final double goalHeightInches = 8.5521; //height of the target
+  public static final double limelightHeightInches = 23/12; //height of your camera above the floor 
+  public static final double limelightMountAngleDegrees = 33; //mounting angle
 
   // other constants
   public static final double WheelRadiusInches = 2.125;

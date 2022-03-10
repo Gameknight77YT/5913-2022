@@ -67,8 +67,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    //navx = new AHRS();  what I had 
-    navx = new AHRS(Port.kUSB1); //what I thing might work
+    navx = new AHRS(Port.kUSB1); 
     
     navx.enableLogging(true);
     //calibrate();

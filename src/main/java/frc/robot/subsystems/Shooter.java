@@ -21,6 +21,8 @@ public class Shooter extends SubsystemBase {
   private InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> mainSpeedMap = new InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble>();
   private InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> topSpeedMap = new InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble>();
   /** Creates a new Shooter. */
+  double top;
+  double main;
   public Shooter() {
     
     /* Factory Default all hardware to prevent unexpected behaviour */
@@ -46,12 +48,12 @@ public class Shooter extends SubsystemBase {
 		mainShooter.config_kF(0, 1023.0/20660.0, 10);
 		mainShooter.config_kP(0, 0.1, 10);
 		mainShooter.config_kI(0, 0.001, 10);
-		mainShooter.config_kD(0, 5, 10);
+		mainShooter.config_kD(0, .5, 10);
 
     topShooter.config_kF(0, 1023.0/20660.0, 10);
 		topShooter.config_kP(0, 0.1, 10);
 		topShooter.config_kI(0, 0.001, 10);
-		topShooter.config_kD(0, 5, 10);
+		topShooter.config_kD(0, .5, 10);
     
     mainShooter.setSelectedSensorPosition(0, 0, 10);
     topShooter.setSelectedSensorPosition(0, 0, 10);
@@ -66,8 +68,36 @@ public class Shooter extends SubsystemBase {
     topShooter.setInverted(true);
 
     //key = distance, value = speed
-    //mainSpeedMap.put(key, value);  TODO
-    //topSpeedMap.put(key, value);   TODO
+    put(8, 8800, 5500);//   tarmac
+    put(11, 8750, 7000);//  mid
+    put(13, 8800, 9000);
+    put(14, 9000, 10000);// launch pad 1
+    put(16, 9500, 12000);
+    put(18, 10000, 14000);//launch pad 2
+  }
+
+  /**
+   * 
+   * @param dis
+   * @param main
+   * @param top
+   */
+  private void put(int dis, int main, int top){
+    put(dis+.0, main+.0, top+.0);
+  }
+
+  /**
+   * 
+   * @param dis
+   * @param main
+   * @param top
+   */
+  private void put(Double dis, Double main, Double top){
+    InterpolatingDouble k = new InterpolatingDouble(dis);
+    InterpolatingDouble mv = new InterpolatingDouble(main);
+    InterpolatingDouble tv = new InterpolatingDouble(top);
+    mainSpeedMap.put(k, mv);  
+    topSpeedMap.put(k, tv);
   }
 
   @Override
@@ -75,7 +105,14 @@ public class Shooter extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("mainShooter speed", mainShooter.getSelectedSensorVelocity());
     SmartDashboard.putNumber("topShooter speed", topShooter.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("main", main);
+    SmartDashboard.putNumber("top", top);
+    //SmartDashboard.putNumber("mainInterpolation", mainSpeedMap.getInterpolated(Camera.getDistance()).value);
+    //SmartDashboard.putNumber("topInterpolation", topSpeedMap.getInterpolated(Camera.getDistance()).value);
+    main = SmartDashboard.getNumber("main", 0);
+    top = SmartDashboard.getNumber("top", 0);
   }
+
   /**
    * 
    * @param speedPreset

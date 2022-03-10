@@ -120,8 +120,8 @@ public class RobotContainer {
     JoystickButton shootBall1Button = new JoystickButton(manipulatorJoystick, Constants.shootBall1ButtonID);
     shootBall1Button.whileHeld(shootBall1);
 
-    JoystickButton shootBall2Button = new JoystickButton(manipulatorJoystick, Constants.shootBall2ButtonID);
-    shootBall2Button.whileHeld(shootBall2);
+    //JoystickButton shootBall2Button = new JoystickButton(manipulatorJoystick, Constants.shootBall2ButtonID);
+    //shootBall2Button.whileHeld(shootBall2);
 
     JoystickButton shootBall3Button = new JoystickButton(manipulatorJoystick, Constants.shootBall3ButtonID);
     shootBall3Button.whileHeld(shootBall3);
@@ -132,8 +132,8 @@ public class RobotContainer {
     JoystickButton shootBall6Button = new JoystickButton(manipulatorJoystick, Constants.shootBall6ButtonID);
     shootBall6Button.whileHeld(shootBall6);
 
-    //JoystickButton shootBallAutoSpeedButton = new JoystickButton(manipulatorJoystick, Constants.shootBallAutoSpeedButtonID);
-    //shootBallAutoSpeedButton.whileHeld(shootBallAutoSpeed);
+    JoystickButton shootBallAutoSpeedButton = new JoystickButton(manipulatorJoystick, Constants.shootBallAutoSpeedButtonID);
+    shootBallAutoSpeedButton.whileHeld(shootBallAutoSpeed);
 
     JoystickButton intakeArmsUpButton = new JoystickButton(driverJoystick, Constants.intakeArmsUpButtonID);
     intakeArmsUpButton.whenPressed(intakeArmsUp);
