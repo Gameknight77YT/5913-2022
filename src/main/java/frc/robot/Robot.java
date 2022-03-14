@@ -33,30 +33,34 @@ public class Robot extends TimedRobot {
 
   private RobotContainer robotContainer;
   public static AHRS navx;
-  static Trajectory Auto1Part1 = new Trajectory();
-  static Trajectory Auto1Part2 = new Trajectory();
-  static Trajectory Auto1Part3 = new Trajectory();
-  static Trajectory Auto1Part4 = new Trajectory();
-  static Trajectory Auto2Part1 = new Trajectory();
-  static Trajectory Auto2Part2 = new Trajectory();
-  static Trajectory Auto3Part1 = new Trajectory();
-  static Trajectory Auto3Part2 = new Trajectory();
+  
+  static Trajectory Auto2 = new Trajectory();
+
   static Trajectory Auto4Part1 = new Trajectory();
   static Trajectory Auto4Part2 = new Trajectory();
   static Trajectory Auto4Part3 = new Trajectory();
+
+  static Trajectory Auto5Part1 = new Trajectory();
+  static Trajectory Auto5Part2 = new Trajectory();
+  static Trajectory Auto5Part3 = new Trajectory();
+  static Trajectory Auto5Part4 = new Trajectory();
+  static Trajectory Auto5Part5 = new Trajectory();
+
   static Trajectory Test = new Trajectory();
   
-  String Auto1Part1JSON = "paths/Auto1Part1.wpilib.json";
-  String Auto1Part2JSON = "paths/Auto1Part2.wpilib.json";
-  String Auto1Part3JSON = "paths/Auto1Part3.wpilib.json";
-  String Auto1Part4JSON = "paths/Auto1Part4.wpilib.json";
-  String Auto2Part1JSON = "paths/Auto2Part1.wpilib.json";
-  String Auto2Part2JSON = "paths/Auto2Part2.wpilib.json";
-  String Auto3Part1JSON = "paths/Auto3Part1.wpilib.json";
-  String Auto3Part2JSON = "paths/Auto3Part2.wpilib.json";
+  
+  String Auto2JSON = "paths/Auto2.wpilib.json";
+
   String Auto4Part1JSON = "paths/Auto4Part1.wpilib.json";
   String Auto4Part2JSON = "paths/Auto4Part2.wpilib.json";
   String Auto4Part3JSON = "paths/Auto4Part3.wpilib.json";
+
+  String Auto5Part1JSON = "paths/Auto5Part1.wpilib.json";
+  String Auto5Part2JSON = "paths/Auto5Part2.wpilib.json";
+  String Auto5Part3JSON = "paths/Auto5Part3.wpilib.json";
+  String Auto5Part4JSON = "paths/Auto5part4.wpilib.json";
+  String Auto5Part5JSON = "paths/Auto5part5.wpilib.json";
+
   String TestJSON = "paths/Test.wpilib.json";
 
   
@@ -96,60 +100,12 @@ public class Robot extends TimedRobot {
   }
 
   public void InitTrajectorys() {
-    try {
-      Path Auto1Part1Path = Filesystem.getDeployDirectory().toPath().resolve(Auto1Part1JSON);
-      Auto1Part1 = TrajectoryUtil.fromPathweaverJson(Auto1Part1Path);
-    } catch (IOException ex) {
-      DriverStation.reportError("Unable to open trajectory: " + Auto1Part1JSON, ex.getStackTrace());
-    }
-     
-    try {
-      Path Auto1Part2Path = Filesystem.getDeployDirectory().toPath().resolve(Auto1Part2JSON);
-      Auto1Part2 = TrajectoryUtil.fromPathweaverJson(Auto1Part2Path);
-    } catch (IOException ex) {
-      DriverStation.reportError("Unable to open trajectory: " + Auto1Part2JSON, ex.getStackTrace());
-    }
 
     try {
-      Path Auto1Part3Path = Filesystem.getDeployDirectory().toPath().resolve(Auto1Part3JSON);
-      Auto1Part3 = TrajectoryUtil.fromPathweaverJson(Auto1Part3Path);
+      Path Auto2Path = Filesystem.getDeployDirectory().toPath().resolve(Auto2JSON);
+      Auto2 = TrajectoryUtil.fromPathweaverJson(Auto2Path);
     } catch (IOException ex) {
-      DriverStation.reportError("Unable to open trajectory: " + Auto1Part3JSON, ex.getStackTrace());
-    }
-     
-    try {
-      Path Auto1Part4Path = Filesystem.getDeployDirectory().toPath().resolve(Auto1Part4JSON);
-      Auto1Part4 = TrajectoryUtil.fromPathweaverJson(Auto1Part4Path);
-    } catch (IOException ex) {
-      DriverStation.reportError("Unable to open trajectory: " + Auto1Part4JSON, ex.getStackTrace());
-    }
-
-    try {
-      Path Auto2Part1Path = Filesystem.getDeployDirectory().toPath().resolve(Auto2Part1JSON);
-      Auto2Part1 = TrajectoryUtil.fromPathweaverJson(Auto2Part1Path);
-    } catch (IOException ex) {
-      DriverStation.reportError("Unable to open trajectory: " + Auto2Part1JSON, ex.getStackTrace());
-    }
-     
-    try {
-      Path Auto2Part2Path = Filesystem.getDeployDirectory().toPath().resolve(Auto2Part2JSON);
-      Auto2Part2 = TrajectoryUtil.fromPathweaverJson(Auto2Part2Path);
-    } catch (IOException ex) {
-      DriverStation.reportError("Unable to open trajectory: " + Auto2Part2JSON, ex.getStackTrace());
-    }
-
-    try {
-      Path Auto3Part1Path = Filesystem.getDeployDirectory().toPath().resolve(Auto3Part1JSON);
-      Auto3Part1 = TrajectoryUtil.fromPathweaverJson(Auto3Part1Path);
-    } catch (IOException ex) {
-      DriverStation.reportError("Unable to open trajectory: " + Auto3Part1JSON, ex.getStackTrace());
-    }
-     
-    try {
-      Path Auto3Part2Path = Filesystem.getDeployDirectory().toPath().resolve(Auto3Part2JSON);
-      Auto3Part2 = TrajectoryUtil.fromPathweaverJson(Auto3Part2Path);
-    } catch (IOException ex) {
-      DriverStation.reportError("Unable to open trajectory: " + Auto3Part2JSON, ex.getStackTrace());
+      DriverStation.reportError("Unable to open trajectory: " + Auto2JSON, ex.getStackTrace());
     }
 
     try {
@@ -174,6 +130,41 @@ public class Robot extends TimedRobot {
     }
 
     try {
+      Path Auto5Part1Path = Filesystem.getDeployDirectory().toPath().resolve(Auto5Part1JSON);
+      Auto5Part1 = TrajectoryUtil.fromPathweaverJson(Auto5Part1Path);
+    } catch (IOException ex) {
+      DriverStation.reportError("Unable to open trajectory: " + Auto5Part1JSON, ex.getStackTrace());
+    }
+     
+    try {
+      Path Auto5Part2Path = Filesystem.getDeployDirectory().toPath().resolve(Auto5Part2JSON);
+      Auto5Part2 = TrajectoryUtil.fromPathweaverJson(Auto5Part2Path);
+    } catch (IOException ex) {
+      DriverStation.reportError("Unable to open trajectory: " + Auto5Part2JSON, ex.getStackTrace());
+    }
+
+    try {
+      Path Auto5Part3Path = Filesystem.getDeployDirectory().toPath().resolve(Auto5Part3JSON);
+      Auto5Part3 = TrajectoryUtil.fromPathweaverJson(Auto5Part3Path);
+    } catch (IOException ex) {
+      DriverStation.reportError("Unable to open trajectory: " + Auto5Part3JSON, ex.getStackTrace());
+    }
+
+    try {
+      Path Auto5Part4Path = Filesystem.getDeployDirectory().toPath().resolve(Auto5Part4JSON);
+      Auto5Part4 = TrajectoryUtil.fromPathweaverJson(Auto5Part4Path);
+    } catch (IOException ex) {
+      DriverStation.reportError("Unable to open trajectory: " + Auto5Part4JSON, ex.getStackTrace());
+    }
+
+    try {
+      Path Auto5Part5Path = Filesystem.getDeployDirectory().toPath().resolve(Auto5Part5JSON);
+      Auto5Part5 = TrajectoryUtil.fromPathweaverJson(Auto5Part5Path);
+    } catch (IOException ex) {
+      DriverStation.reportError("Unable to open trajectory: " + Auto5Part5JSON, ex.getStackTrace());
+    }
+
+    try {
       Path TestPath = Filesystem.getDeployDirectory().toPath().resolve(TestJSON);
       Test = TrajectoryUtil.fromPathweaverJson(TestPath);
     } catch (IOException ex) {
@@ -182,36 +173,8 @@ public class Robot extends TimedRobot {
 
   }
 
-  public static Trajectory getAuto1Part1Trajectory() {
-    return Auto1Part1;
-  }
-
-  public static Trajectory getAuto1Part2Trajectory() {
-    return Auto1Part2;
-  }
-
-  public static Trajectory getAuto1Part3Trajectory() {
-    return Auto1Part3;
-  }
-
-  public static Trajectory getAuto1Part4Trajectory() {
-    return Auto1Part4;
-  }
-
-  public static Trajectory getAuto2Part1Trajectory() {
-    return Auto2Part1;
-  }
-
-  public static Trajectory getAuto2Part2Trajectory() {
-    return Auto2Part2;
-  }
-
-  public static Trajectory getAuto3Part1Trajectory() {
-    return Auto3Part1;
-  }
-
-  public static Trajectory getAuto3Part2Trajectory() {
-    return Auto3Part2;
+  public static Trajectory getAuto2Trajectory() {
+    return Auto2;
   }
 
   public static Trajectory getAuto4Part1Trajectory() {
@@ -224,6 +187,26 @@ public class Robot extends TimedRobot {
 
   public static Trajectory getAuto4Part3Trajectory() {
     return Auto4Part3;
+  }
+
+  public static Trajectory getAuto5Part1Trajectory() {
+    return Auto5Part1;
+  }
+
+  public static Trajectory getAuto5Part2Trajectory() {
+    return Auto5Part2;
+  }
+
+  public static Trajectory getAuto5Part3Trajectory() {
+    return Auto5Part3;
+  }
+
+  public static Trajectory getAuto5Part4Trajectory() {
+    return Auto5Part4;
+  }
+
+  public static Trajectory getAuto5Part5Trajectory() {
+    return Auto5Part5;
   }
 
   public static Trajectory getTestTrajectory() {

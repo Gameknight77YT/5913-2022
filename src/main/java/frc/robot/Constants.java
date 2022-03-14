@@ -82,7 +82,7 @@ public final class Constants {
     public static final int shootBallAutoSpeedButtonID = 7;
     public static final int shootBall4ButtonID = 10;
     public static final int shootBall3ButtonID = 11;
-    public static final int shootBall2ButtonID = 7;
+    public static final int shootBall2ButtonID = 7; //no
     public static final int shootBall1ButtonID = 9;
     public static final int intakeBallButtonID = 5; 
     public static final int shootBall6ButtonID = 12;
