@@ -95,15 +95,15 @@ public final class Constants {
      These characterization values MUST be determined either experimentally or
      theoretically
      for *your* robot's drive.*/
-  public static final double ks = 0.59354;// Volts
-  public static final double kv = 3.1807;// VoltSecondsPerMeter
-  public static final double ka = 0.32155; // VoltSecondsSquaredPerMeter
+  public static final double ks = 0.61137;// Volts
+  public static final double kv = 3.0987;// VoltSecondsPerMeter
+  public static final double ka = 0.45177; // VoltSecondsSquaredPerMeter
 
-  public static final double WheelBaseWith = Units.inchesToMeters(27);
+  public static final double WheelBaseWith = 0.80483;
 
-  public static final double MaxSpeedMetersPerSecond = Units.feetToMeters(10);
-  public static final double MaxAccelerationMetersPerSecondSquared = 3;
-  public static final double kMaxAngularSpeed = Math.PI; // 1/2 rotation per second
+  //public static final double MaxSpeedMetersPerSecond = Units.feetToMeters(10);
+  //public static final double MaxAccelerationMetersPerSecondSquared = 3;
+  //public static final double kMaxAngularSpeed = Math.PI; // 1/2 rotation per second
 
   // Reasonable baseline values for a RAMSETE follower in units of meters and
   // seconds
@@ -111,9 +111,9 @@ public final class Constants {
   public static final double kRamseteZeta = 0.7;
 
   // PID controller values
-  public static final double kp = 3.998;
+  public static final double kp = 4.2499;//6.8392
   public static final double ki = 0;
-  public static final double kd = 0;
+  public static final double kd = 0;//20.827
 
   //Limelight TODO: change these
   public static final double goalHeightInches = 8.5521; //height of the target

@@ -52,7 +52,7 @@ public class Shooter extends SubsystemBase {
 
     topShooter.config_kF(0, .04691, 10);
 		topShooter.config_kP(0, .02791, 10);
-		topShooter.config_kI(0, 0., 10);
+		topShooter.config_kI(0, 0, 10);
 		topShooter.config_kD(0, .3, 10);
     
     mainShooter.setSelectedSensorPosition(0, 0, 10);
