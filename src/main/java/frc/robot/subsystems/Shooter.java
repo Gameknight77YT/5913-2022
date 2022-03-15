@@ -45,15 +45,15 @@ public class Shooter extends SubsystemBase {
 		topShooter.configPeakOutputForward(1, 10);
 		topShooter.configPeakOutputReverse(-1, 10);
 		/* Config the Velocity closed loop gains */
-		mainShooter.config_kF(0, 1023.0/20660.0, 10);
-		mainShooter.config_kP(0, 0.1, 10);
-		mainShooter.config_kI(0, 0.001, 10);
+		mainShooter.config_kF(0, .04625, 10);
+		mainShooter.config_kP(0, .49875, 10);
+		mainShooter.config_kI(0, 0, 10);
 		mainShooter.config_kD(0, .5, 10);
 
-    topShooter.config_kF(0, 1023.0/20660.0, 10);
-		topShooter.config_kP(0, 0.1, 10);
-		topShooter.config_kI(0, 0.001, 10);
-		topShooter.config_kD(0, .5, 10);
+    topShooter.config_kF(0, .04691, 10);
+		topShooter.config_kP(0, .02791, 10);
+		topShooter.config_kI(0, 0., 10);
+		topShooter.config_kD(0, .3, 10);
     
     mainShooter.setSelectedSensorPosition(0, 0, 10);
     topShooter.setSelectedSensorPosition(0, 0, 10);
