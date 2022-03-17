@@ -14,11 +14,13 @@ public class AutoIntake extends CommandBase {
   Camera camera;
   Shooter shooter;
   Intake intake;
+  boolean track;
   /** Creates a new AutoIntake. */
-  public AutoIntake(Camera c, Shooter s, Intake i) {
+  public AutoIntake(Camera c, Shooter s, Intake i, Boolean track) {
     shooter = s;
     camera = c;
     intake = i;
+    this.track = track;
     addRequirements(shooter, camera, intake);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -35,7 +37,7 @@ public class AutoIntake extends CommandBase {
     intake.toggleIntakeArms(1);
     intake.controlIntake(Constants.intakeSpeed,Constants.starfishSpeed, 0);
     shooter.shootBall(1, 0);
-    camera.AutoTrack();
+    if(track) camera.AutoTrack();
   }
 
   // Called once the command ends or is interrupted.
@@ -43,7 +45,7 @@ public class AutoIntake extends CommandBase {
   public void end(boolean interrupted) {
     intake.stopIntake();
     shooter.stopShooter();
-    camera.Reset();
+    if(track) camera.Reset();
   }
 
   // Returns true when the command should end.

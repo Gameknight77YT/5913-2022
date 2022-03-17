@@ -88,7 +88,7 @@ public class RobotContainer {
     trackTarget = new TrackTarget(camera);
     controlTurret = new ControlTurret(camera, manipulatorJoystick);
     camera.setDefaultCommand(controlTurret);
-    autoIntake = new AutoIntake(camera, shooter, intake);
+    autoIntake = new AutoIntake(camera, shooter, intake, true);
     stopAndShoot = new StopAndShoot(shooter, camera, intake);
 
     autoChooser = new SendableChooser<Integer>();
@@ -198,7 +198,7 @@ public class RobotContainer {
 
       driveTrain.resetOdometry(Robot.getAuto2Trajectory().getInitialPose());
 
-      return ((Auto2command.raceWith(new AutoIntake(camera, shooter, intake)))
+      return ((Auto2command.raceWith(new AutoIntake(camera, shooter, intake, true)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
       .andThen(new StopAndShoot(shooter, camera, intake))
       );
@@ -246,11 +246,11 @@ public class RobotContainer {
 
       driveTrain.resetOdometry(Robot.getAuto4Part1Trajectory().getInitialPose());
 
-      return (Auto4Part1command.raceWith(new AutoIntake(camera, shooter, intake)))
+      return (Auto4Part1command.raceWith(new AutoIntake(camera, shooter, intake, true)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
       .andThen(new StopAndShoot(shooter, camera, intake))
-      .andThen(Auto4Part2command.raceWith(new AutoIntake(camera, shooter, intake)))
-      .andThen(Auto4Part3command.raceWith(new AutoIntake(camera, shooter, intake)))
+      .andThen(Auto4Part2command.raceWith(new AutoIntake(camera, shooter, intake, true)))
+      .andThen(Auto4Part3command.raceWith(new AutoIntake(camera, shooter, intake, true)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
       .andThen(new StopAndShoot(shooter, camera, intake))
       ;
@@ -323,15 +323,15 @@ public class RobotContainer {
 
       driveTrain.resetOdometry(Robot.getAuto5Part1Trajectory().getInitialPose());
 
-      return (Auto5Part1command.raceWith(new AutoIntake(camera, shooter, intake)))
+      return (Auto5Part1command.raceWith(new AutoIntake(camera, shooter, intake, true)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
       .andThen(new StopAndShoot(shooter, camera, intake))
-      .andThen(Auto5Part2command.raceWith(new AutoIntake(camera, shooter, intake)))
-      .andThen(Auto5Part3command.raceWith(new AutoIntake(camera, shooter, intake)))
+      .andThen(Auto5Part2command.raceWith(new AutoIntake(camera, shooter, intake, true)))
+      .andThen(Auto5Part3command.raceWith(new AutoIntake(camera, shooter, intake, true)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
       .andThen(new StopAndShoot(shooter, camera, intake))
-      .andThen(Auto5Part4command.raceWith(new AutoIntake(camera, shooter, intake)))
-      .andThen(Auto5Part5command.raceWith(new AutoIntake(camera, shooter, intake)))
+      .andThen(Auto5Part4command.raceWith(new AutoIntake(camera, shooter, intake, false)))
+      .andThen(Auto5Part5command.raceWith(new AutoIntake(camera, shooter, intake, false)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
       .andThen(new StopAndShoot(shooter, camera, intake))
       ;

@@ -86,6 +86,7 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public void resetOdometry(Pose2d pose2D) {
+    System.out.println("reset");
     ClearDriveEncoders();
     odometry.resetPosition(pose2D, Robot.getRotation2d());
   }

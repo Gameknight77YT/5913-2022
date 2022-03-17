@@ -66,7 +66,7 @@ public final class Constants {
     public static final double autoSpeed = .95;
 
     //times / encoder counts
-    public static final double stopAndShootTime = 2;
+    public static final double stopAndShootTime = 1;
     public static final double climbEncoderTop = 339242;
     public static final double climbEncoderBottom = -7000;
 
@@ -95,9 +95,9 @@ public final class Constants {
      These characterization values MUST be determined either experimentally or
      theoretically
      for *your* robot's drive.*/
-  public static final double ks = 0.61137;// Volts
-  public static final double kv = 3.0987;// VoltSecondsPerMeter
-  public static final double ka = 0.45177; // VoltSecondsSquaredPerMeter
+  public static final double ks = 0.63742;// Volts
+  public static final double kv = 3.1419;// VoltSecondsPerMeter
+  public static final double ka = 0.35834; // VoltSecondsSquaredPerMeter
 
   public static final double WheelBaseWith = 0.80483;
 
@@ -111,9 +111,9 @@ public final class Constants {
   public static final double kRamseteZeta = 0.7;
 
   // PID controller values
-  public static final double kp = 4.2499;//6.8392
+  public static final double kp = 4.0951;//123.29
   public static final double ki = 0;
-  public static final double kd = 0;//20.827
+  public static final double kd = 0;//8.4519
 
   //Limelight TODO: change these
   public static final double goalHeightInches = 8.5521; //height of the target
