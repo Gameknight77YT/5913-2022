@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
@@ -64,7 +65,7 @@ public class Camera extends SubsystemBase {
     SmartDashboard.putNumber("LimelightArea", area);
 
     
-    Distance = new InterpolatingDouble((double)((int)((Constants.goalHeightInches-Constants.limelightHeightInches) / Math.tan(Units.degreesToRadians(Constants.limelightMountAngleDegrees+y)))));
+    Distance = new InterpolatingDouble((double)((int)((Constants.goalHeightfeet-Constants.limelightHeightFeet) / Math.tan(Units.degreesToRadians(Constants.limelightMountAngleDegrees+y)))));
     SmartDashboard.putNumber("Distance", Distance.value);
     
 
@@ -79,7 +80,7 @@ public class Camera extends SubsystemBase {
   
   public void limelightTracking() {
     // These numbers must be tuned for your Robot!  Be careful!
-    final double STEER_K = 0.04;                   // how hard to turn toward the target
+    final double STEER_K = 0.08; //0.04 how hard to turn toward the target
     final double min_command = 0.02;
     double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
     double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
@@ -118,6 +119,10 @@ public class Camera extends SubsystemBase {
       else{
         turretControl.set(ControlMode.PercentOutput, 0);
       }
+    }
+
+    public void Control(double speed){
+      turretControl.set(TalonFXControlMode.PercentOutput, speed);
     }
 
 

@@ -116,8 +116,8 @@ public final class Constants {
   public static final double kd = 0;//8.4519
 
   //Limelight TODO: change these
-  public static final double goalHeightInches = 8.5521; //height of the target
-  public static final double limelightHeightInches = 23/12; //height of your camera above the floor 
+  public static final double goalHeightfeet = 8.5521; //height of the target
+  public static final double limelightHeightFeet = 23/12; //height of your camera above the floor 
   public static final double limelightMountAngleDegrees = 33; //mounting angle
 
   // other constants
