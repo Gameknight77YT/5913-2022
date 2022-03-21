@@ -248,11 +248,11 @@ public class RobotContainer {
 
       return (Auto4Part1command.raceWith(new AutoIntake(camera, shooter, intake, true)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
-      .andThen(new StopAndShoot(shooter, camera, intake))
-      .andThen(Auto4Part2command.raceWith(new AutoIntake(camera, shooter, intake, true)))
-      .andThen(Auto4Part3command.raceWith(new AutoIntake(camera, shooter, intake, true)))
+      .andThen(new StopAndShoot2(shooter, camera, intake))
+      .andThen(Auto4Part2command.raceWith(new AutoIntake(camera, shooter, intake, false)))
+      .andThen(Auto4Part3command.raceWith(new AutoIntake(camera, shooter, intake, false)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
-      .andThen(new StopAndShoot(shooter, camera, intake))
+      .andThen(new StopAndShoot2(shooter, camera, intake))
       ;
 
     }else if(autoChooser.getSelected() == 5){
@@ -327,14 +327,13 @@ public class RobotContainer {
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
       .andThen(new StopAndShoot(shooter, camera, intake))
       .andThen(Auto5Part2command.raceWith(new AutoIntake(camera, shooter, intake, false)))
-      .andThen(Auto5Part3command.raceWith(new AutoIntake2(camera, shooter, intake)))
+      .andThen(Auto5Part3command.raceWith(new AutoIntake3(camera, shooter, intake)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
-      .andThen(new StopAndShoot(shooter, camera, intake))
+      .andThen(new StopAndShoot2(shooter, camera, intake))
       .andThen(Auto5Part4command.raceWith(new AutoIntake(camera, shooter, intake, false)))
-      //.andThen(new IntakeArmsUp(intake))
-      .andThen(Auto5Part5command.raceWith(new AutoIntake(camera, shooter, intake, false)))
+      .andThen(Auto5Part5command.raceWith(new AutoIntake(camera, shooter, intake, true)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
-      .andThen(new StopAndShoot(shooter, camera, intake))
+      .andThen(new StopAndShoot2(shooter, camera, intake))
       ;
     }else{
       return null;

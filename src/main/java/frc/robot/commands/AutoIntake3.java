@@ -11,13 +11,13 @@ import frc.robot.subsystems.Camera;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
-public class AutoIntake2 extends CommandBase {
+public class AutoIntake3 extends CommandBase {
   Camera camera;
   Shooter shooter;
   Intake intake;
   private Timer timer = new Timer();
   /** Creates a new AutoIntake. */
-  public AutoIntake2(Camera c, Shooter s, Intake i) {
+  public AutoIntake3(Camera c, Shooter s, Intake i) {
     shooter = s;
     camera = c;
     intake = i;
@@ -38,8 +38,8 @@ public class AutoIntake2 extends CommandBase {
     intake.toggleIntakeArms(1);
     intake.controlIntake(Constants.intakeSpeed,Constants.starfishSpeed, 0);
     shooter.shootBall(1, 0);
-    if(timer.get() <.4 ){
-      camera.Control(-.95);
+    if(timer.get() <.35 ){
+      camera.Control(.95);
     }else{
       camera.Control(0);
     }

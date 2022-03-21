@@ -11,18 +11,19 @@ import frc.robot.subsystems.Camera;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
-public class AutoIntake2 extends CommandBase {
+public class StopAndShoot2 extends CommandBase {
   Camera camera;
   Shooter shooter;
   Intake intake;
-  private Timer timer = new Timer();
-  /** Creates a new AutoIntake. */
-  public AutoIntake2(Camera c, Shooter s, Intake i) {
+  Timer timer = new Timer();
+  boolean finished = false;
+  /** Creates a new StopAndShoot. */
+  public StopAndShoot2(Shooter s, Camera c, Intake i) {
     shooter = s;
     camera = c;
     intake = i;
-    addRequirements(shooter, camera, intake);
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(shooter, camera, intake);
   }
 
   // Called when the command is initially scheduled.
@@ -30,32 +31,34 @@ public class AutoIntake2 extends CommandBase {
   public void initialize() {
     timer.reset();
     timer.start();
+    /*while(timer.get() <= .5){
+      camera.AutoTrack();
+      intake.controlIntake(Constants.intakeSpeed, Constants.starfishSpeed, 0);
+      shooter.shootBall(5, 0);
+    }*/
+    while(timer.get() <= Constants.stopAndShootTime){
+      camera.AutoTrack();
+      intake.controlIntake(Constants.intakeSpeed, Constants.starfishSpeed, Constants.feederSpeed);
+      shooter.shootBall(4, 0);
+    }
+    finished = true;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    intake.toggleIntakeArms(1);
-    intake.controlIntake(Constants.intakeSpeed,Constants.starfishSpeed, 0);
-    shooter.shootBall(1, 0);
-    if(timer.get() <.4 ){
-      camera.Control(-.95);
-    }else{
-      camera.Control(0);
-    }
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intake.stopIntake();
     shooter.stopShooter();
-    camera.Control(0);
+    intake.stopIntake();
+    camera.Reset();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return finished;
   }
 }

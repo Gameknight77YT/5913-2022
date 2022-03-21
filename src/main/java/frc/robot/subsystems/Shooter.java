@@ -20,9 +20,11 @@ public class Shooter extends SubsystemBase {
   private WPI_TalonFX topShooter = new WPI_TalonFX(Constants.topShooterID);
   private InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> mainSpeedMap = new InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble>();
   private InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> topSpeedMap = new InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble>();
-  /** Creates a new Shooter. */
+  boolean isMainUpToSpeed = false;
+  boolean isTopUpToSpeed = false;
   double top;
   double main;
+  /** Creates a new Shooter. */
   public Shooter() {
     
     /* Factory Default all hardware to prevent unexpected behaviour */
@@ -111,6 +113,10 @@ public class Shooter extends SubsystemBase {
     //SmartDashboard.putNumber("topInterpolation", topSpeedMap.getInterpolated(Camera.getDistance()).value);
     main = SmartDashboard.getNumber("main", 0);
     top = SmartDashboard.getNumber("top", 0);
+    SmartDashboard.putBoolean("isTopUpToSpeed", isTopUpToSpeed);
+    SmartDashboard.putBoolean("isMainUpToSpeed", isMainUpToSpeed);
+    isMainUpToSpeed = false;
+    isTopUpToSpeed = false;
   }
 
   /**
@@ -129,36 +135,50 @@ public class Shooter extends SubsystemBase {
    * 0 otherwise
    */
   public void shootBall(int speedPreset, double otherValue){
+    double mainSpeed;
+    double topSpeed;
     switch (speedPreset) {
       case 1:
-        mainShooter.set(TalonFXControlMode.Velocity, Constants.ShooterSpeed1);
-        topShooter.set(TalonFXControlMode.Velocity, -(Constants.TopShooterSpeed1));
+        mainSpeed = Constants.ShooterSpeed1;
+        topSpeed = -(Constants.TopShooterSpeed1);
         break;
       case 2:
-        mainShooter.set(TalonFXControlMode.Velocity, Constants.ShooterSpeed2);
-        topShooter.set(TalonFXControlMode.Velocity, -(Constants.TopShooterSpeed2));
+        mainSpeed = Constants.ShooterSpeed2;
+        topSpeed = -(Constants.TopShooterSpeed2);
         break;
       case 3:
-        mainShooter.set(TalonFXControlMode.Velocity, Constants.ShooterSpeed3);
-        topShooter.set(TalonFXControlMode.Velocity, -(Constants.TopShooterSpeed3));
+        mainSpeed = Constants.ShooterSpeed3;
+        topSpeed = -(Constants.TopShooterSpeed3);
         break;
       case 4:
-        mainShooter.set(TalonFXControlMode.Velocity, Constants.ShooterSpeed4);
-        topShooter.set(TalonFXControlMode.Velocity, -(Constants.TopShooterSpeed4));
+        mainSpeed = Constants.ShooterSpeed4;
+        topSpeed = -(Constants.TopShooterSpeed4);
         break;
       case 5:
-        mainShooter.set(TalonFXControlMode.Velocity, mainSpeedMap.getInterpolated(Camera.getDistance()).value);
-        topShooter.set(TalonFXControlMode.Velocity, -topSpeedMap.getInterpolated(Camera.getDistance()).value);
+        mainSpeed = mainSpeedMap.getInterpolated(Camera.getDistance()).value;
+        topSpeed = -topSpeedMap.getInterpolated(Camera.getDistance()).value;
         break;
       case 6:
-        mainShooter.set(TalonFXControlMode.Velocity, Constants.ShooterSpeed6);
-        topShooter.set(TalonFXControlMode.Velocity, -(Constants.TopShooterSpeed6));
+        mainSpeed = Constants.ShooterSpeed6;
+        topSpeed = -(Constants.TopShooterSpeed6);
         break;
       default:
-        mainShooter.set(TalonFXControlMode.Velocity, otherValue);
-        topShooter.set(TalonFXControlMode.Velocity, otherValue);
+        mainSpeed = otherValue;
+        topSpeed = otherValue;
         break;
     }
+
+    
+    mainShooter.set(ControlMode.Velocity, mainSpeed);
+    topShooter.set(ControlMode.Velocity, topSpeed);
+
+    if(mainSpeed-150 <= mainShooter.getSelectedSensorVelocity() && mainShooter.getSelectedSensorVelocity() <= mainSpeed+150){
+      isMainUpToSpeed = true;
+    }else isMainUpToSpeed = false;
+
+    if(topSpeed-500 <= topShooter.getSelectedSensorVelocity() && topShooter.getSelectedSensorVelocity() <= topSpeed+500){
+      isTopUpToSpeed = true;
+    }else isTopUpToSpeed = false;
   }
 
   public void stopShooter(){
