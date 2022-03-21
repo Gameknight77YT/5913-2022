@@ -71,7 +71,8 @@ public class Shooter extends SubsystemBase {
 
     //key = distance, value = speed
     put(8, 8800, 5500);//   tarmac
-    put(11, 8750, 7000);//  mid
+    put(10, 8800, 6600);
+    put(11, 8800, 7000);//  mid
     put(13, 8800, 9000);
     put(14, 9000, 10000);// launch pad 1
     put(16, 9500, 12000);
@@ -172,11 +173,11 @@ public class Shooter extends SubsystemBase {
     mainShooter.set(ControlMode.Velocity, mainSpeed);
     topShooter.set(ControlMode.Velocity, topSpeed);
 
-    if(mainSpeed-150 <= mainShooter.getSelectedSensorVelocity() && mainShooter.getSelectedSensorVelocity() <= mainSpeed+150){
+    if(mainSpeed-100 <= mainShooter.getSelectedSensorVelocity() && mainShooter.getSelectedSensorVelocity() <= mainSpeed+100){
       isMainUpToSpeed = true;
     }else isMainUpToSpeed = false;
 
-    if(topSpeed-500 <= topShooter.getSelectedSensorVelocity() && topShooter.getSelectedSensorVelocity() <= topSpeed+500){
+    if(topSpeed-250 <= topShooter.getSelectedSensorVelocity() && topShooter.getSelectedSensorVelocity() <= topSpeed+250){
       isTopUpToSpeed = true;
     }else isTopUpToSpeed = false;
   }
