@@ -39,7 +39,7 @@ public class StopAndShoot2 extends CommandBase {
     while(timer.get() <= Constants.stopAndShootTime){
       camera.AutoTrack();
       intake.controlIntake(Constants.intakeSpeed, Constants.starfishSpeed, Constants.feederSpeed);
-      shooter.shootBall(4, 0);
+      shooter.shootBall(3, 0);
     }
     finished = true;
   }
