@@ -55,7 +55,7 @@ public class Shooter extends SubsystemBase {
     topShooter.config_kF(0, .04691, 10);
 		topShooter.config_kP(0, .02791, 10);
 		topShooter.config_kI(0, 0, 10);
-		topShooter.config_kD(0, .3, 10);
+		topShooter.config_kD(0, .2, 10);
     
     mainShooter.setSelectedSensorPosition(0, 0, 10);
     topShooter.setSelectedSensorPosition(0, 0, 10);
@@ -71,10 +71,10 @@ public class Shooter extends SubsystemBase {
 
     //key = distance, value = speed
     put(8, 8800, 5500);//   tarmac
-    put(10, 8800, 6600);
-    put(11, 8800, 7000);//  mid
-    put(13, 8800, 9000);
-    put(14, 9000, 10000);// launch pad 1
+    put(10, 8900, 6600);
+    put(11, 8900, 7500);//  mid
+    put(13, 8900, 9000);
+    put(14, 9100, 11000);// launch pad 1
     put(16, 9500, 12000);
     put(18, 10000, 14000);//launch pad 2
   }
