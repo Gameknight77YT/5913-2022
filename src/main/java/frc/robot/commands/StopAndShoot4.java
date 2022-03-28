@@ -11,14 +11,14 @@ import frc.robot.subsystems.Camera;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
-public class StopAndShoot extends CommandBase {
+public class StopAndShoot4 extends CommandBase {
   Camera camera;
   Shooter shooter;
   Intake intake;
   Timer timer = new Timer();
   boolean finished = false;
   /** Creates a new StopAndShoot. */
-  public StopAndShoot(Shooter s, Camera c, Intake i) {
+  public StopAndShoot4(Shooter s, Camera c, Intake i) {
     shooter = s;
     camera = c;
     intake = i;
@@ -31,12 +31,12 @@ public class StopAndShoot extends CommandBase {
   public void initialize() {
     timer.reset();
     timer.start();
-    /*while(timer.get() <= .5){
+    while(timer.get() <= 1){
       camera.AutoTrack();
       intake.controlIntake(Constants.intakeSpeed, Constants.starfishSpeed, 0);
       shooter.shootBall(5, 0);
-    }*/
-    while(timer.get() <= Constants.stopAndShootTime){
+    }
+    while(timer.get() <= 2){
       camera.AutoTrack();
       intake.controlIntake(Constants.intakeSpeed, Constants.starfishSpeed, Constants.feederSpeed);
       shooter.shootBall(5, 0);

@@ -163,6 +163,10 @@ public class Shooter extends SubsystemBase {
         mainSpeed = Constants.ShooterSpeed6;
         topSpeed = -(Constants.TopShooterSpeed6);
         break;
+      case 7:
+        mainSpeed = 8900;
+        topSpeed = -9000;
+        break;
       default:
         mainSpeed = otherValue;
         topSpeed = otherValue;
