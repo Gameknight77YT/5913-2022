@@ -71,11 +71,14 @@ public final class Constants {
     public static final double climbEncoderBottom = -7000;
 
     //buttons driver
-    public static final int climbUpButtonID = 3;
-    public static final int climbDownButtonID = 4;
+    public static final int climbUpButtonID = 5;
+    public static final int climbDownButtonID = 6;
     public static final int intakeArmsUpButtonID = 1; 
     public static final int intakeArmsDownButtonID = 2;
     public static final int climbUpSlowButtonID = 7;
+    public static final int outTakeBallButtonID = 4;
+    public static final int intakeBallButtonID = 3; 
+
     //manipulator 
     public static final int swingInButtonID = 4;
     public static final int swingOutButtonID = 3;
@@ -84,20 +87,19 @@ public final class Constants {
     public static final int shootBall3ButtonID = 12;
     public static final int shootBall2ButtonID = 7; 
     public static final int shootBall1ButtonID = 11;
-    public static final int intakeBallButtonID = 5; 
     public static final int shootBall6ButtonID = 12;//no
-    public static final int outTakeBallButtonID = 8;
     public static final int feedBallButtonID = 2;
-    public static final int ActivateTurnTurretButton = 6;
+    public static final int TurnTurretRightButton = 6;
+    public static final int TurnTurretLeftButton = 5;
     public static final int TrackTargetButtonID = 1;
 
   /* These are example values only - DO NOT USE THESE FOR YOUR OWN ROBOT!
      These characterization values MUST be determined either experimentally or
      theoretically
      for *your* robot's drive.*/
-  public static final double ks = 0.63742;// Volts
-  public static final double kv = 3.1419;// VoltSecondsPerMeter
-  public static final double ka = 0.35834; // VoltSecondsSquaredPerMeter
+  public static final double ks = 0.67807;// Volts
+  public static final double kv = 2.6005;// VoltSecondsPerMeter
+  public static final double ka = 0.42447; // VoltSecondsSquaredPerMeter
 
   public static final double WheelBaseWith = 0.80483;
 
@@ -111,9 +113,9 @@ public final class Constants {
   public static final double kRamseteZeta = 0.7;
 
   // PID controller values
-  public static final double kp = 4.0951;//123.29
+  public static final double kp = 3.6667;//127.27
   public static final double ki = 0;
-  public static final double kd = 0;//8.4519
+  public static final double kd = 0;//9.3477
 
   //Limelight TODO: change these
   public static final double goalHeightfeet = 8.5521; //height of the target
@@ -122,7 +124,7 @@ public final class Constants {
 
   // other constants
   public static final double WheelRadiusInches = 2.125;
-  public static final double GearRatio = 10/1;
+  public static final double GearRatio = 30/18*5;
   
     
 }

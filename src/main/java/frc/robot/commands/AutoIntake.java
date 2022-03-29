@@ -37,7 +37,7 @@ public class AutoIntake extends CommandBase {
     intake.toggleIntakeArms(1);
     intake.controlIntake(Constants.intakeSpeed,Constants.starfishSpeed, 0);
     shooter.shootBall(1, 0);
-    if(track) camera.AutoTrack();
+    if(track) camera.Track();
   }
 
   // Called once the command ends or is interrupted.

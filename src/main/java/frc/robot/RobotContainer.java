@@ -64,7 +64,7 @@ public class RobotContainer {
     driveTrain = new DriveTrain();
     climber = new Climber();
     shooter = new Shooter();
-    camera = new Camera();
+    camera = new Camera(driveTrain);
     intake = new Intake();
     climbArms = new ClimbArms();
 
@@ -140,10 +140,10 @@ public class RobotContainer {
     JoystickButton intakeArmsDownButton = new JoystickButton(driverJoystick, Constants.intakeArmsDownButtonID);
     intakeArmsDownButton.whenPressed(intakeArmsDown);
 
-    JoystickButton intakeBallButton = new JoystickButton(manipulatorJoystick, Constants.intakeBallButtonID);
+    JoystickButton intakeBallButton = new JoystickButton(driverJoystick, Constants.intakeBallButtonID);
     intakeBallButton.whileHeld(intakeBall);
 
-    JoystickButton outTakeBallButton = new JoystickButton(manipulatorJoystick, Constants.outTakeBallButtonID);
+    JoystickButton outTakeBallButton = new JoystickButton(driverJoystick, Constants.outTakeBallButtonID);
     outTakeBallButton.whileHeld(outTakeBall);
 
     JoystickButton feedBallButton = new JoystickButton(manipulatorJoystick, Constants.feedBallButtonID);

@@ -5,6 +5,14 @@
 package frc.robot.subsystems;
 
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Map;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
@@ -12,6 +20,10 @@ import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -37,22 +49,35 @@ public class Camera extends SubsystemBase {
   private double m_LimelightSteerCommand = 0.0;
   WPI_TalonFX turretControl = new WPI_TalonFX(Constants.TurretControlID);
 
-  /** Creates a new Camera. */
-  public Camera() {
-    CameraServer.startAutomaticCapture(0);
+  private static final Pose2d targetPose = new Pose2d(new Translation2d(8.359, 4.125), new Rotation2d(0));
+  private Pose2d robotPose;
+  private double gx = targetPose.getX(),gy = targetPose.getY(),rx,ry;
+  private double a,b,c;
+  private double angleToGoal;
+  private DriveTrain driveTrain;
 
+  /** Creates a new Camera. */
+  public Camera(DriveTrain dt) {
+    driveTrain = dt; 
+    CameraServer.startAutomaticCapture(1);
+    turretControl.configFactoryDefault();
     turretControl.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 10);
     turretControl.clearStickyFaults(10);
     turretControl.setSelectedSensorPosition(0, 0, 10);
     turretControl.setSensorPhase(false);
-    turretControl.configMotionAcceleration(450, 10);
-    turretControl.configMotionCruiseVelocity(450, 10);
-    turretControl.setNeutralMode(NeutralMode.Coast);
+    //turretControl.configMotionAcceleration(450, 10);
+    //turretControl.configMotionCruiseVelocity(450, 10);
+    turretControl.setNeutralMode(NeutralMode.Brake);
     turretControl.setInverted(true);
+    turretControl.setSelectedSensorPosition(0);
+    
+    
+    
   }
 
   @Override
   public void periodic() {
+
     turretControl.set(0);
     // read values periodically
     final double x = tx.getDouble(0.0);
@@ -63,13 +88,22 @@ public class Camera extends SubsystemBase {
     SmartDashboard.putNumber("LimelightX", x);
     SmartDashboard.putNumber("LimelightY", y);
     SmartDashboard.putNumber("LimelightArea", area);
+    SmartDashboard.putNumber("turretEncoder", turretControl.getSelectedSensorPosition());
 
     
     Distance = new InterpolatingDouble((double)((int)((Constants.goalHeightfeet-Constants.limelightHeightFeet) / Math.tan(Units.degreesToRadians(Constants.limelightMountAngleDegrees+y)))));
     SmartDashboard.putNumber("Distance", Distance.value);
     
-
     limelightTracking();
+
+    robotPose = driveTrain.getPose();
+    rx = robotPose.getX();
+    ry = robotPose.getY();
+    a = (gx-rx);
+    b = (gy-ry);
+    c = Math.sqrt(a*a + b*b);
+    angleToGoal = Math.atan(a/b);
+    
   }
 
   public static InterpolatingDouble getDistance() {
@@ -106,29 +140,33 @@ public class Camera extends SubsystemBase {
 
     }
 
-    public void AutoTrack(){
-      limelightTracking();
-      turretControl.set(ControlMode.PercentOutput, m_LimelightSteerCommand);
-    }
 
-  public void Track(){
-    ledMode.setValue(0);
+  public void Track(){//238690 //-111823
+    ledMode.setValue(3);
       if (limelightHasValidTarget=true){
-        turretControl.set(ControlMode.PercentOutput, m_LimelightSteerCommand);
+        Control(m_LimelightSteerCommand);
       }
       else{
-        turretControl.set(ControlMode.PercentOutput, 0);
+        Control(0);
       }
     }
 
     public void Control(double speed){
+      /*if(turretControl.getSelectedSensorPosition() >= -111823 && speed < 0){
+      speed = 0;
+    }else if(turretControl.getSelectedSensorPosition() <= 238690 && speed > 0){
+      speed = 0;
+      
+    }else{
+
+    }*/
       turretControl.set(TalonFXControlMode.PercentOutput, speed);
     }
 
 
     public void Reset(){
-      ledMode.setNumber(0);
-      turretControl.set(ControlMode.PercentOutput, 0);
+      ledMode.setNumber(3);
+      Control(0);
     }
 
 
@@ -137,14 +175,17 @@ public class Camera extends SubsystemBase {
       if(Math.abs(input) < .4){
         input=0;
        }
-      if(manipulatorJoystick.getRawButton(Constants.ActivateTurnTurretButton)==true){
-        turretControl.set(ControlMode.PercentOutput, input*-speed );
+      if(manipulatorJoystick.getRawButton(Constants.TurnTurretRightButton)==true){
+        Control(-speed );
+      }else if(manipulatorJoystick.getRawButton(Constants.TurnTurretLeftButton)==true){
+        Control(speed);
       }else{
         turretControl.stopMotor();
       }
         
       
     } 
+
 
 }
       
