@@ -32,6 +32,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.subsystems.Interpolating.InterpolatingDouble;
 
 public class Camera extends SubsystemBase {
@@ -53,7 +54,7 @@ public class Camera extends SubsystemBase {
   private Pose2d robotPose;
   private double gx = targetPose.getX(),gy = targetPose.getY(),rx,ry;
   private double a,b,c;
-  private double angleToGoal;
+  private double angleToGoal, heading;
   private DriveTrain driveTrain;
 
   /** Creates a new Camera. */
@@ -103,7 +104,16 @@ public class Camera extends SubsystemBase {
     b = (gy-ry);
     c = Math.sqrt(a*a + b*b);
     angleToGoal = Math.atan(a/b);
+    heading = cap(Robot.getHeading().getDegrees(), 360, -360);
     
+  }
+
+  public double cap(double var, double top, double floor){
+    while(var >= top || var <= floor){
+      if(var >= top) var -= top;
+      if(var <= floor) var += floor;
+    }
+    return var;
   }
 
   public static InterpolatingDouble getDistance() {

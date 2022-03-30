@@ -19,6 +19,7 @@ import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
@@ -129,17 +130,17 @@ public class DriveTrain extends SubsystemBase {
   
 
   /** Makes Robot Go Brrrrrrr */
-  public void DriveWithJoystick(Joystick driverJoystick) {
-    double joy_y = driverJoystick.getRawAxis(Constants.joystickX)*Constants.speedX;
-    double joy_x = -driverJoystick.getRawAxis(Constants.joystickY)*Constants.speedY;
+  public void DriveWithJoystick(XboxController joystick) {
+    double joy_X = joystick.getRawAxis(XboxController.Axis.kLeftX.value)*Constants.speedX;
+    double joy_Y = -joystick.getRawAxis(XboxController.Axis.kLeftY.value)*Constants.speedY;
     double threshold = .2;
     double leftMotorOutput;
     double rightMotorOutput;
 
-    double xSpeed = MathUtil.clamp(joy_x, -1.0, 1.0);
-    xSpeed = applyDeadband(joy_x, threshold);
-    double zRotation = MathUtil.clamp(joy_y, -1.0, 1.0);
-    zRotation = applyDeadband(joy_y, threshold);
+    double xSpeed = MathUtil.clamp(joy_Y, -1.0, 1.0);
+    xSpeed = applyDeadband(joy_Y, threshold);
+    double zRotation = MathUtil.clamp(joy_X, -1.0, 1.0);
+    zRotation = applyDeadband(joy_X, threshold);
     double maxInput = Math.copySign(Math.max(Math.abs(xSpeed), Math.abs(zRotation)), xSpeed);
     if (xSpeed >= 0.0) {
       // First quadrant, else second quadrant

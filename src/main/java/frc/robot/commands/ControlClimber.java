@@ -5,17 +5,18 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Climber;
 
 public class ControlClimber extends CommandBase {
   private Climber climber;
-  private Joystick driverJoystick;
+  private XboxController driverJoystick;
   /** Creates a new ClimbUp. */
-  public ControlClimber(Climber c, Joystick j) {
+  public ControlClimber(Climber c, XboxController driverJoystick2) {
     climber = c;
-    driverJoystick = j;
+    driverJoystick = driverJoystick2;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(climber);
   }

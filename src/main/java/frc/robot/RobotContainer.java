@@ -53,12 +53,12 @@ public class RobotContainer {
 
   private SendableChooser<Integer> autoChooser;
 
-  private Joystick driverJoystick;
+  private XboxController driverController;
   private Joystick manipulatorJoystick;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    driverJoystick = new Joystick(Constants.driverjoystickID);
+    driverController = new XboxController(Constants.driverControllerID);
     manipulatorJoystick = new Joystick(Constants.manipulatorJoystickID);
 
     driveTrain = new DriveTrain();
@@ -68,11 +68,11 @@ public class RobotContainer {
     intake = new Intake();
     climbArms = new ClimbArms();
 
-    driveWithJoysticks = new DriveWithJoysticks(driveTrain, driverJoystick);
+    driveWithJoysticks = new DriveWithJoysticks(driveTrain, driverController);
     driveTrain.setDefaultCommand(driveWithJoysticks);
     swingIn = new SwingIn(climbArms);
     swingOut = new SwingOut(climbArms);
-    controlClimber = new ControlClimber(climber, driverJoystick);
+    controlClimber = new ControlClimber(climber, driverController);
     climber.setDefaultCommand(controlClimber);
     shootBall1 = new Shootball1(shooter);
     shootBall2 = new Shootball2(shooter);
@@ -134,23 +134,23 @@ public class RobotContainer {
     JoystickButton shootBallAutoSpeedButton = new JoystickButton(manipulatorJoystick, Constants.shootBallAutoSpeedButtonID);
     shootBallAutoSpeedButton.whileHeld(shootBallAutoSpeed);
 
-    JoystickButton intakeArmsUpButton = new JoystickButton(driverJoystick, Constants.intakeArmsUpButtonID);
-    intakeArmsUpButton.whenPressed(intakeArmsUp);
-
-    JoystickButton intakeArmsDownButton = new JoystickButton(driverJoystick, Constants.intakeArmsDownButtonID);
-    intakeArmsDownButton.whenPressed(intakeArmsDown);
-
-    JoystickButton intakeBallButton = new JoystickButton(driverJoystick, Constants.intakeBallButtonID);
-    intakeBallButton.whileHeld(intakeBall);
-
-    JoystickButton outTakeBallButton = new JoystickButton(driverJoystick, Constants.outTakeBallButtonID);
-    outTakeBallButton.whileHeld(outTakeBall);
-
     JoystickButton feedBallButton = new JoystickButton(manipulatorJoystick, Constants.feedBallButtonID);
     feedBallButton.whileHeld(feedBall);
 
     JoystickButton TrackTargetButton = new JoystickButton(manipulatorJoystick, Constants.TrackTargetButtonID);
     TrackTargetButton.whileHeld(trackTarget);
+
+    JoystickButton intakeArmsUpButton = new JoystickButton(driverController, XboxController.Button.kB.value);
+    intakeArmsUpButton.whenPressed(intakeArmsUp);
+
+    JoystickButton intakeArmsDownButton = new JoystickButton(driverController, XboxController.Button.kY.value);
+    intakeArmsDownButton.whenPressed(intakeArmsDown);
+
+    JoystickButton intakeBallButton = new JoystickButton(driverController, XboxController.Button.kRightBumper.value);
+    intakeBallButton.whenHeld(intakeBall);
+
+    JoystickButton outTakeBallButton = new JoystickButton(driverController, XboxController.Button.kLeftBumper.value);
+    outTakeBallButton.whileHeld(outTakeBall);
   }
 
 

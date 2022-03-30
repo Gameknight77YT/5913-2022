@@ -10,6 +10,7 @@ import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -48,13 +49,13 @@ public class Climber extends SubsystemBase {
     return climber.getSelectedSensorPosition();
   }
 
-  public void setClimberMotor(double speed, Joystick driverJoystick){
-    if(driverJoystick.getRawButton(Constants.climbUpButtonID)){
+  public void setClimberMotor(double speed, XboxController driverJoystick){
+    if(driverJoystick.getRawButton(XboxController.Button.kX.value)){
       // do nothing
-    }else if(driverJoystick.getRawButton(Constants.climbDownButtonID)){
+    }else if(driverJoystick.getRawButton(XboxController.Button.kA.value)){
       speed = -speed;
-    }else if(driverJoystick.getRawButton(Constants.climbUpSlowButtonID)){
-      speed = speed/2;
+    }else if(driverJoystick.getRawButton(XboxController.Button.kStart.value)){
+      speed = speed/2; 
     }else{
       speed = 0;
     }

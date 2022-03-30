@@ -39,7 +39,7 @@ public final class Constants {
     public static final int intakeArmsForwardID = 3;
 
     //joystick ids
-    public static final int driverjoystickID = 0;
+    public static final int driverControllerID = 0;
     public static final int manipulatorJoystickID = 1;
     public static final int joystickX = 0;
     public static final int joystickY = 1;
@@ -48,7 +48,7 @@ public final class Constants {
     //speed  constants
     public static final double speedX = .95;
     public static final double speedY = .95;
-    public static final double TurnTurretSpeed = .95;
+    public static final double TurnTurretSpeed = .75;
     public static final double climberSpeed = 1;
     public static final double ShooterSpeed1 = 8800;// 11 
     public static final double TopShooterSpeed1 = 5500;//11
@@ -70,14 +70,14 @@ public final class Constants {
     public static final double climbEncoderTop = 339242;
     public static final double climbEncoderBottom = -7000;
 
-    //buttons driver
-    public static final int climbUpButtonID = 5;
-    public static final int climbDownButtonID = 6;
-    public static final int intakeArmsUpButtonID = 1; 
+    /*//buttons driver
+    public static final int climbUpButtonID = 3;
+    public static final int climbDownButtonID = 1;
+    public static final int intakeArmsUpButtonID = 4; 
     public static final int intakeArmsDownButtonID = 2;
-    public static final int climbUpSlowButtonID = 7;
+    public static final int climbUpSlowButtonID = 5;
     public static final int outTakeBallButtonID = 4;
-    public static final int intakeBallButtonID = 3; 
+    public static final int intakeBallButtonID = 3; */
 
     //manipulator 
     public static final int swingInButtonID = 4;
