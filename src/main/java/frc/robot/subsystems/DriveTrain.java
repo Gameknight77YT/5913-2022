@@ -233,7 +233,7 @@ public class DriveTrain extends SubsystemBase {
 
   private double nativeUnitsToDistanceMeters(double sensorCounts){
     double motorRotations = (double)sensorCounts / 2048;
-    double wheelRotations = motorRotations / Constants.GearRatio;// *  TODO
+    double wheelRotations = motorRotations / Constants.GearRatio;// *?  TODO
     double positionMeters = wheelRotations * (2 * Math.PI * Units.inchesToMeters(Constants.WheelRadiusInches));
     return positionMeters;
   }

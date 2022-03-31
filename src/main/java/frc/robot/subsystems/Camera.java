@@ -4,15 +4,6 @@
 
 package frc.robot.subsystems;
 
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Map;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
@@ -20,7 +11,7 @@ import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -48,13 +39,14 @@ public class Camera extends SubsystemBase {
 
   boolean limelightHasValidTarget = false;
   private double m_LimelightSteerCommand = 0.0;
-  WPI_TalonFX turretControl = new WPI_TalonFX(Constants.TurretControlID);
+  private WPI_TalonFX turretControl = new WPI_TalonFX(Constants.TurretControlID);
+  private PIDController turretPidController = new PIDController(.1, 0, 0);
 
   private static final Pose2d targetPose = new Pose2d(new Translation2d(8.359, 4.125), new Rotation2d(0));
   private Pose2d robotPose;
   private double gx = targetPose.getX(),gy = targetPose.getY(),rx,ry;
   private double a,b,c;
-  private double angleToGoal, heading;
+  private double angleToGoal, heading, angleToTurnTo;
   private DriveTrain driveTrain;
 
   /** Creates a new Camera. */
@@ -72,14 +64,12 @@ public class Camera extends SubsystemBase {
     turretControl.setInverted(true);
     turretControl.setSelectedSensorPosition(0);
     
-    
-    
   }
 
   @Override
   public void periodic() {
 
-    turretControl.set(0);
+    turretControl.set(0); //why is this here
     // read values periodically
     final double x = tx.getDouble(0.0);
     final double y = ty.getDouble(0.0);
@@ -96,7 +86,11 @@ public class Camera extends SubsystemBase {
     SmartDashboard.putNumber("Distance", Distance.value);
     
     limelightTracking();
+    calcAimAngle();
+    SmartDashboard.putNumber("turretMeters", nativeUnitsToDistanceMeters(getTurretEncoder()));
+  }
 
+  public void calcAimAngle(){
     robotPose = driveTrain.getPose();
     rx = robotPose.getX();
     ry = robotPose.getY();
@@ -104,20 +98,43 @@ public class Camera extends SubsystemBase {
     b = (gy-ry);
     c = Math.sqrt(a*a + b*b);
     angleToGoal = Math.atan(a/b);
-    heading = cap(Robot.getHeading().getDegrees(), 360, -360);
-    
+    heading += 90;
+    heading = Robot.getHeading().getDegrees();
+    while(heading >= 360 || heading <= -360){
+      if(heading >= 360) heading -= 360;
+      else if(heading <= -360) heading += -360;
+    }
+    if(heading <= -180) heading = 360 - Math.abs(heading);
+    else if(heading > 180) heading = -360 + heading;
+    angleToTurnTo = heading;
   }
 
-  public double cap(double var, double top, double floor){
-    while(var >= top || var <= floor){
-      if(var >= top) var -= top;
-      if(var <= floor) var += floor;
+  public void autoAimTurret(){
+    turretControl.set(TalonFXControlMode.PercentOutput, turretPidController.calculate(turretEncoderInDegrees(), angleToTurnTo));
+  }
+
+  public double turretEncoderInDegrees(){
+    double result = turretControl.getSelectedSensorPosition();
+    result = nativeUnitsToDistanceMeters(result);
+    result = result/(11.5/2);
+    result = Units.radiansToDegrees(result);
+
+    while(result >= 360 || result <= -360){
+      if(result >= 360) result -= 360;
+      else if(result <= -360) result += -360;
     }
-    return var;
+    if(result <= -180) result = 360 - Math.abs(result);
+    else if(result > 180) result = -360 + result;
+
+    return result;
   }
 
   public static InterpolatingDouble getDistance() {
     return Distance;
+  }
+
+  public double getTurretEncoder(){
+    return turretControl.getSelectedSensorPosition();
   }
 
   
@@ -196,6 +213,12 @@ public class Camera extends SubsystemBase {
       
     } 
 
+    private double nativeUnitsToDistanceMeters(double sensorCounts){
+      double motorRotations = (double)sensorCounts / 2048;
+      double wheelRotations = motorRotations * 36*(187/25);// *?  TODO
+      double positionMeters = wheelRotations * (2 * Math.PI * Units.inchesToMeters(11.5));//ish
+      return positionMeters;
+    }
 
 }
       
