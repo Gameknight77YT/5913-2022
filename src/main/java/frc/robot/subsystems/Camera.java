@@ -42,11 +42,11 @@ public class Camera extends SubsystemBase {
   private WPI_TalonFX turretControl = new WPI_TalonFX(Constants.TurretControlID);
   private PIDController turretPidController = new PIDController(.1, 0, 0);
 
-  private static final Pose2d targetPose = new Pose2d(new Translation2d(8.359, 4.125), new Rotation2d(0));
+  /*private static final Pose2d targetPose = new Pose2d(new Translation2d(8.359, 4.125), new Rotation2d(0));
   private Pose2d robotPose;
   private double gx = targetPose.getX(),gy = targetPose.getY(),rx,ry;
   private double a,b,c;
-  private double angleToGoal, heading, angleToTurnTo;
+  private double angleToGoal, heading, angleToTurnTo;*/
   private DriveTrain driveTrain;
 
   /** Creates a new Camera. */
@@ -86,12 +86,13 @@ public class Camera extends SubsystemBase {
     SmartDashboard.putNumber("Distance", Distance.value);
     
     limelightTracking();
-    calcAimAngle();
-    SmartDashboard.putNumber("turretMeters", nativeUnitsToDistanceMeters(getTurretEncoder()));
+    //calcAimAngle();
+    //SmartDashboard.putNumber("turretDegrees", turretEncoderInDegrees());
+    //SmartDashboard.putNumber("angleToGoal", angleToGoal);
   }
-
-  public void calcAimAngle(){
-    robotPose = driveTrain.getPose();
+  
+  /*public void calcAimAngle(){
+    /*robotPose = driveTrain.getPose();
     rx = robotPose.getX();
     ry = robotPose.getY();
     a = (gx-rx);
@@ -110,7 +111,7 @@ public class Camera extends SubsystemBase {
   }
 
   public void autoAimTurret(){
-    turretControl.set(TalonFXControlMode.PercentOutput, turretPidController.calculate(turretEncoderInDegrees(), angleToTurnTo));
+    turretControl.set(TalonFXControlMode.PercentOutput, turretPidController.calculate(turretEncoderInDegrees(), 0));
   }
 
   public double turretEncoderInDegrees(){
@@ -127,7 +128,7 @@ public class Camera extends SubsystemBase {
     else if(result > 180) result = -360 + result;
 
     return result;
-  }
+  }*/
 
   public static InterpolatingDouble getDistance() {
     return Distance;

@@ -26,13 +26,13 @@ public class Intake extends SubsystemBase {
     starfishWheels.setInverted(true);
     feeder.setInverted(false);
 
-    intake.configOpenloopRamp(0);
+    /*intake.configOpenloopRamp(0);
     starfishWheels.configOpenloopRamp(0);
     feeder.configOpenloopRamp(0);
 
     intake.clearStickyFaults(10);
     starfishWheels.clearStickyFaults(10);
-    feeder.clearStickyFaults(10);
+    feeder.clearStickyFaults(10);*/
 
     //intakeArms.set(Value.kReverse);
   }

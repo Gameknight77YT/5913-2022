@@ -70,14 +70,16 @@ public final class Constants {
     public static final double climbEncoderTop = 339242;
     public static final double climbEncoderBottom = -7000;
 
-    /*//buttons driver
+    /*
+    //buttons driver
     public static final int climbUpButtonID = 3;
     public static final int climbDownButtonID = 1;
     public static final int intakeArmsUpButtonID = 4; 
     public static final int intakeArmsDownButtonID = 2;
     public static final int climbUpSlowButtonID = 5;
     public static final int outTakeBallButtonID = 4;
-    public static final int intakeBallButtonID = 3; */
+    public static final int intakeBallButtonID = 3; 
+    */
 
     //manipulator 
     public static final int swingInButtonID = 4;
