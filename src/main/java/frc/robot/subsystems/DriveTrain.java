@@ -130,9 +130,9 @@ public class DriveTrain extends SubsystemBase {
   
 
   /** Makes Robot Go Brrrrrrr */
-  public void DriveWithJoystick(XboxController joystick) {
-    double joy_X = joystick.getRawAxis(XboxController.Axis.kLeftX.value)*Constants.speedX;
-    double joy_Y = -joystick.getRawAxis(XboxController.Axis.kLeftY.value)*Constants.speedY;
+  public void DriveWithJoystick(Joystick driverJoystick) {
+    double joy_X = driverJoystick.getRawAxis(Constants.joystickX)*Constants.speedX;
+    double joy_Y = -driverJoystick.getRawAxis(Constants.joystickY)*Constants.speedY;
     double threshold = .2;
     double leftMotorOutput;
     double rightMotorOutput;

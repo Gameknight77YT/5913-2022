@@ -7,17 +7,25 @@ package frc.robot;
 import java.io.IOException;
 import java.nio.file.Path;
 
+import com.ctre.phoenix.led.*;
+import com.ctre.phoenix.motorcontrol.IFollower;
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.SerialPort.Port;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.DriveTrain;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -60,7 +68,6 @@ public class Robot extends TimedRobot {
 
   String TestJSON = "paths/Test.wpilib.json";
 
-  
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -210,6 +217,7 @@ public class Robot extends TimedRobot {
     return Test;
   }
 
+
   
 
   /**
@@ -226,11 +234,15 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+    
   }
 
+  
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    robotContainer.shooter.setLEDs(0, 255, 0);
+  }
 
   @Override
   public void disabledPeriodic() {}
@@ -238,6 +250,12 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
+    if(DriverStation.getAlliance() == Alliance.Red){
+      robotContainer.shooter.setLEDs(255, 0, 0);
+    }else if(DriverStation.getAlliance() == Alliance.Blue){
+      robotContainer.shooter.setLEDs(0, 0, 255);
+    }
+    
     autonomousCommand = robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
@@ -252,6 +270,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    
+    robotContainer.shooter.setLEDs(0, 18, 222);
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
@@ -264,7 +284,15 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    
+    /*if(robotContainer.shooter.isMainSpeedingUp && !robotContainer.shooter.isMainUpToSpeed){
+      robotContainer.shooter.setLEDs(255, 0, 0); 
+    }else*/ if(robotContainer.shooter.isMainSpeedingUp && robotContainer.shooter.isMainUpToSpeed && robotContainer.camera.v == 1){
+      robotContainer.shooter.setLEDs(0, 255, 0); 
+    }else if(DriverStation.getAlliance() == Alliance.Red){
+      robotContainer.shooter.setLEDs(255, 0, 0);
+    }else if(DriverStation.getAlliance() == Alliance.Blue){
+      robotContainer.shooter.setLEDs(0, 0, 255);
+    }
   }
 
   @Override

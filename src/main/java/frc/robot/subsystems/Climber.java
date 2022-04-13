@@ -49,13 +49,13 @@ public class Climber extends SubsystemBase {
     return climber.getSelectedSensorPosition();
   }
 
-  public void setClimberMotor(double speed, XboxController driverJoystick){
-    if(driverJoystick.getRawButton(XboxController.Button.kX.value)){
+  public void setClimberMotor(double speed, Joystick driverJoystick){
+    if(driverJoystick.getRawButton(Constants.climbUpButtonID)){
       // do nothing
-    }else if(driverJoystick.getRawButton(XboxController.Button.kA.value)){
+    }else if(driverJoystick.getRawButton(Constants.climbDownButtonID)){
       speed = -speed;
-    }else if(driverJoystick.getRawButton(XboxController.Button.kStart.value)){
-      speed = speed/2; 
+    }else if(driverJoystick.getRawButton(Constants.climbUpSlowButtonID)){
+      speed = speed/2;
     }else{
       speed = 0;
     }

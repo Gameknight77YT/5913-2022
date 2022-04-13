@@ -26,8 +26,8 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private DriveTrain driveTrain;
   private Climber climber;
-  private Shooter shooter;
-  private Camera camera;
+  public Shooter shooter;
+  public Camera camera;
   private Intake intake;
   private ClimbArms climbArms;
 
@@ -53,12 +53,12 @@ public class RobotContainer {
 
   private SendableChooser<Integer> autoChooser;
 
-  private XboxController driverController;
+  private Joystick driverJoystick;
   private Joystick manipulatorJoystick;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    driverController = new XboxController(Constants.driverControllerID);
+    driverJoystick = new Joystick(Constants.driverJoystickID);
     manipulatorJoystick = new Joystick(Constants.manipulatorJoystickID);
 
     driveTrain = new DriveTrain();
@@ -68,11 +68,11 @@ public class RobotContainer {
     intake = new Intake();
     climbArms = new ClimbArms();
 
-    driveWithJoysticks = new DriveWithJoysticks(driveTrain, driverController);
+    driveWithJoysticks = new DriveWithJoysticks(driveTrain, driverJoystick);
     driveTrain.setDefaultCommand(driveWithJoysticks);
     swingIn = new SwingIn(climbArms);
     swingOut = new SwingOut(climbArms);
-    controlClimber = new ControlClimber(climber, driverController);
+    controlClimber = new ControlClimber(climber, driverJoystick);
     climber.setDefaultCommand(controlClimber);
     shootBall1 = new Shootball1(shooter);
     shootBall2 = new Shootball2(shooter);
@@ -140,16 +140,16 @@ public class RobotContainer {
     JoystickButton TrackTargetButton = new JoystickButton(manipulatorJoystick, Constants.TrackTargetButtonID);
     TrackTargetButton.whileHeld(trackTarget);
 
-    JoystickButton intakeArmsUpButton = new JoystickButton(driverController, XboxController.Button.kB.value);
+    JoystickButton intakeArmsUpButton = new JoystickButton(driverJoystick, Constants.intakeArmsUpButtonID);
     intakeArmsUpButton.whenPressed(intakeArmsUp);
 
-    JoystickButton intakeArmsDownButton = new JoystickButton(driverController, XboxController.Button.kY.value);
+    JoystickButton intakeArmsDownButton = new JoystickButton(driverJoystick, Constants.intakeArmsDownButtonID);
     intakeArmsDownButton.whenPressed(intakeArmsDown);
 
-    JoystickButton intakeBallButton = new JoystickButton(driverController, XboxController.Button.kRightBumper.value);
-    intakeBallButton.whenHeld(intakeBall);
+    JoystickButton intakeBallButton = new JoystickButton(driverJoystick, Constants.intakeBallButtonID);
+    intakeBallButton.whileHeld(intakeBall);
 
-    JoystickButton outTakeBallButton = new JoystickButton(driverController, XboxController.Button.kLeftBumper.value);
+    JoystickButton outTakeBallButton = new JoystickButton(driverJoystick, Constants.outTakeBallButtonID);
     outTakeBallButton.whileHeld(outTakeBall);
   }
 

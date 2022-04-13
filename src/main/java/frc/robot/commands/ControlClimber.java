@@ -12,9 +12,9 @@ import frc.robot.subsystems.Climber;
 
 public class ControlClimber extends CommandBase {
   private Climber climber;
-  private XboxController driverJoystick;
+  private Joystick driverJoystick;
   /** Creates a new ClimbUp. */
-  public ControlClimber(Climber c, XboxController driverJoystick2) {
+  public ControlClimber(Climber c, Joystick driverJoystick2) {
     climber = c;
     driverJoystick = driverJoystick2;
     // Use addRequirements() here to declare subsystem dependencies.

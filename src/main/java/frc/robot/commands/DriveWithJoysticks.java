@@ -11,9 +11,9 @@ import frc.robot.subsystems.DriveTrain;
 
 public class DriveWithJoysticks extends CommandBase {
   private final DriveTrain driveTrain;
-  private XboxController joystick;
+  private Joystick joystick;
   /** Creates a new DriveWithJoysticks. */
-  public DriveWithJoysticks(DriveTrain dt, XboxController driverJoystick) {
+  public DriveWithJoysticks(DriveTrain dt, Joystick driverJoystick) {
     driveTrain = dt;
     joystick = driverJoystick;
     // Use addRequirements() here to declare subsystem dependencies.

@@ -31,6 +31,7 @@ public final class Constants {
     public static final int TurretControlID = 12;
     public static final int pcmID = 13;
     public static final int pdpID = 14;
+    public static final int CANdleID = 15;
 
     //solinoid ids 
     public static final int swingForwardID = 1;
@@ -39,7 +40,7 @@ public final class Constants {
     public static final int intakeArmsForwardID = 3;
 
     //joystick ids
-    public static final int driverControllerID = 0;
+    public static final int driverJoystickID = 0;
     public static final int manipulatorJoystickID = 1;
     public static final int joystickX = 0;
     public static final int joystickY = 1;
@@ -70,16 +71,14 @@ public final class Constants {
     public static final double climbEncoderTop = 339242;
     public static final double climbEncoderBottom = -7000;
 
-    /*
     //buttons driver
-    public static final int climbUpButtonID = 3;
-    public static final int climbDownButtonID = 1;
-    public static final int intakeArmsUpButtonID = 4; 
+    public static final int climbUpButtonID = 5;
+    public static final int climbDownButtonID = 6;
+    public static final int intakeArmsUpButtonID = 1; 
     public static final int intakeArmsDownButtonID = 2;
-    public static final int climbUpSlowButtonID = 5;
+    public static final int climbUpSlowButtonID = 7;
     public static final int outTakeBallButtonID = 4;
     public static final int intakeBallButtonID = 3; 
-    */
 
     //manipulator 
     public static final int swingInButtonID = 4;
@@ -99,11 +98,11 @@ public final class Constants {
      These characterization values MUST be determined either experimentally or
      theoretically
      for *your* robot's drive.*/
-  public static final double ks = 0.67807;// Volts
-  public static final double kv = 2.6005;// VoltSecondsPerMeter
-  public static final double ka = 0.42447; // VoltSecondsSquaredPerMeter
+  public static final double ks = 0.64323;// Volts
+  public static final double kv = 2.5629;// VoltSecondsPerMeter
+  public static final double ka = 0.73101; // VoltSecondsSquaredPerMeter
 
-  public static final double WheelBaseWith = 0.80483;
+  public static final double WheelBaseWith = 0.81187;
 
   //public static final double MaxSpeedMetersPerSecond = Units.feetToMeters(10);
   //public static final double MaxAccelerationMetersPerSecondSquared = 3;
@@ -115,18 +114,19 @@ public final class Constants {
   public static final double kRamseteZeta = 0.7;
 
   // PID controller values
-  public static final double kp = 3.6667;//127.27
+  public static final double kp = 3.871;//127.27
   public static final double ki = 0;
   public static final double kd = 0;//9.3477
 
-  //Limelight TODO: change these
+  //Limelight
   public static final double goalHeightfeet = 8.5521; //height of the target
   public static final double limelightHeightFeet = 23/12; //height of your camera above the floor 
   public static final double limelightMountAngleDegrees = 33; //mounting angle
 
   // other constants
   public static final double WheelRadiusInches = 2.125;
-  public static final double GearRatio = 30/18*5;
+  public static final double GearRatio = (30.0/18.0)*5.0;
+  
   
     
 }

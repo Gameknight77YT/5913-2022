@@ -4,13 +4,21 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.led.Animation;
+import com.ctre.phoenix.led.CANdle;
+import com.ctre.phoenix.led.RainbowAnimation;
+import com.ctre.phoenix.led.CANdle.LEDStripType;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+//import com.revrobotics.ColorSensorV3;
 
+import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Interpolating.*;
@@ -20,13 +28,18 @@ public class Shooter extends SubsystemBase {
   private WPI_TalonFX topShooter = new WPI_TalonFX(Constants.topShooterID);
   private InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> mainSpeedMap = new InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble>();
   private InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> topSpeedMap = new InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble>();
-  boolean isMainUpToSpeed = false;
-  boolean isTopUpToSpeed = false;
-  double top;
-  double main;
+  private CANdle candle = new CANdle(Constants.CANdleID);
+  public boolean isMainUpToSpeed = false;
+  public boolean isTopUpToSpeed = false;
+  public boolean isMainSpeedingUp = false;
+  public boolean isTopSpeedingUp = false;
+
+  //private ColorSensorV3 colorSensor = null;//new ColorSensorV3(I2C.Port.kOnboard);//TODO
   /** Creates a new Shooter. */
   public Shooter() {
-    
+    candle.configFactoryDefault();
+    candle.configLOSBehavior(false);
+    candle.configLEDType(LEDStripType.GRB);
     /* Factory Default all hardware to prevent unexpected behaviour */
 		mainShooter.configFactoryDefault();
 		topShooter.configFactoryDefault();
@@ -70,13 +83,13 @@ public class Shooter extends SubsystemBase {
     topShooter.setInverted(true);
 
     //key = distance, value = speed
-    put(8, 8800, 5500);//   tarmac
-    put(10, 8900, 6600);
-    put(11, 8900, 7500);//  mid
-    put(13, 8900, 9000);
-    put(14, 9100, 11000);// launch pad 1
-    put(16, 9500, 12000);
-    put(18, 10000, 14000);//launch pad 2
+    put(9, 8800, 5500);//   tarmac
+    put(11, 8900, 6600);
+    put(12, 8900, 7500);//  mid
+    put(14, 8900, 9000);
+    put(15, 9100, 11000);// launch pad 1
+    put(17, 9500, 12000);
+    put(19, 10000, 14000);//launch pad 2
   }
 
   /**
@@ -108,17 +121,32 @@ public class Shooter extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("mainShooter speed", mainShooter.getSelectedSensorVelocity());
     SmartDashboard.putNumber("topShooter speed", topShooter.getSelectedSensorVelocity());
-    SmartDashboard.putNumber("main", main);
-    SmartDashboard.putNumber("top", top);
     //SmartDashboard.putNumber("mainInterpolation", mainSpeedMap.getInterpolated(Camera.getDistance()).value);
     //SmartDashboard.putNumber("topInterpolation", topSpeedMap.getInterpolated(Camera.getDistance()).value);
-    main = SmartDashboard.getNumber("main", 0);
-    top = SmartDashboard.getNumber("top", 0);
     SmartDashboard.putBoolean("isTopUpToSpeed", isTopUpToSpeed);
     SmartDashboard.putBoolean("isMainUpToSpeed", isMainUpToSpeed);
     isMainUpToSpeed = false;
     isTopUpToSpeed = false;
+    isMainSpeedingUp = false;
+    isTopSpeedingUp = false;
+    
+    //SmartDashboard.putString("colorSensor", Color());//TODO
   }
+
+  /*public String Color(){ //TODO
+    Color color = colorSensor.getColor();
+    String output = null;
+    if(color.blue > .25 || color.red > .25){
+      if(color.blue > color.red){
+        output = "blueBall";
+      }else if(color.blue < color.red){
+        output = "redBall";
+      }
+    }else{
+      output = "noBall";
+    }
+    return output;
+  }*/
 
   /**
    * 
@@ -173,7 +201,9 @@ public class Shooter extends SubsystemBase {
         break;
     }
 
-    
+    isMainSpeedingUp = true;
+    isTopSpeedingUp = true;
+
     mainShooter.set(ControlMode.Velocity, mainSpeed);
     topShooter.set(ControlMode.Velocity, topSpeed);
 
@@ -191,5 +221,12 @@ public class Shooter extends SubsystemBase {
     topShooter.set(ControlMode.PercentOutput, 0);
   }
 
+  public void setLEDs(int r, int g, int b){
+    candle.setLEDs(r, g, b);
+  }
+
+  public void setAnimation(Animation animation){
+    candle.animate(animation);
+  }
   
 }

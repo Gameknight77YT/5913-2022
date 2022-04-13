@@ -34,6 +34,10 @@ public class Camera extends SubsystemBase {
   final NetworkTableEntry ty = table.getEntry("ty"); 
   final NetworkTableEntry ta = table.getEntry("ta");
   final NetworkTableEntry ledMode = table.getEntry("ledMode");
+  final NetworkTableEntry tv = table.getEntry("tv");
+  public double v;
+  double x,y;
+  
 
   private static InterpolatingDouble Distance;
 
@@ -42,17 +46,12 @@ public class Camera extends SubsystemBase {
   private WPI_TalonFX turretControl = new WPI_TalonFX(Constants.TurretControlID);
   private PIDController turretPidController = new PIDController(.1, 0, 0);
 
-  /*private static final Pose2d targetPose = new Pose2d(new Translation2d(8.359, 4.125), new Rotation2d(0));
-  private Pose2d robotPose;
-  private double gx = targetPose.getX(),gy = targetPose.getY(),rx,ry;
-  private double a,b,c;
-  private double angleToGoal, heading, angleToTurnTo;*/
   private DriveTrain driveTrain;
 
   /** Creates a new Camera. */
   public Camera(DriveTrain dt) {
     driveTrain = dt; 
-    CameraServer.startAutomaticCapture(1);
+    CameraServer.startAutomaticCapture();
     turretControl.configFactoryDefault();
     turretControl.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 10);
     turretControl.clearStickyFaults(10);
@@ -69,11 +68,12 @@ public class Camera extends SubsystemBase {
   @Override
   public void periodic() {
 
-    turretControl.set(0); //why is this here
+    turretControl.set(0); 
     // read values periodically
-    final double x = tx.getDouble(0.0);
-    final double y = ty.getDouble(0.0);
+    x = tx.getDouble(0.0);
+    y = ty.getDouble(0.0);
     final double area = ta.getDouble(0.0);
+    v = tv.getDouble(0.0);
 
     // post to smart dashboard periodically
     SmartDashboard.putNumber("LimelightX", x);
@@ -86,49 +86,7 @@ public class Camera extends SubsystemBase {
     SmartDashboard.putNumber("Distance", Distance.value);
     
     limelightTracking();
-    //calcAimAngle();
-    //SmartDashboard.putNumber("turretDegrees", turretEncoderInDegrees());
-    //SmartDashboard.putNumber("angleToGoal", angleToGoal);
   }
-  
-  /*public void calcAimAngle(){
-    /*robotPose = driveTrain.getPose();
-    rx = robotPose.getX();
-    ry = robotPose.getY();
-    a = (gx-rx);
-    b = (gy-ry);
-    c = Math.sqrt(a*a + b*b);
-    angleToGoal = Math.atan(a/b);
-    heading += 90;
-    heading = Robot.getHeading().getDegrees();
-    while(heading >= 360 || heading <= -360){
-      if(heading >= 360) heading -= 360;
-      else if(heading <= -360) heading += -360;
-    }
-    if(heading <= -180) heading = 360 - Math.abs(heading);
-    else if(heading > 180) heading = -360 + heading;
-    angleToTurnTo = heading;
-  }
-
-  public void autoAimTurret(){
-    turretControl.set(TalonFXControlMode.PercentOutput, turretPidController.calculate(turretEncoderInDegrees(), 0));
-  }
-
-  public double turretEncoderInDegrees(){
-    double result = turretControl.getSelectedSensorPosition();
-    result = nativeUnitsToDistanceMeters(result);
-    result = result/(11.5/2);
-    result = Units.radiansToDegrees(result);
-
-    while(result >= 360 || result <= -360){
-      if(result >= 360) result -= 360;
-      else if(result <= -360) result += -360;
-    }
-    if(result <= -180) result = 360 - Math.abs(result);
-    else if(result > 180) result = -360 + result;
-
-    return result;
-  }*/
 
   public static InterpolatingDouble getDistance() {
     return Distance;
@@ -144,8 +102,9 @@ public class Camera extends SubsystemBase {
     // These numbers must be tuned for your Robot!  Be careful!
     final double STEER_K = 0.03; //0.04 how hard to turn toward the target
     final double min_command = 0.02;
-    double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
-    double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
+    double tv = v;
+    double tx = x;
+    
 
     if (tv < 1.0){
       limelightHasValidTarget = false;
@@ -214,12 +173,7 @@ public class Camera extends SubsystemBase {
       
     } 
 
-    private double nativeUnitsToDistanceMeters(double sensorCounts){
-      double motorRotations = (double)sensorCounts / 2048;
-      double wheelRotations = motorRotations * 36*(187/25);// *?  TODO
-      double positionMeters = wheelRotations * (2 * Math.PI * Units.inchesToMeters(11.5));//ish
-      return positionMeters;
-    }
+    
 
 }
       
