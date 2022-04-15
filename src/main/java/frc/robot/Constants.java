@@ -34,10 +34,12 @@ public final class Constants {
     public static final int CANdleID = 15;
 
     //solinoid ids 
-    public static final int swingForwardID = 1;
     public static final int swingReverseID = 0;
+    public static final int swingForwardID = 1;
     public static final int intakeArmsBackwardID = 2;
     public static final int intakeArmsForwardID = 3;
+    public static final int hookReverseID = 4;
+    public static final int hookForwardID = 5;
 
     //joystick ids
     public static final int driverJoystickID = 0;
@@ -49,16 +51,16 @@ public final class Constants {
     //speed  constants
     public static final double speedX = .95;
     public static final double speedY = .95;
-    public static final double TurnTurretSpeed = .75;
+    public static final double TurnTurretSpeed = .95;
     public static final double climberSpeed = 1;
-    public static final double ShooterSpeed1 = 8800;// 11 
-    public static final double TopShooterSpeed1 = 5500;//11
+    public static final double ShooterSpeed1 = 8800;// no
+    public static final double TopShooterSpeed1 = 5500;//no
     public static final double ShooterSpeed2 = 3500;// 7 
     public static final double TopShooterSpeed2 = 3500;// 7 
     public static final double ShooterSpeed3 = 9000;// 12 
     public static final double TopShooterSpeed3 = 10000;// 12 
-    public static final double ShooterSpeed4 = 8750;// 10 
-    public static final double TopShooterSpeed4 = 7000;// 10
+    public static final double ShooterSpeed4 = 8750;// 11 
+    public static final double TopShooterSpeed4 = 7000;// 11
     public static final double ShooterSpeed6 = 10000; //no 
     public static final double TopShooterSpeed6 = 14000; //no
     public static final double intakeSpeed = .95;
@@ -81,13 +83,15 @@ public final class Constants {
     public static final int intakeBallButtonID = 3; 
 
     //manipulator 
+    public static final int hooksInButtonID = 10;
+    public static final int hooksOutButtonID = 8;
     public static final int swingInButtonID = 4;
     public static final int swingOutButtonID = 3;
     public static final int shootBallAutoSpeedButtonID = 9;
-    public static final int shootBall4ButtonID = 10;
+    public static final int shootBall4ButtonID = 11;
     public static final int shootBall3ButtonID = 12;
     public static final int shootBall2ButtonID = 7; 
-    public static final int shootBall1ButtonID = 11;
+    public static final int shootBall1ButtonID = 11; //no
     public static final int shootBall6ButtonID = 12;//no
     public static final int feedBallButtonID = 2;
     public static final int TurnTurretRightButton = 6;
@@ -98,9 +102,9 @@ public final class Constants {
      These characterization values MUST be determined either experimentally or
      theoretically
      for *your* robot's drive.*/
-  public static final double ks = 0.64323;// Volts
-  public static final double kv = 2.5629;// VoltSecondsPerMeter
-  public static final double ka = 0.73101; // VoltSecondsSquaredPerMeter
+  public static final double ks = 0.67083;// Volts
+  public static final double kv = 2.5279;// VoltSecondsPerMeter
+  public static final double ka = 0.93943; // VoltSecondsSquaredPerMeter
 
   public static final double WheelBaseWith = 0.81187;
 
@@ -114,9 +118,9 @@ public final class Constants {
   public static final double kRamseteZeta = 0.7;
 
   // PID controller values
-  public static final double kp = 3.871;//127.27
+  public static final double kp = 3.9167;//
   public static final double ki = 0;
-  public static final double kd = 0;//9.3477
+  public static final double kd = 0;//
 
   //Limelight
   public static final double goalHeightfeet = 8.5521; //height of the target

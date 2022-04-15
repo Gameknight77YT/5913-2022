@@ -31,16 +31,18 @@ public class StopAndShoot4 extends CommandBase {
   public void initialize() {
     timer.reset();
     timer.start();
+    camera.Track();
     while(timer.get() <= 1){
       camera.Track();
       intake.controlIntake(Constants.intakeSpeed, Constants.starfishSpeed, 0);
       shooter.shootBall(5, 0);
     }
-    while(timer.get() <= 2){
+    while(timer.get() <= 3){
       camera.Track();
       intake.controlIntake(Constants.intakeSpeed, Constants.starfishSpeed, Constants.feederSpeed);
       shooter.shootBall(5, 0);
     }
+    camera.Track();
     finished = true;
   }
 

@@ -22,17 +22,23 @@ public class Intake extends SubsystemBase {
   private DoubleSolenoid intakeArms = new DoubleSolenoid(Constants.pcmID, PneumaticsModuleType.CTREPCM, Constants.intakeArmsForwardID, Constants.intakeArmsBackwardID);
   /** Creates a new Intake. */
   public Intake() {
+    intake.configFactoryDefault();
+    starfishWheels.configFactoryDefault();
+    feeder.configFactoryDefault();
+
     intake.setInverted(true);
     starfishWheels.setInverted(true);
     feeder.setInverted(false);
 
-    /*intake.configOpenloopRamp(0);
-    starfishWheels.configOpenloopRamp(0);
-    feeder.configOpenloopRamp(0);
-
     intake.clearStickyFaults(10);
     starfishWheels.clearStickyFaults(10);
-    feeder.clearStickyFaults(10);*/
+    feeder.clearStickyFaults(10);
+
+    /*
+    intake.configOpenloopRamp(0);
+    starfishWheels.configOpenloopRamp(0);
+    feeder.configOpenloopRamp(0);
+    */
 
     //intakeArms.set(Value.kReverse);
   }

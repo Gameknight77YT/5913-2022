@@ -35,6 +35,8 @@ public class RobotContainer {
   private ControlClimber controlClimber;
   private SwingIn swingIn;
   private SwingOut swingOut;
+  private HookIn hookIn;
+  private HookOut hookOut;
   private Shootball1 shootBall1;
   private Shootball2 shootBall2;
   private Shootball3 shootBall3;
@@ -64,7 +66,7 @@ public class RobotContainer {
     driveTrain = new DriveTrain();
     climber = new Climber();
     shooter = new Shooter();
-    camera = new Camera(driveTrain);
+    camera = new Camera();
     intake = new Intake();
     climbArms = new ClimbArms();
 
@@ -72,6 +74,8 @@ public class RobotContainer {
     driveTrain.setDefaultCommand(driveWithJoysticks);
     swingIn = new SwingIn(climbArms);
     swingOut = new SwingOut(climbArms);
+    hookIn = new HookIn(climbArms);
+    hookOut = new HookOut(climbArms);
     controlClimber = new ControlClimber(climber, driverJoystick);
     climber.setDefaultCommand(controlClimber);
     shootBall1 = new Shootball1(shooter);
@@ -116,8 +120,14 @@ public class RobotContainer {
     JoystickButton swingOutButton = new JoystickButton(manipulatorJoystick, Constants.swingOutButtonID);
     swingOutButton.whileHeld(swingOut);
 
-    JoystickButton shootBall1Button = new JoystickButton(manipulatorJoystick, Constants.shootBall1ButtonID);
-    shootBall1Button.whileHeld(shootBall1);
+    JoystickButton hookInButton = new JoystickButton(manipulatorJoystick, Constants.hooksInButtonID);
+    hookInButton.whileHeld(hookIn);
+
+    JoystickButton hookOutButton = new JoystickButton(manipulatorJoystick, Constants.hooksOutButtonID);
+    hookOutButton.whileHeld(hookOut);
+
+    //JoystickButton shootBall1Button = new JoystickButton(manipulatorJoystick, Constants.shootBall1ButtonID);
+    //shootBall1Button.whileHeld(shootBall1);
 
     JoystickButton shootBall2Button = new JoystickButton(manipulatorJoystick, Constants.shootBall2ButtonID);
     shootBall2Button.whileHeld(shootBall2);
@@ -246,11 +256,14 @@ public class RobotContainer {
 
       driveTrain.resetOdometry(Robot.getAuto4Part1Trajectory().getInitialPose());
 
-      return (Auto4Part1command.raceWith(new AutoIntake(camera, shooter, intake, true)))
+      return //new SwingOut(climbArms)
+      //.andThen(new HookOut(climbArms))
+      //.andThen
+      (Auto4Part1command.raceWith(new AutoIntake(camera, shooter, intake, true)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
-      .andThen(new StopAndShoot2(shooter, camera, intake))
-      .andThen(Auto4Part2command.raceWith(new AutoIntake(camera, shooter, intake, false)))
-      .andThen(Auto4Part3command.raceWith(new AutoIntake(camera, shooter, intake, false)))
+      .andThen(new StopAndShoot(shooter, camera, intake))
+      .andThen(Auto4Part2command.raceWith(new AutoIntake(camera, shooter, intake, true)))
+      .andThen(Auto4Part3command.raceWith(new AutoIntake(camera, shooter, intake, true)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
       .andThen(new StopAndShoot4(shooter, camera, intake))
       ;
@@ -333,7 +346,7 @@ public class RobotContainer {
       .andThen(Auto5Part4command.raceWith(new AutoIntake2(camera, shooter, intake)))
       .andThen(Auto5Part5command.raceWith(new AutoIntake(camera, shooter, intake, true)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
-      .andThen(new StopAndShoot2(shooter, camera, intake))
+      .andThen(new StopAndShoot(shooter, camera, intake))
       ;
     }else{
       return null;

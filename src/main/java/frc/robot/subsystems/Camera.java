@@ -4,17 +4,12 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -23,7 +18,6 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Robot;
 import frc.robot.subsystems.Interpolating.InterpolatingDouble;
 
 public class Camera extends SubsystemBase {
@@ -37,42 +31,37 @@ public class Camera extends SubsystemBase {
   final NetworkTableEntry tv = table.getEntry("tv");
   public double v;
   double x,y;
-  
+  double area;
 
   private static InterpolatingDouble Distance;
 
   boolean limelightHasValidTarget = false;
   private double m_LimelightSteerCommand = 0.0;
   private WPI_TalonFX turretControl = new WPI_TalonFX(Constants.TurretControlID);
-  private PIDController turretPidController = new PIDController(.1, 0, 0);
+  //private PIDController turretPidController = new PIDController(.1, 0, 0);
 
-  private DriveTrain driveTrain;
 
   /** Creates a new Camera. */
-  public Camera(DriveTrain dt) {
-    driveTrain = dt; 
+  public Camera() {
     CameraServer.startAutomaticCapture();
     turretControl.configFactoryDefault();
     turretControl.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 10);
     turretControl.clearStickyFaults(10);
     turretControl.setSelectedSensorPosition(0, 0, 10);
     turretControl.setSensorPhase(false);
-    //turretControl.configMotionAcceleration(450, 10);
-    //turretControl.configMotionCruiseVelocity(450, 10);
+    turretControl.configMotionAcceleration(275, 10);
+    turretControl.configMotionCruiseVelocity(450, 10);
     turretControl.setNeutralMode(NeutralMode.Brake);
-    turretControl.setInverted(true);
-    turretControl.setSelectedSensorPosition(0);
+    turretControl.setInverted(false);
     
   }
 
   @Override
   public void periodic() {
-
-    turretControl.set(0); 
     // read values periodically
     x = tx.getDouble(0.0);
     y = ty.getDouble(0.0);
-    final double area = ta.getDouble(0.0);
+    area = ta.getDouble(0.0);
     v = tv.getDouble(0.0);
 
     // post to smart dashboard periodically
@@ -81,10 +70,9 @@ public class Camera extends SubsystemBase {
     SmartDashboard.putNumber("LimelightArea", area);
     SmartDashboard.putNumber("turretEncoder", turretControl.getSelectedSensorPosition());
 
-    
     Distance = new InterpolatingDouble((double)((int)((Constants.goalHeightfeet-Constants.limelightHeightFeet) / Math.tan(Units.degreesToRadians(Constants.limelightMountAngleDegrees+y)))));
     SmartDashboard.putNumber("Distance", Distance.value);
-    
+    SmartDashboard.putNumber("turretTurnCommand", m_LimelightSteerCommand);
     limelightTracking();
   }
 
@@ -122,6 +110,8 @@ public class Camera extends SubsystemBase {
    }
    else if (tx > 0) {
     steer_cmd = tx * STEER_K + min_command;
+   } else if (tx == 0){
+     steer_cmd = 0;
    }
     m_LimelightSteerCommand = steer_cmd * -1;
 

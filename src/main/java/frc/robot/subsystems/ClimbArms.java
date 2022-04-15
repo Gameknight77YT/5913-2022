@@ -12,6 +12,7 @@ import frc.robot.Constants;
 
 public class ClimbArms extends SubsystemBase {
   DoubleSolenoid swingSolenoid = new DoubleSolenoid(Constants.pcmID, PneumaticsModuleType.CTREPCM, Constants.swingForwardID, Constants.swingReverseID);
+  DoubleSolenoid hookSolenoid = new DoubleSolenoid(Constants.pcmID, PneumaticsModuleType.CTREPCM, Constants.hookForwardID, Constants.hookReverseID);
   /** Creates a new ClimbArms. */
   public ClimbArms() {
     //swingSolenoid.set(Value.kForward);
@@ -28,6 +29,14 @@ public class ClimbArms extends SubsystemBase {
 
   public void swingIn() {
     swingSolenoid.set(Value.kForward);
+  }
+
+  public void hookOut() {
+    hookSolenoid.set(Value.kReverse);
+  }
+
+  public void hookIn() {
+    hookSolenoid.set(Value.kForward);
   }
   
 }

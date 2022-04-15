@@ -86,7 +86,7 @@ public class Shooter extends SubsystemBase {
     put(9, 8800, 5500);//   tarmac
     put(11, 8900, 6600);
     put(12, 8900, 7500);//  mid
-    put(14, 8900, 9000);
+    put(14, 9300, 9000);
     put(15, 9100, 11000);// launch pad 1
     put(17, 9500, 12000);
     put(19, 10000, 14000);//launch pad 2

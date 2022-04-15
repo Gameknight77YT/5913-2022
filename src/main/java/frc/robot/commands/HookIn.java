@@ -4,20 +4,16 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
-import frc.robot.subsystems.Camera;
+import frc.robot.subsystems.ClimbArms;
 
-public class ControlTurret extends CommandBase {
-  private Camera camera;
-  private Joystick manipulatorJoystick;
-  /** Creates a new ControlTurret. */
-  public ControlTurret(Camera c, Joystick j) {
-    camera = c;
-    manipulatorJoystick = j;
+public class HookIn extends CommandBase {
+  private ClimbArms climberArms;
+  /** Creates a new SwingForward. */
+  public HookIn(ClimbArms c) {
+    climberArms = c;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(camera);
+    addRequirements(climberArms);
   }
 
   // Called when the command is initially scheduled.
@@ -27,14 +23,12 @@ public class ControlTurret extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    camera.ControlWithJoystick(manipulatorJoystick, Constants.TurnTurretSpeed);
+    climberArms.hookIn();
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    camera.Control(0);
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
