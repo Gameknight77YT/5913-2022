@@ -38,7 +38,7 @@ public class AutoIntake2 extends CommandBase {
     intake.toggleIntakeArms(1);
     intake.controlIntake(Constants.intakeSpeed,Constants.starfishSpeed, 0);
     shooter.shootBall(1, 0);
-    if(timer.get() <.75 ){
+    if(timer.get() < .15 ){
       camera.Control(-.95);
     }else{
       camera.Control(0);

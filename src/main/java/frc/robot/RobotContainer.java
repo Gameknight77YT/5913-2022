@@ -208,7 +208,8 @@ public class RobotContainer {
 
       driveTrain.resetOdometry(Robot.getAuto2Trajectory().getInitialPose());
 
-      return ((Auto2command.raceWith(new AutoIntake(camera, shooter, intake, true)))
+      return new HookAndSwingOut(climbArms)
+      .andThen((Auto2command.raceWith(new AutoIntake(camera, shooter, intake, true)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
       .andThen(new StopAndShoot(shooter, camera, intake))
       );
@@ -256,10 +257,8 @@ public class RobotContainer {
 
       driveTrain.resetOdometry(Robot.getAuto4Part1Trajectory().getInitialPose());
 
-      return //new SwingOut(climbArms)
-      //.andThen(new HookOut(climbArms))
-      //.andThen
-      (Auto4Part1command.raceWith(new AutoIntake(camera, shooter, intake, true)))
+      return new HookAndSwingOut(climbArms)
+      .andThen(Auto4Part1command.raceWith(new AutoIntake(camera, shooter, intake, true)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
       .andThen(new StopAndShoot(shooter, camera, intake))
       .andThen(Auto4Part2command.raceWith(new AutoIntake(camera, shooter, intake, true)))
@@ -336,7 +335,8 @@ public class RobotContainer {
 
       driveTrain.resetOdometry(Robot.getAuto5Part1Trajectory().getInitialPose());
 
-      return (Auto5Part1command.raceWith(new AutoIntake(camera, shooter, intake, true)))
+      return new HookAndSwingOut(climbArms)
+      .andThen(Auto5Part1command.raceWith(new AutoIntake(camera, shooter, intake, true)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
       .andThen(new StopAndShoot(shooter, camera, intake))
       .andThen(Auto5Part2command.raceWith(new AutoIntake(camera, shooter, intake, false)))
