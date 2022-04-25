@@ -41,6 +41,7 @@ public class StopAndShoot extends CommandBase {
       intake.controlIntake(Constants.intakeSpeed, Constants.starfishSpeed, Constants.feederSpeed);
       shooter.shootBall(5, 0);
     }
+    camera.Control(0);
     finished = true;
   }
 

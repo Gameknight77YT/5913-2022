@@ -82,13 +82,13 @@ public class Shooter extends SubsystemBase {
     mainShooter.setInverted(false);
     topShooter.setInverted(true);
 
-    //key = distance, value = speed
-    put(9, 8800, 5500);//   tarmac
-    put(11, 8900, 6600);
-    put(12, 8900, 7500);//  mid
-    put(14, 9300, 9000);
-    put(15, 9100, 11000);// launch pad 1
-    put(17, 9500, 12000);
+    
+    put(9, 8900, 5700);//   tarmac
+    put(11, 9000, 6800);
+    put(12, 8900, 7700);//  mid
+    put(14, 9300, 9200);
+    put(15, 9100, 11100);// launch pad 1
+    put(17, 9600, 12000);
     put(19, 10000, 14000);//launch pad 2
   }
 
@@ -109,6 +109,7 @@ public class Shooter extends SubsystemBase {
    * @param top
    */
   private void put(Double dis, Double main, Double top){
+    //key = distance, value = speed
     InterpolatingDouble k = new InterpolatingDouble(dis);
     InterpolatingDouble mv = new InterpolatingDouble(main);
     InterpolatingDouble tv = new InterpolatingDouble(top);
@@ -211,7 +212,7 @@ public class Shooter extends SubsystemBase {
       isMainUpToSpeed = true;
     }else isMainUpToSpeed = false;
 
-    if(topSpeed-250 <= topShooter.getSelectedSensorVelocity() && topShooter.getSelectedSensorVelocity() <= topSpeed+250){
+    if(topSpeed-500 <= topShooter.getSelectedSensorVelocity() && topShooter.getSelectedSensorVelocity() <= topSpeed+500){
       isTopUpToSpeed = true;
     }else isTopUpToSpeed = false;
   }
