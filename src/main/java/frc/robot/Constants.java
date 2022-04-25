@@ -102,11 +102,11 @@ public final class Constants {
      These characterization values MUST be determined either experimentally or
      theoretically
      for *your* robot's drive.*/
-  public static final double ks = 0.67083;// Volts
-  public static final double kv = 2.5279;// VoltSecondsPerMeter
-  public static final double ka = 0.93943; // VoltSecondsSquaredPerMeter
+  public static final double ks = 0.65147;// Volts
+  public static final double kv = 2.6532;// VoltSecondsPerMeter
+  public static final double ka = 0.39563; // VoltSecondsSquaredPerMeter
 
-  public static final double WheelBaseWith = 0.81187;
+  public static final double WheelBaseWith = 0.80952;
 
   //public static final double MaxSpeedMetersPerSecond = Units.feetToMeters(10);
   //public static final double MaxAccelerationMetersPerSecondSquared = 3;
@@ -118,9 +118,9 @@ public final class Constants {
   public static final double kRamseteZeta = 0.7;
 
   // PID controller values
-  public static final double kp = 3.9167;//
+  public static final double kp = 3.6702;//125.97
   public static final double ki = 0;
-  public static final double kd = 0;//
+  public static final double kd = 0;//8.9609
 
   //Limelight
   public static final double goalHeightfeet = 8.5521; //height of the target
