@@ -286,7 +286,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     /*if(robotContainer.shooter.isMainSpeedingUp && !robotContainer.shooter.isMainUpToSpeed){
       robotContainer.shooter.setLEDs(255, 0, 0); 
-    }else*/ if(robotContainer.shooter.isMainSpeedingUp && robotContainer.shooter.isMainUpToSpeed && robotContainer.camera.v == 1){
+    }else*/ if(robotContainer.shooter.isMainSpeedingUp && robotContainer.shooter.isMainUpToSpeed && robotContainer.camera.v == 1 && robotContainer.shooter.isTopSpeedingUp && robotContainer.shooter.isTopUpToSpeed){
       robotContainer.shooter.setLEDs(0, 255, 0); 
     }else if(DriverStation.getAlliance() == Alliance.Red){
       robotContainer.shooter.setLEDs(255, 0, 0);

@@ -68,10 +68,10 @@ public class DriveTrain extends SubsystemBase {
     leftMaster.clearStickyFaults(10);
     rightMaster.clearStickyFaults(10);
 
-    leftMaster.configOpenloopRamp(1);
-    rightMaster.configOpenloopRamp(1);
-    leftSlave.configOpenloopRamp(1);
-    rightSlave.configOpenloopRamp(1);
+    leftMaster.configOpenloopRamp(0.15);
+    rightMaster.configOpenloopRamp(0.15);
+    leftSlave.configOpenloopRamp(0.15);
+    rightSlave.configOpenloopRamp(0.15);
 
     leftMaster.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 45, 175, 5));
     rightMaster.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 45, 175, 5));

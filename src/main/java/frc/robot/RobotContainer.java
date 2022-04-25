@@ -99,7 +99,7 @@ public class RobotContainer {
     autoChooser.addOption("auto2", 2);
     autoChooser.addOption("auto4", 4);
     autoChooser.setDefaultOption("auto5", 5);
-    autoChooser.addOption("Test", 1);
+    autoChooser.addOption("auto1", 1);
     SmartDashboard.putData(autoChooser);
 
     // Configure the button bindings
@@ -186,9 +186,11 @@ public class RobotContainer {
 
         driveTrain.resetOdometry(Robot.getTestTrajectory().getInitialPose());
         
-      return Test1command
+      return new HookAndSwingOut(climbArms)
+      .andThen((Test1command.raceWith(new AutoIntake(camera, shooter, intake, true)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
-      ;
+      .andThen(new StopAndShoot2(shooter, camera, intake))
+      );
 
     }else if(autoChooser.getSelected() == 2){
       RamseteCommand Auto2command = new RamseteCommand(
@@ -211,7 +213,7 @@ public class RobotContainer {
       return new HookAndSwingOut(climbArms)
       .andThen((Auto2command.raceWith(new AutoIntake(camera, shooter, intake, true)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
-      .andThen(new StopAndShoot(shooter, camera, intake))
+      .andThen(new StopAndShoot2(shooter, camera, intake))
       );
 
     
