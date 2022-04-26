@@ -93,8 +93,8 @@ public class DriveTrain extends SubsystemBase {
   
   public DifferentialDriveWheelSpeeds getSpeeds() {
    return new DifferentialDriveWheelSpeeds(
-    leftMaster.getSelectedSensorVelocity() / Constants.GearRatio * (2 * Math.PI * Units.inchesToMeters(Constants.WheelRadiusInches)) / 60,
-    rightMaster.getSelectedSensorVelocity() / Constants.GearRatio * (2 * Math.PI * Units.inchesToMeters(Constants.WheelRadiusInches)) / 60
+    leftMaster.getSelectedSensorVelocity() / 2048 / Constants.GearRatio * (2 * Math.PI * Units.inchesToMeters(Constants.WheelRadiusInches)) / 60 * 10,
+    rightMaster.getSelectedSensorVelocity() / 2048 / Constants.GearRatio * (2 * Math.PI * Units.inchesToMeters(Constants.WheelRadiusInches)) / 60 * 10
    );//nativeUnitsToDistanceMeters(leftMaster.getSelectedSensorVelocity()*10)
   }
 
@@ -233,7 +233,7 @@ public class DriveTrain extends SubsystemBase {
 
   private double nativeUnitsToDistanceMeters(double sensorCounts){
     double motorRotations = (double)sensorCounts / 2048;
-    double wheelRotations = motorRotations / Constants.GearRatio;// *?  TODO
+    double wheelRotations = motorRotations / Constants.GearRatio;
     double positionMeters = wheelRotations * (2 * Math.PI * Units.inchesToMeters(Constants.WheelRadiusInches));
     return positionMeters;
   }

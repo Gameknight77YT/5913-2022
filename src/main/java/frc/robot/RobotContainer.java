@@ -185,12 +185,10 @@ public class RobotContainer {
         );
 
         driveTrain.resetOdometry(Robot.getTestTrajectory().getInitialPose());
-        
-      return new HookAndSwingOut(climbArms)
-      .andThen((Test1command.raceWith(new AutoIntake(camera, shooter, intake, true)))
+        driveTrain.SetMotorMode(0);
+      return Test1command
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
-      .andThen(new StopAndShoot2(shooter, camera, intake))
-      );
+      .andThen(() -> driveTrain.SetMotorMode(1), driveTrain);
 
     }else if(autoChooser.getSelected() == 2){
       RamseteCommand Auto2command = new RamseteCommand(
@@ -264,6 +262,8 @@ public class RobotContainer {
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
       .andThen(new StopAndShoot(shooter, camera, intake))
       .andThen(Auto4Part2command.raceWith(new AutoIntake(camera, shooter, intake, true)))
+      .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
+      .andThen(new wait1sec().raceWith(new AutoIntake(camera, shooter, intake, true)))
       .andThen(Auto4Part3command.raceWith(new AutoIntake(camera, shooter, intake, true)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
       .andThen(new StopAndShoot4(shooter, camera, intake))
@@ -342,10 +342,10 @@ public class RobotContainer {
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
       .andThen(new StopAndShoot(shooter, camera, intake))
       .andThen(Auto5Part2command.raceWith(new AutoIntake(camera, shooter, intake, false)))
-      .andThen(Auto5Part3command.raceWith(new AutoIntake3(camera, shooter, intake)))
+      .andThen(Auto5Part3command.raceWith(new AutoIntake(camera, shooter, intake, true)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
-      .andThen(new StopAndShoot3(shooter, camera, intake))
-      .andThen(Auto5Part4command.raceWith(new AutoIntake2(camera, shooter, intake)))
+      .andThen(new StopAndShoot(shooter, camera, intake))
+      .andThen(Auto5Part4command.raceWith(new AutoIntake(camera, shooter, intake, false)))
       .andThen(Auto5Part5command.raceWith(new AutoIntake(camera, shooter, intake, true)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
       .andThen(new StopAndShoot(shooter, camera, intake))

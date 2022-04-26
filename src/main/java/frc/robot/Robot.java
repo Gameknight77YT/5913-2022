@@ -9,6 +9,7 @@ import java.nio.file.Path;
 
 import com.ctre.phoenix.led.*;
 import com.ctre.phoenix.motorcontrol.IFollower;
+import com.fasterxml.jackson.databind.deser.DataFormatReaders.Match;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.cscore.UsbCamera;
@@ -22,6 +23,7 @@ import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.SerialPort.Port;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -242,6 +244,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     robotContainer.shooter.setLEDs(0, 255, 0);
+    if(DriverStation.isFMSAttached()) Shuffleboard.stopRecording();
   }
 
   @Override
@@ -250,6 +253,7 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
+    if(DriverStation.isFMSAttached()) Shuffleboard.startRecording();
     if(DriverStation.getAlliance() == Alliance.Red){
       robotContainer.shooter.setLEDs(255, 0, 0);
     }else if(DriverStation.getAlliance() == Alliance.Blue){
@@ -292,7 +296,7 @@ public class Robot extends TimedRobot {
       robotContainer.shooter.setLEDs(255, 0, 0);
     }else if(DriverStation.getAlliance() == Alliance.Blue){
       robotContainer.shooter.setLEDs(0, 0, 255);
-    }
+    }//else if(DriverStation.getMatchTime())
   }
 
   @Override
