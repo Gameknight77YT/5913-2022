@@ -33,9 +33,9 @@ public class Climber extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Climber Encoder",climber.getSelectedSensorPosition());
-    SmartDashboard.putString("Climber status", climberStatus);
-    SmartDashboard.putNumber("Climber speed", climber.getSelectedSensorVelocity());
+    //SmartDashboard.putNumber("Climber Encoder",climber.getSelectedSensorPosition());
+    //SmartDashboard.putString("Climber status", climberStatus);
+    //SmartDashboard.putNumber("Climber speed", climber.getSelectedSensorVelocity());
     
   }
 

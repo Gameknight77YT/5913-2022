@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
@@ -263,7 +264,7 @@ public class RobotContainer {
       .andThen(new StopAndShoot(shooter, camera, intake))
       .andThen(Auto4Part2command.raceWith(new AutoIntake(camera, shooter, intake, true)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
-      .andThen(new wait1sec().raceWith(new AutoIntake(camera, shooter, intake, true)))
+      .andThen(new WaitCommand(1).raceWith(new AutoIntake(camera, shooter, intake, true)))
       .andThen(Auto4Part3command.raceWith(new AutoIntake(camera, shooter, intake, true)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
       .andThen(new StopAndShoot4(shooter, camera, intake))
@@ -344,11 +345,12 @@ public class RobotContainer {
       .andThen(Auto5Part2command.raceWith(new AutoIntake(camera, shooter, intake, false)))
       .andThen(Auto5Part3command.raceWith(new AutoIntake(camera, shooter, intake, true)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
-      .andThen(new StopAndShoot(shooter, camera, intake))
+      .andThen(new StopAndShoot3(shooter, camera, intake))
       .andThen(Auto5Part4command.raceWith(new AutoIntake(camera, shooter, intake, false)))
+      //.andThen(new WaitCommand(.25).raceWith(new AutoIntake(camera, shooter, intake, false)))
       .andThen(Auto5Part5command.raceWith(new AutoIntake(camera, shooter, intake, true)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
-      .andThen(new StopAndShoot(shooter, camera, intake))
+      .andThen(new StopAndShoot5(shooter, camera, intake))
       ;
     }else{
       return null;

@@ -65,7 +65,7 @@ public final class Constants {
     public static final double TopShooterSpeed6 = 14000; //no
     public static final double intakeSpeed = .95;
     public static final double feederSpeed = .50;
-    public static final double starfishSpeed = .35;
+    public static final double starfishSpeed = .70;
     public static final double autoSpeed = .95;
 
     //times / encoder counts

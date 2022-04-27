@@ -19,9 +19,11 @@ import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -69,7 +71,7 @@ public class Robot extends TimedRobot {
   String Auto5Part5JSON = "paths/Auto5part5.wpilib.json";
 
   String TestJSON = "paths/Test.wpilib.json";
-
+  
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -78,7 +80,6 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     navx = new AHRS(Port.kUSB1); 
-    
     navx.enableLogging(true);
     //calibrate();
     
@@ -245,6 +246,7 @@ public class Robot extends TimedRobot {
   public void disabledInit() {
     robotContainer.shooter.setLEDs(0, 255, 0);
     if(DriverStation.isFMSAttached()) Shuffleboard.stopRecording();
+    
   }
 
   @Override
@@ -268,6 +270,11 @@ public class Robot extends TimedRobot {
     }
   }
 
+  @Override
+  public void autonomousExit() {
+    
+  }
+
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {}
@@ -288,15 +295,15 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    /*if(robotContainer.shooter.isMainSpeedingUp && !robotContainer.shooter.isMainUpToSpeed){
-      robotContainer.shooter.setLEDs(255, 0, 0); 
-    }else*/ if(robotContainer.shooter.isMainSpeedingUp && robotContainer.shooter.isMainUpToSpeed && robotContainer.camera.v == 1 && robotContainer.shooter.isTopSpeedingUp && robotContainer.shooter.isTopUpToSpeed){
+    if(robotContainer.shooter.isMainSpeedingUp && robotContainer.shooter.isMainUpToSpeed && robotContainer.camera.v == 1 && robotContainer.shooter.isTopSpeedingUp && robotContainer.shooter.isTopUpToSpeed){
       robotContainer.shooter.setLEDs(0, 255, 0); 
+    }else if(DriverStation.getMatchTime() < 30){
+      robotContainer.shooter.setLEDs(145, 5, 156);
     }else if(DriverStation.getAlliance() == Alliance.Red){
       robotContainer.shooter.setLEDs(255, 0, 0);
     }else if(DriverStation.getAlliance() == Alliance.Blue){
       robotContainer.shooter.setLEDs(0, 0, 255);
-    }//else if(DriverStation.getMatchTime())
+    }
   }
 
   @Override
