@@ -98,9 +98,10 @@ public class RobotContainer {
 
     autoChooser = new SendableChooser<Integer>();
     autoChooser.addOption("auto2", 2);
+    autoChooser.addOption("auto2steal", 3);
     autoChooser.addOption("auto4", 4);
     autoChooser.setDefaultOption("auto5", 5);
-    autoChooser.addOption("auto1", 1);
+    autoChooser.addOption("test", 1);
     SmartDashboard.putData(autoChooser);
 
     // Configure the button bindings
@@ -186,10 +187,10 @@ public class RobotContainer {
         );
 
         driveTrain.resetOdometry(Robot.getTestTrajectory().getInitialPose());
-        driveTrain.SetMotorMode(0);
-      return Test1command
+      return new TurnToAngle(driveTrain, 45)//Test1command
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
-      .andThen(() -> driveTrain.SetMotorMode(1), driveTrain);
+      ;
+      
 
     }else if(autoChooser.getSelected() == 2){
       RamseteCommand Auto2command = new RamseteCommand(
@@ -352,6 +353,94 @@ public class RobotContainer {
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
       .andThen(new StopAndShoot5(shooter, camera, intake))
       ;
+
+    }else if(autoChooser.getSelected() == 3){
+
+      RamseteCommand Auto2StealPart1command = new RamseteCommand(
+        Robot.getAuto2StealPart1Trajectory(), 
+        driveTrain::getPose,
+        new RamseteController(Constants.kRamseteB,Constants.kRamseteZeta),
+        driveTrain.getFeedForward(),
+        driveTrain.getKinematics(),
+        driveTrain::getSpeeds,
+        driveTrain.getleftPidController(),
+        driveTrain.getrightPidController(),
+        driveTrain::tankDriveVolts,
+        driveTrain
+        );
+      
+      RamseteCommand Auto2StealPart2command = new RamseteCommand(
+        Robot.getAuto2StealPart2Trajectory(), 
+        driveTrain::getPose,
+        new RamseteController(Constants.kRamseteB,Constants.kRamseteZeta),
+        driveTrain.getFeedForward(),
+        driveTrain.getKinematics(),
+        driveTrain::getSpeeds,
+        driveTrain.getleftPidController(),
+        driveTrain.getrightPidController(),
+        driveTrain::tankDriveVolts,
+        driveTrain
+        );
+      
+      RamseteCommand Auto2StealPart3command = new RamseteCommand(
+        Robot.getAuto2StealPart3Trajectory(), 
+        driveTrain::getPose,
+        new RamseteController(Constants.kRamseteB,Constants.kRamseteZeta),
+        driveTrain.getFeedForward(),
+        driveTrain.getKinematics(),
+        driveTrain::getSpeeds,
+        driveTrain.getleftPidController(),
+        driveTrain.getrightPidController(),
+        driveTrain::tankDriveVolts,
+        driveTrain
+        );
+
+        RamseteCommand Auto2StealPart4command = new RamseteCommand(
+        Robot.getAuto2StealPart4Trajectory(), 
+        driveTrain::getPose,
+        new RamseteController(Constants.kRamseteB,Constants.kRamseteZeta),
+        driveTrain.getFeedForward(),
+        driveTrain.getKinematics(),
+        driveTrain::getSpeeds,
+        driveTrain.getleftPidController(),
+        driveTrain.getrightPidController(),
+        driveTrain::tankDriveVolts,
+        driveTrain
+        );
+
+        RamseteCommand Auto2StealPart5command = new RamseteCommand(
+        Robot.getAuto2StealPart5Trajectory(), 
+        driveTrain::getPose,
+        new RamseteController(Constants.kRamseteB,Constants.kRamseteZeta),
+        driveTrain.getFeedForward(),
+        driveTrain.getKinematics(),
+        driveTrain::getSpeeds,
+        driveTrain.getleftPidController(),
+        driveTrain.getrightPidController(),
+        driveTrain::tankDriveVolts,
+        driveTrain
+        );
+
+        driveTrain.resetOdometry(Robot.getAuto2StealPart1Trajectory().getInitialPose());
+
+      return new HookAndSwingOut(climbArms)//-105, -120, 
+      .andThen(Auto2StealPart1command.raceWith(new AutoIntake(camera, shooter, intake, true)))
+      .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
+      .andThen(new StopAndShoot5(shooter, camera, intake))
+      .andThen(new TurnToAngle(driveTrain, -65))
+      .andThen(() -> driveTrain.resetOdometry(Robot.getAuto2StealPart2Trajectory().getInitialPose()))
+      .andThen(Auto2StealPart2command.raceWith(new AutoIntakeNoShoot(intake)))
+      .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
+      .andThen(new TurnToAngle(driveTrain, -170))
+      .andThen(() -> driveTrain.resetOdometry(Robot.getAuto2StealPart3Trajectory().getInitialPose()))
+      .andThen(Auto2StealPart3command.raceWith(new AutoIntakeNoShoot(intake)))
+      .andThen(Auto2StealPart4command.raceWith(new IntakeArmsDown(intake)))
+      .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
+      .andThen(new TurnToAngle(driveTrain, 70))
+      .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
+      .andThen(new OutTakeBall2(intake).raceWith(new WaitCommand(2)))
+      ;
+
     }else{
       return null;
     }

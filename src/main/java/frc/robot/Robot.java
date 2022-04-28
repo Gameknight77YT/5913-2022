@@ -55,6 +55,12 @@ public class Robot extends TimedRobot {
   static Trajectory Auto5Part4 = new Trajectory();
   static Trajectory Auto5Part5 = new Trajectory();
 
+  static Trajectory Auto2StealPart1 = new Trajectory();
+  static Trajectory Auto2StealPart2 = new Trajectory();
+  static Trajectory Auto2StealPart3 = new Trajectory();
+  static Trajectory Auto2StealPart4 = new Trajectory();
+  static Trajectory Auto2StealPart5 = new Trajectory();
+
   static Trajectory Test = new Trajectory();
   
   
@@ -69,6 +75,12 @@ public class Robot extends TimedRobot {
   String Auto5Part3JSON = "paths/Auto5Part3.wpilib.json";
   String Auto5Part4JSON = "paths/Auto5part4.wpilib.json";
   String Auto5Part5JSON = "paths/Auto5part5.wpilib.json";
+  
+  String Auto2StealPart1JSON = "paths/Auto2StealPart1.wpilib.json";
+  String Auto2StealPart2JSON = "paths/Auto2StealPart2.wpilib.json";
+  String Auto2StealPart3JSON = "paths/Auto2StealPart3.wpilib.json";
+  String Auto2StealPart4JSON = "paths/Auto2StealPart4.wpilib.json";
+  String Auto2StealPart5JSON = "paths/Auto2StealPart5.wpilib.json";
 
   String TestJSON = "paths/Test.wpilib.json";
   
@@ -102,6 +114,7 @@ public class Robot extends TimedRobot {
   public static Rotation2d getHeading() {
     return Rotation2d.fromDegrees(-navx.getAngle());
   }
+
   public static Rotation2d getRotation2d(){
     return navx.getRotation2d();
   }
@@ -172,6 +185,41 @@ public class Robot extends TimedRobot {
     }
 
     try {
+      Path Auto2StealPart1Path = Filesystem.getDeployDirectory().toPath().resolve(Auto2StealPart1JSON);
+      Auto2StealPart1 = TrajectoryUtil.fromPathweaverJson(Auto2StealPart1Path);
+    } catch (IOException ex) {
+      DriverStation.reportError("Unable to open trajectory: " + Auto2StealPart1JSON, ex.getStackTrace());
+    }
+
+    try {
+      Path Auto2StealPart2Path = Filesystem.getDeployDirectory().toPath().resolve(Auto2StealPart2JSON);
+      Auto2StealPart2 = TrajectoryUtil.fromPathweaverJson(Auto2StealPart2Path);
+    } catch (IOException ex) {
+      DriverStation.reportError("Unable to open trajectory: " + Auto2StealPart2JSON, ex.getStackTrace());
+    }
+
+    try {
+      Path Auto2StealPart3Path = Filesystem.getDeployDirectory().toPath().resolve(Auto2StealPart3JSON);
+      Auto2StealPart3 = TrajectoryUtil.fromPathweaverJson(Auto2StealPart3Path);
+    } catch (IOException ex) {
+      DriverStation.reportError("Unable to open trajectory: " + Auto2StealPart3JSON, ex.getStackTrace());
+    }
+
+    try {
+      Path Auto2StealPart4Path = Filesystem.getDeployDirectory().toPath().resolve(Auto2StealPart4JSON);
+      Auto2StealPart4 = TrajectoryUtil.fromPathweaverJson(Auto2StealPart4Path);
+    } catch (IOException ex) {
+      DriverStation.reportError("Unable to open trajectory: " + Auto2StealPart4JSON, ex.getStackTrace());
+    }
+
+    try {
+      Path Auto2StealPart5Path = Filesystem.getDeployDirectory().toPath().resolve(Auto2StealPart5JSON);
+      Auto2StealPart5 = TrajectoryUtil.fromPathweaverJson(Auto2StealPart5Path);
+    } catch (IOException ex) {
+      DriverStation.reportError("Unable to open trajectory: " + Auto2StealPart5JSON, ex.getStackTrace());
+    }
+
+    try {
       Path TestPath = Filesystem.getDeployDirectory().toPath().resolve(TestJSON);
       Test = TrajectoryUtil.fromPathweaverJson(TestPath);
     } catch (IOException ex) {
@@ -216,6 +264,26 @@ public class Robot extends TimedRobot {
     return Auto5Part5;
   }
 
+  public static Trajectory getAuto2StealPart1Trajectory() {
+    return Auto2StealPart1;
+  }
+
+  public static Trajectory getAuto2StealPart2Trajectory() {
+    return Auto2StealPart2;
+  }
+
+  public static Trajectory getAuto2StealPart3Trajectory() {
+    return Auto2StealPart3;
+  }
+
+  public static Trajectory getAuto2StealPart4Trajectory() {
+    return Auto2StealPart4;
+  }
+
+  public static Trajectory getAuto2StealPart5Trajectory() {
+    return Auto2StealPart5;
+  }
+
   public static Trajectory getTestTrajectory() {
     return Test;
   }
@@ -237,7 +305,7 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-    
+    SmartDashboard.putNumber("angle", getHeading().getDegrees());
   }
 
   
