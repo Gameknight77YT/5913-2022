@@ -80,6 +80,7 @@ public final class Constants {
     public static final int intakeArmsDownButtonID = 2;
     public static final int climbUpSlowButtonID = 7;
     public static final int outTakeBallButtonID = 4;
+    public static final int outTakeBall2ButtonID = 11;
     public static final int intakeBallButtonID = 3; 
 
     //manipulator 

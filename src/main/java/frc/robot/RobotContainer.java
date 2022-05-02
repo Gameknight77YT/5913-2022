@@ -48,6 +48,7 @@ public class RobotContainer {
   private IntakeArmsDown intakeArmsDown;
   private IntakeBall intakeBall;
   private OutTakeBall outTakeBall;
+  private OutTakeBall2 outTakeBall2;
   private FeedBall feedBall;
   private TrackTarget trackTarget;
   private ControlTurret controlTurret;
@@ -89,6 +90,7 @@ public class RobotContainer {
     intakeArmsDown = new IntakeArmsDown(intake);
     intakeBall = new IntakeBall(intake);
     outTakeBall = new OutTakeBall(intake);
+    outTakeBall2 = new OutTakeBall2(intake);
     feedBall = new FeedBall(intake);
     trackTarget = new TrackTarget(camera);
     controlTurret = new ControlTurret(camera, manipulatorJoystick);
@@ -163,6 +165,9 @@ public class RobotContainer {
 
     JoystickButton outTakeBallButton = new JoystickButton(driverJoystick, Constants.outTakeBallButtonID);
     outTakeBallButton.whileHeld(outTakeBall);
+
+    JoystickButton outTakeBall2Button = new JoystickButton(driverJoystick, Constants.outTakeBall2ButtonID);
+    outTakeBall2Button.whileHeld(outTakeBall2);
   }
 
 
