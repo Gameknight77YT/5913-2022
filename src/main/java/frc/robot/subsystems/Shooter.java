@@ -120,8 +120,8 @@ public class Shooter extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("mainShooter speed", mainShooter.getSelectedSensorVelocity());
-    SmartDashboard.putNumber("topShooter speed", topShooter.getSelectedSensorVelocity());
+    //SmartDashboard.putNumber("mainShooter speed", mainShooter.getSelectedSensorVelocity());
+    //SmartDashboard.putNumber("topShooter speed", topShooter.getSelectedSensorVelocity());
     //SmartDashboard.putNumber("mainInterpolation", mainSpeedMap.getInterpolated(Camera.getDistance()).value);
     //SmartDashboard.putNumber("topInterpolation", topSpeedMap.getInterpolated(Camera.getDistance()).value);
     SmartDashboard.putBoolean("isTopUpToSpeed", isTopUpToSpeed);

@@ -24,7 +24,7 @@ public class FeedBall extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intake.controlIntake(0, Constants.starfishSpeed*2, Constants.feederSpeed);
+    intake.controlIntake(Constants.intakeSpeed, Constants.starfishSpeed, Constants.feederSpeed);
   }
 
   // Called once the command ends or is interrupted.
