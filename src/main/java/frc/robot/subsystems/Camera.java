@@ -67,12 +67,12 @@ public class Camera extends SubsystemBase {
     // post to smart dashboard periodically
     SmartDashboard.putNumber("LimelightX", x);
     SmartDashboard.putNumber("LimelightY", y);
-    SmartDashboard.putNumber("LimelightArea", area);
-    SmartDashboard.putNumber("turretEncoder", turretControl.getSelectedSensorPosition());
+    //SmartDashboard.putNumber("LimelightArea", area);
+    //SmartDashboard.putNumber("turretEncoder", turretControl.getSelectedSensorPosition());
 
     Distance = new InterpolatingDouble((double)((int)((Constants.goalHeightfeet-Constants.limelightHeightFeet) / Math.tan(Units.degreesToRadians(Constants.limelightMountAngleDegrees+y)))));
     SmartDashboard.putNumber("Distance", Distance.value);
-    SmartDashboard.putNumber("turretTurnCommand", m_LimelightSteerCommand);
+    //SmartDashboard.putNumber("turretTurnCommand", m_LimelightSteerCommand);
     limelightTracking();
   }
 

@@ -84,11 +84,13 @@ public class Shooter extends SubsystemBase {
 
     
     put(9, 8900, 5700);//   tarmac
-    put(11, 9000, 6800);
-    put(12, 8900, 7700);//  mid
+    put(11, 9200, 6800);
+    put(12, 9250, 7700);//  mid
+    put(13, 9350, 8300);
     put(14, 9300, 9200);
-    put(15, 9100, 11100);// launch pad 1
-    put(17, 9600, 12000);
+    put(15, 9250, 11100);// launch pad 1
+    put(16, 9600, 11500);
+    put(17, 10200, 12500);
     put(19, 10000, 14000);//launch pad 2
   }
 
@@ -120,8 +122,8 @@ public class Shooter extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    //SmartDashboard.putNumber("mainShooter speed", mainShooter.getSelectedSensorVelocity());
-    //SmartDashboard.putNumber("topShooter speed", topShooter.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("mainShooter speed", mainShooter.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("topShooter speed", topShooter.getSelectedSensorVelocity());
     //SmartDashboard.putNumber("mainInterpolation", mainSpeedMap.getInterpolated(Camera.getDistance()).value);
     //SmartDashboard.putNumber("topInterpolation", topSpeedMap.getInterpolated(Camera.getDistance()).value);
     SmartDashboard.putBoolean("isTopUpToSpeed", isTopUpToSpeed);
@@ -212,7 +214,7 @@ public class Shooter extends SubsystemBase {
       isMainUpToSpeed = true;
     }else isMainUpToSpeed = false;
 
-    if(topSpeed-500 <= topShooter.getSelectedSensorVelocity() && topShooter.getSelectedSensorVelocity() <= topSpeed+500){
+    if(topSpeed-800 <= topShooter.getSelectedSensorVelocity() && topShooter.getSelectedSensorVelocity() <= topSpeed + 800){
       isTopUpToSpeed = true;
     }else isTopUpToSpeed = false;
   }
