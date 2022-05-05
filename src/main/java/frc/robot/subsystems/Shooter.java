@@ -15,7 +15,9 @@ import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 //import com.revrobotics.ColorSensorV3;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
@@ -86,9 +88,9 @@ public class Shooter extends SubsystemBase {
     put(9, 8900, 5700);//   tarmac
     put(11, 9200, 6800);
     put(12, 9250, 7700);//  mid
-    put(13, 9350, 8300);
-    put(14, 9300, 9200);
-    put(15, 9250, 11100);// launch pad 1
+    put(13, 9550, 8300);
+    put(14, 9500, 10000);
+    put(15, 9550, 11100);// launch pad 1
     put(16, 9600, 11500);
     put(17, 10200, 12500);
     put(19, 10000, 14000);//launch pad 2
@@ -218,10 +220,12 @@ public class Shooter extends SubsystemBase {
       isTopUpToSpeed = true;
     }else isTopUpToSpeed = false;
   }
+  
 
   public void stopShooter(){
     mainShooter.set(ControlMode.PercentOutput, 0);
     topShooter.set(ControlMode.PercentOutput, 0);
+    
   }
 
   public void setLEDs(int r, int g, int b){

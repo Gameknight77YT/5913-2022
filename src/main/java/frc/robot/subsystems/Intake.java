@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -20,8 +21,10 @@ public class Intake extends SubsystemBase {
   private WPI_TalonFX starfishWheels = new WPI_TalonFX(Constants.starfishWheelsMotorID);
   private WPI_TalonSRX feeder = new WPI_TalonSRX(Constants.feederMotorID);
   private DoubleSolenoid intakeArms = new DoubleSolenoid(Constants.pcmID, PneumaticsModuleType.CTREPCM, Constants.intakeArmsForwardID, Constants.intakeArmsBackwardID);
+  private Compressor compressor = new Compressor(Constants.pcmID, PneumaticsModuleType.CTREPCM);
   /** Creates a new Intake. */
   public Intake() {
+    compressor.enableDigital();
     intake.configFactoryDefault();
     starfishWheels.configFactoryDefault();
     feeder.configFactoryDefault();
@@ -69,6 +72,10 @@ public class Intake extends SubsystemBase {
     }
   }
 
+  public void stopCompressor(){
+    compressor.disable();
+  }
+
   public void controlIntake(double intakeSpeedPercent, double starfishWheelsSpeed, double feederSpeedPercent){
     intake.set(ControlMode.PercentOutput, intakeSpeedPercent);
     starfishWheels.set(ControlMode.PercentOutput, starfishWheelsSpeed);
@@ -79,6 +86,7 @@ public class Intake extends SubsystemBase {
     intake.set(ControlMode.PercentOutput, 0);
     starfishWheels.set(ControlMode.PercentOutput, 0);
     feeder.set(ControlMode.PercentOutput, 0);
+    compressor.enableDigital();
   }
 
 }
