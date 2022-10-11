@@ -109,8 +109,8 @@ public final class Constants {
 
   public static final double WheelBaseWith = 0.80952;
 
-  //public static final double MaxSpeedMetersPerSecond = Units.feetToMeters(10);
-  //public static final double MaxAccelerationMetersPerSecondSquared = 3;
+  public static final double MaxSpeed = 3;
+  public static final double MaxAcceleration = 1.5;
   //public static final double kMaxAngularSpeed = Math.PI; // 1/2 rotation per second
 
   // Reasonable baseline values for a RAMSETE follower in units of meters and

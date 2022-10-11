@@ -11,6 +11,8 @@ import com.ctre.phoenix.led.*;
 import com.ctre.phoenix.motorcontrol.IFollower;
 import com.fasterxml.jackson.databind.deser.DataFormatReaders.Match;
 import com.kauailabs.navx.frc.AHRS;
+import com.pathplanner.lib.PathPlanner;
+import com.pathplanner.lib.PathPlannerTrajectory;
 
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -43,25 +45,29 @@ public class Robot extends TimedRobot {
   private RobotContainer robotContainer;
   public static AHRS navx;
   
-  static Trajectory Auto2 = new Trajectory();
+  static Trajectory Auto2;
 
-  static Trajectory Auto4Part1 = new Trajectory();
-  static Trajectory Auto4Part2 = new Trajectory();
-  static Trajectory Auto4Part3 = new Trajectory();
+  static Trajectory Auto4Part1;
+  static Trajectory Auto4Part2;
+  static Trajectory Auto4Part3;
 
-  static Trajectory Auto5Part1 = new Trajectory();
-  static Trajectory Auto5Part2 = new Trajectory();
-  static Trajectory Auto5Part3 = new Trajectory();
-  static Trajectory Auto5Part4 = new Trajectory();
-  static Trajectory Auto5Part5 = new Trajectory();
+  static Trajectory Auto5Part1;
+  static Trajectory Auto5Part2;
+  static Trajectory Auto5Part3;
+  static Trajectory Auto5Part4;
+  static Trajectory Auto5Part5;
 
-  static Trajectory Auto2StealPart1 = new Trajectory();
-  static Trajectory Auto2StealPart2 = new Trajectory();
-  static Trajectory Auto2StealPart3 = new Trajectory();
-  static Trajectory Auto2StealPart4 = new Trajectory();
-  static Trajectory Auto2StealPart5 = new Trajectory();
+  static Trajectory Auto2StealPart1;
+  static Trajectory Auto2StealPart2;
+  static Trajectory Auto2StealPart3;
+  static Trajectory Auto2StealPart4;
+  static Trajectory Auto2StealPart5;
 
-  static Trajectory Test = new Trajectory();
+  static Trajectory PP5ballPart1;
+  static Trajectory PP5ballPart2;
+  static Trajectory PP5ballPart3;
+
+  static Trajectory Test;
   
   
   String Auto2JSON = "paths/Auto2.wpilib.json";
@@ -83,6 +89,8 @@ public class Robot extends TimedRobot {
   String Auto2StealPart5JSON = "paths/Auto2StealPart5.wpilib.json";
 
   String TestJSON = "paths/Test.wpilib.json";
+
+
   
 
   /**
@@ -121,6 +129,10 @@ public class Robot extends TimedRobot {
 
   public void InitTrajectorys() {
 
+    PP5ballPart1 = PathPlanner.loadPath("5ballpart1", Constants.MaxSpeed, Constants.MaxAcceleration);
+    PP5ballPart2 = PathPlanner.loadPath("5ballpart2", Constants.MaxSpeed, Constants.MaxAcceleration);
+    PP5ballPart3 = PathPlanner.loadPath("5ballpart3", Constants.MaxSpeed, Constants.MaxAcceleration);
+    
     try {
       Path Auto2Path = Filesystem.getDeployDirectory().toPath().resolve(Auto2JSON);
       Auto2 = TrajectoryUtil.fromPathweaverJson(Auto2Path);

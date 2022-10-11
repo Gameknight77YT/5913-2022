@@ -52,8 +52,6 @@ public class RobotContainer {
   private FeedBall feedBall;
   private TrackTarget trackTarget;
   private ControlTurret controlTurret;
-  private AutoIntake autoIntake;
-  private StopAndShoot stopAndShoot;
 
   private SendableChooser<Integer> autoChooser;
 
@@ -95,8 +93,6 @@ public class RobotContainer {
     trackTarget = new TrackTarget(camera);
     controlTurret = new ControlTurret(camera, manipulatorJoystick);
     camera.setDefaultCommand(controlTurret);
-    autoIntake = new AutoIntake(camera, shooter, intake, true);
-    stopAndShoot = new StopAndShoot(shooter, camera, intake);
 
     autoChooser = new SendableChooser<Integer>();
     autoChooser.addOption("auto2", 2);
@@ -218,7 +214,7 @@ public class RobotContainer {
       return new HookAndSwingOut(climbArms)
       .andThen((Auto2command.raceWith(new AutoIntake(camera, shooter, intake, true)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
-      .andThen(new StopAndShoot2(shooter, camera, intake))
+      .andThen(new StopAndShoot(shooter, camera, intake, .2, 3))
       );
 
     
@@ -267,17 +263,17 @@ public class RobotContainer {
       return new HookAndSwingOut(climbArms)
       .andThen(Auto4Part1command.raceWith(new AutoIntake(camera, shooter, intake, true)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
-      .andThen(new StopAndShoot(shooter, camera, intake))
+      .andThen(new StopAndShoot(shooter, camera, intake, 0, .6))
       .andThen(Auto4Part2command.raceWith(new AutoIntake(camera, shooter, intake, true)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
       .andThen(new WaitCommand(1).raceWith(new AutoIntake(camera, shooter, intake, true)))
       .andThen(Auto4Part3command.raceWith(new AutoIntake(camera, shooter, intake, true)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
-      .andThen(new StopAndShoot4(shooter, camera, intake))
+      .andThen(new StopAndShoot(shooter, camera, intake, .5, 2.5))
       ;
 
     }else if(autoChooser.getSelected() == 5){
-      RamseteCommand Auto5Part1command = new RamseteCommand(
+      /*RamseteCommand Auto5Part1command = new RamseteCommand(
         Robot.getAuto5Part1Trajectory(), 
         driveTrain::getPose,
         new RamseteController(Constants.kRamseteB,Constants.kRamseteZeta),
@@ -347,17 +343,69 @@ public class RobotContainer {
       return new HookAndSwingOut(climbArms)
       .andThen(Auto5Part1command.raceWith(new AutoIntake(camera, shooter, intake, true)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
-      .andThen(new StopAndShoot(shooter, camera, intake))
+      .andThen(new StopAndShoot(shooter, camera, intake, 0, .6))
       .andThen(Auto5Part2command.raceWith(new AutoIntake(camera, shooter, intake, false)))
       .andThen(Auto5Part3command.raceWith(new AutoIntake(camera, shooter, intake, true)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
-      .andThen(new StopAndShoot3(shooter, camera, intake))
+      .andThen(new StopAndShoot(shooter, camera, intake, 0, .7))
       .andThen(Auto5Part4command.raceWith(new AutoIntake(camera, shooter, intake, false)))
       //.andThen(new WaitCommand(.25).raceWith(new AutoIntake(camera, shooter, intake, false)))
       .andThen(Auto5Part5command.raceWith(new AutoIntake(camera, shooter, intake, true)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
-      .andThen(new StopAndShoot5(shooter, camera, intake))
+      .andThen(new StopAndShoot(shooter, camera, intake, 0, 1))
+      ;*/
+
+      RamseteCommand Auto5Part1command = new RamseteCommand(
+        Robot.PP5ballPart1, 
+        driveTrain::getPose,
+        new RamseteController(Constants.kRamseteB,Constants.kRamseteZeta),
+        driveTrain.getFeedForward(),
+        driveTrain.getKinematics(),
+        driveTrain::getSpeeds,
+        driveTrain.getleftPidController(),
+        driveTrain.getrightPidController(),
+        driveTrain::tankDriveVolts,
+        driveTrain
+        );
+
+      RamseteCommand Auto5Part2command = new RamseteCommand(
+        Robot.PP5ballPart2, 
+        driveTrain::getPose,
+        new RamseteController(Constants.kRamseteB,Constants.kRamseteZeta),
+        driveTrain.getFeedForward(),
+        driveTrain.getKinematics(),
+        driveTrain::getSpeeds,
+        driveTrain.getleftPidController(),
+        driveTrain.getrightPidController(),
+        driveTrain::tankDriveVolts,
+        driveTrain
+        );
+
+      RamseteCommand Auto5Part3command = new RamseteCommand(
+        Robot.PP5ballPart3, 
+        driveTrain::getPose,
+        new RamseteController(Constants.kRamseteB,Constants.kRamseteZeta),
+        driveTrain.getFeedForward(),
+        driveTrain.getKinematics(),
+        driveTrain::getSpeeds,
+        driveTrain.getleftPidController(),
+        driveTrain.getrightPidController(),
+        driveTrain::tankDriveVolts,
+        driveTrain
+        );
+
+      return new HookAndSwingOut(climbArms)
+      .andThen(Auto5Part1command.raceWith(new AutoIntake(camera, shooter, intake, true)))
+      .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
+      .andThen(new StopAndShoot(shooter, camera, intake, 0, .6))
+      .andThen(Auto5Part2command.raceWith(new AutoIntake(camera, shooter, intake, true)))
+      .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
+      .andThen(new StopAndShoot(shooter, camera, intake, 0, 1))
+      .andThen(Auto5Part3command.raceWith(new AutoIntake(camera, shooter, intake, true)))
+      .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
+      .andThen(new StopAndShoot(shooter, camera, intake, 0, .7))
       ;
+
 
     }else if(autoChooser.getSelected() == 3){
 
@@ -431,7 +479,7 @@ public class RobotContainer {
       return new HookAndSwingOut(climbArms)//-105, -120, 
       .andThen(Auto2StealPart1command.raceWith(new AutoIntake(camera, shooter, intake, true)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
-      .andThen(new StopAndShoot5(shooter, camera, intake))
+      .andThen(new StopAndShoot(shooter, camera, intake, 0, 1))
       .andThen(new TurnToAngle(driveTrain, -65))
       .andThen(() -> driveTrain.resetOdometry(Robot.getAuto2StealPart2Trajectory().getInitialPose()))
       .andThen(Auto2StealPart2command.raceWith(new AutoIntakeNoShoot(intake)))

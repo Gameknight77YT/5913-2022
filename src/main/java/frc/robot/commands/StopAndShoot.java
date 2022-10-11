@@ -17,11 +17,14 @@ public class StopAndShoot extends CommandBase {
   Intake intake;
   Timer timer = new Timer();
   boolean finished = false;
+  double waitTime, shootTime;
   /** Creates a new StopAndShoot. */
-  public StopAndShoot(Shooter s, Camera c, Intake i) {
+  public StopAndShoot(Shooter s, Camera c, Intake i, double waitTime, double shootTime) {
     shooter = s;
     camera = c;
     intake = i;
+    this.waitTime = waitTime;
+    this.shootTime = shootTime;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooter, camera, intake);
   }
@@ -31,12 +34,12 @@ public class StopAndShoot extends CommandBase {
   public void initialize() {
     timer.reset();
     timer.start();
-    /*while(timer.get() <= .5){
-      camera.AutoTrack();
+    while(timer.get() <= waitTime){
+      camera.Track();
       intake.controlIntake(Constants.intakeSpeed, Constants.starfishSpeed, 0);
       shooter.shootBall(5, 0);
-    }*/
-    while(timer.get() <= .6){
+    }
+    while(timer.get() <= waitTime + shootTime){
       camera.Track();
       intake.controlIntake(Constants.intakeSpeed, Constants.starfishSpeed, Constants.feederSpeed);
       shooter.shootBall(5, 0);

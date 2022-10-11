@@ -10,7 +10,7 @@ import frc.robot.subsystems.Intake;
 
 public class OutTakeBall extends CommandBase {
   private Intake intake;
-  /** Creates a new IntakeBall. */
+  /** Creates a new OutTakeBall. */
   public OutTakeBall(Intake i) {
     intake = i;
     // Use addRequirements() here to declare subsystem dependencies.
