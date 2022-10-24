@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.util.HashMap;
+
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
@@ -11,10 +13,13 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
+import frc.robot.pathPlanner.com.pathplanner.lib.commands.PPRamseteCommand;
 import frc.robot.subsystems.*;
 
 /**
@@ -150,10 +155,11 @@ public class RobotContainer {
     JoystickButton TrackTargetButton = new JoystickButton(manipulatorJoystick, Constants.TrackTargetButtonID);
     TrackTargetButton.whileHeld(trackTarget);
 
-    JoystickButton intakeArmsUpButton = new JoystickButton(driverJoystick, Constants.intakeArmsUpButtonID);
+    JoystickButton intakeArmsUpButton = new JoystickButton(driverJoystick, Constants.intakeArmsOutButtonID);
     intakeArmsUpButton.whenPressed(intakeArmsUp);
+    intakeArmsUpButton.whenHeld(intakeBall);
 
-    JoystickButton intakeArmsDownButton = new JoystickButton(driverJoystick, Constants.intakeArmsDownButtonID);
+    JoystickButton intakeArmsDownButton = new JoystickButton(driverJoystick, Constants.intakeArmsInButtonID);
     intakeArmsDownButton.whenPressed(intakeArmsDown);
 
     JoystickButton intakeBallButton = new JoystickButton(driverJoystick, Constants.intakeBallButtonID);
@@ -214,7 +220,7 @@ public class RobotContainer {
       return new HookAndSwingOut(climbArms)
       .andThen((Auto2command.raceWith(new AutoIntake(camera, shooter, intake, true)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
-      .andThen(new StopAndShoot(shooter, camera, intake, .2, 3))
+      .andThen(new StopAndShoot(driveTrain, shooter, camera, intake, .2, 3))
       );
 
     
@@ -263,17 +269,17 @@ public class RobotContainer {
       return new HookAndSwingOut(climbArms)
       .andThen(Auto4Part1command.raceWith(new AutoIntake(camera, shooter, intake, true)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
-      .andThen(new StopAndShoot(shooter, camera, intake, 0, .6))
+      .andThen(new StopAndShoot(driveTrain, shooter, camera, intake, 0, .6))
       .andThen(Auto4Part2command.raceWith(new AutoIntake(camera, shooter, intake, true)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
       .andThen(new WaitCommand(1).raceWith(new AutoIntake(camera, shooter, intake, true)))
       .andThen(Auto4Part3command.raceWith(new AutoIntake(camera, shooter, intake, true)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
-      .andThen(new StopAndShoot(shooter, camera, intake, .5, 2.5))
+      .andThen(new StopAndShoot(driveTrain, shooter, camera, intake, .5, 2.5))
       ;
 
     }else if(autoChooser.getSelected() == 5){
-      /*RamseteCommand Auto5Part1command = new RamseteCommand(
+      RamseteCommand Auto5Part1command = new RamseteCommand(
         Robot.getAuto5Part1Trajectory(), 
         driveTrain::getPose,
         new RamseteController(Constants.kRamseteB,Constants.kRamseteZeta),
@@ -343,19 +349,36 @@ public class RobotContainer {
       return new HookAndSwingOut(climbArms)
       .andThen(Auto5Part1command.raceWith(new AutoIntake(camera, shooter, intake, true)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
-      .andThen(new StopAndShoot(shooter, camera, intake, 0, .6))
+      .andThen(new StopAndShoot(driveTrain, shooter, camera, intake, 0, .6))
       .andThen(Auto5Part2command.raceWith(new AutoIntake(camera, shooter, intake, false)))
       .andThen(Auto5Part3command.raceWith(new AutoIntake(camera, shooter, intake, true)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
-      .andThen(new StopAndShoot(shooter, camera, intake, 0, .7))
+      .andThen(new StopAndShoot(driveTrain, shooter, camera, intake, 0, .7))
       .andThen(Auto5Part4command.raceWith(new AutoIntake(camera, shooter, intake, false)))
-      //.andThen(new WaitCommand(.25).raceWith(new AutoIntake(camera, shooter, intake, false)))
+      .andThen(new WaitCommand(.25).raceWith(new AutoIntake(camera, shooter, intake, false)))
       .andThen(Auto5Part5command.raceWith(new AutoIntake(camera, shooter, intake, true)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
-      .andThen(new StopAndShoot(shooter, camera, intake, 0, 1))
-      ;*/
+      .andThen(new StopAndShoot(driveTrain, shooter, camera, intake, 0, 1))
+      ;
 
-      RamseteCommand Auto5Part1command = new RamseteCommand(
+      /*HashMap<String, Command> eventMap = new HashMap<>();
+      eventMap.put("one", new InstantCommand());
+
+      PPRamseteCommand auto5Command = new PPRamseteCommand(
+        Robot.PP5Ball, 
+        driveTrain::getPose, 
+        new RamseteController(Constants.kRamseteB,Constants.kRamseteZeta), 
+        driveTrain.getFeedForward(), 
+        driveTrain.getKinematics(), 
+        driveTrain::getSpeeds, 
+        driveTrain.getleftPidController(), 
+        driveTrain.getrightPidController(), 
+        driveTrain::tankDriveVolts, 
+        eventMap,
+        driveTrain
+        );*/
+
+      /*PPRamseteCommand Auto5Part1command = new PPRamseteCommand(
         Robot.PP5ballPart1, 
         driveTrain::getPose,
         new RamseteController(Constants.kRamseteB,Constants.kRamseteZeta),
@@ -368,7 +391,7 @@ public class RobotContainer {
         driveTrain
         );
 
-      RamseteCommand Auto5Part2command = new RamseteCommand(
+      PPRamseteCommand Auto5Part2command = new PPRamseteCommand(
         Robot.PP5ballPart2, 
         driveTrain::getPose,
         new RamseteController(Constants.kRamseteB,Constants.kRamseteZeta),
@@ -381,7 +404,7 @@ public class RobotContainer {
         driveTrain
         );
 
-      RamseteCommand Auto5Part3command = new RamseteCommand(
+      PPRamseteCommand Auto5Part3command = new PPRamseteCommand(
         Robot.PP5ballPart3, 
         driveTrain::getPose,
         new RamseteController(Constants.kRamseteB,Constants.kRamseteZeta),
@@ -397,14 +420,14 @@ public class RobotContainer {
       return new HookAndSwingOut(climbArms)
       .andThen(Auto5Part1command.raceWith(new AutoIntake(camera, shooter, intake, true)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
-      .andThen(new StopAndShoot(shooter, camera, intake, 0, .6))
+      .andThen(new StopAndShoot(driveTrain, shooter, camera, intake, 0, .6))
       .andThen(Auto5Part2command.raceWith(new AutoIntake(camera, shooter, intake, true)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
-      .andThen(new StopAndShoot(shooter, camera, intake, 0, 1))
+      .andThen(new StopAndShoot(driveTrain, shooter, camera, intake, 0, 1))
       .andThen(Auto5Part3command.raceWith(new AutoIntake(camera, shooter, intake, true)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
-      .andThen(new StopAndShoot(shooter, camera, intake, 0, .7))
-      ;
+      .andThen(new StopAndShoot(driveTrain, shooter, camera, intake, 0, .7))
+      ;*/
 
 
     }else if(autoChooser.getSelected() == 3){
@@ -479,7 +502,7 @@ public class RobotContainer {
       return new HookAndSwingOut(climbArms)//-105, -120, 
       .andThen(Auto2StealPart1command.raceWith(new AutoIntake(camera, shooter, intake, true)))
       .andThen(() -> driveTrain.Drive(0, 0), driveTrain)
-      .andThen(new StopAndShoot(shooter, camera, intake, 0, 1))
+      .andThen(new StopAndShoot(driveTrain, shooter, camera, intake, 0, 1))
       .andThen(new TurnToAngle(driveTrain, -65))
       .andThen(() -> driveTrain.resetOdometry(Robot.getAuto2StealPart2Trajectory().getInitialPose()))
       .andThen(Auto2StealPart2command.raceWith(new AutoIntakeNoShoot(intake)))

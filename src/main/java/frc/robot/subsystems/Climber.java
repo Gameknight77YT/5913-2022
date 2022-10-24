@@ -62,12 +62,12 @@ public class Climber extends SubsystemBase {
     /*if(climber.getSelectedSensorPosition() <= Constants.climbEncoderBottom && speed < 0){
       speed = 0;
       climberStatus = "stoped at bottom";
-    }else*/ if(climber.getSelectedSensorPosition() >= Constants.climbEncoderTop && speed > 0){
+    }else if(climber.getSelectedSensorPosition() >= Constants.climbEncoderTop && speed > 0){
       speed = 0;
       climberStatus = "stoped at top";
     }else{
       climberStatus = "normal";
-    }
+    }*/
     
     climber.set(TalonFXControlMode.PercentOutput, speed);
   }

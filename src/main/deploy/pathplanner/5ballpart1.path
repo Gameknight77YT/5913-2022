@@ -22,15 +22,15 @@
         "y": 1.916811533331687
       },
       "prevControl": {
-        "x": 5.956373029201307,
-        "y": 2.2890848476569485
+        "x": 5.964631474984234,
+        "y": 2.271351123146854
       },
       "nextControl": null,
       "holonomicAngle": 0,
       "isReversal": false,
       "velOverride": null,
-      "isLocked": false,
-      "isStopPoint": true
+      "isLocked": true,
+      "isStopPoint": false
     }
   ],
   "maxVelocity": 3.0,

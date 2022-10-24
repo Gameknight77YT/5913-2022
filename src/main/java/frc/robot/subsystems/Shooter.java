@@ -49,8 +49,8 @@ public class Shooter extends SubsystemBase {
 		mainShooter.configNeutralDeadband(0.001);
     topShooter.configNeutralDeadband(0.001);
 		/* Config sensor used for Primary PID [Velocity] */
-        mainShooter.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor,0,10);
-        topShooter.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor,0,10);
+    mainShooter.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor,0,10);
+    topShooter.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor,0,10);
     /* Config the peak and nominal outputs */
 		mainShooter.configNominalOutputForward(0, 10);
 		mainShooter.configNominalOutputReverse(0, 10);
@@ -189,8 +189,8 @@ public class Shooter extends SubsystemBase {
         topSpeed = -(Constants.TopShooterSpeed4);
         break;
       case 5:
-        mainSpeed = mainSpeedMap.getInterpolated(Camera.getDistance()).value;
-        topSpeed = -topSpeedMap.getInterpolated(Camera.getDistance()).value;
+        mainSpeed = 1.1 * mainSpeedMap.getInterpolated(Camera.getDistance()).value;
+        topSpeed = 1.1 * -topSpeedMap.getInterpolated(Camera.getDistance()).value;
         break;
       case 6:
         mainSpeed = Constants.ShooterSpeed6;
