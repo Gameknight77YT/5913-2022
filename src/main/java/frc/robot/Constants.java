@@ -70,7 +70,7 @@ public final class Constants {
 
     //times / encoder counts
     public static final double stopAndShootTime = 1;
-    public static final double climbEncoderTop = 339242;
+    public static final double climbEncoderTop = 336549;//339242
     public static final double climbEncoderBottom = -7000;
 
     //buttons driver

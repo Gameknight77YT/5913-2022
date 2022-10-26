@@ -27,13 +27,13 @@ public class Climber extends SubsystemBase {
     
     climber.setNeutralMode(NeutralMode.Brake);
     climerSlave.setNeutralMode(NeutralMode.Brake);
-    //climber.setSelectedSensorPosition(0);
+    climber.setSelectedSensorPosition(0);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    //SmartDashboard.putNumber("Climber Encoder",climber.getSelectedSensorPosition());
+    SmartDashboard.putNumber("Climber Encoder",climber.getSelectedSensorPosition());
     //SmartDashboard.putString("Climber status", climberStatus);
     //SmartDashboard.putNumber("Climber speed", climber.getSelectedSensorVelocity());
     
@@ -62,12 +62,12 @@ public class Climber extends SubsystemBase {
     /*if(climber.getSelectedSensorPosition() <= Constants.climbEncoderBottom && speed < 0){
       speed = 0;
       climberStatus = "stoped at bottom";
-    }else if(climber.getSelectedSensorPosition() >= Constants.climbEncoderTop && speed > 0){
+    }else*/ if(climber.getSelectedSensorPosition() >= Constants.climbEncoderTop && speed > 0){
       speed = 0;
       climberStatus = "stoped at top";
     }else{
       climberStatus = "normal";
-    }*/
+    }
     
     climber.set(TalonFXControlMode.PercentOutput, speed);
   }
