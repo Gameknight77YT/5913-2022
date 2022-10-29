@@ -13,7 +13,6 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-//import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.I2C;
@@ -189,8 +188,8 @@ public class Shooter extends SubsystemBase {
         topSpeed = -(Constants.TopShooterSpeed4);
         break;
       case 5:
-        mainSpeed = 1.1 * mainSpeedMap.getInterpolated(Camera.getDistance()).value;
-        topSpeed = 1.1 * -topSpeedMap.getInterpolated(Camera.getDistance()).value;
+        mainSpeed = 1.08 * mainSpeedMap.getInterpolated(Camera.getDistance()).value;
+        topSpeed = 1.08 * -topSpeedMap.getInterpolated(Camera.getDistance()).value;
         break;
       case 6:
         mainSpeed = Constants.ShooterSpeed6;
